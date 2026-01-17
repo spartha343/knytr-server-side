@@ -7,10 +7,12 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "esnext",
+    "target": "es2023",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
@@ -33,8 +35,12 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "moduleResolution": "node",
 
     // Recommended Options
+    "esModuleInterop": true,
     "noImplicitAny": true,
     "strict": true,
     "jsx": "react-jsx",
