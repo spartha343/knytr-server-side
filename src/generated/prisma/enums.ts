@@ -19,7 +19,17 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 export const RoleType = {
   CUSTOMER: "CUSTOMER",
   VENDOR: "VENDOR",
-  ADMIN: "ADMIN"
+  ADMIN: "ADMIN",
+  SUPER_ADMIN: "SUPER_ADMIN"
 } as const;
 
 export type RoleType = (typeof RoleType)[keyof typeof RoleType];
+
+export const RoleRequestStatus = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED"
+} as const;
+
+export type RoleRequestStatus =
+  (typeof RoleRequestStatus)[keyof typeof RoleRequestStatus];

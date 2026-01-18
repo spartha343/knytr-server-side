@@ -31,3 +31,8 @@ export type Role = Prisma.RoleModel;
  *
  */
 export type UserRole = Prisma.UserRoleModel;
+/**
+ * Model RoleRequest
+ *
+ */
+export type RoleRequest = Prisma.RoleRequestModel;

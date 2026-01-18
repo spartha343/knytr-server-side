@@ -19,7 +19,7 @@ const config: runtime.GetPrismaClientConfig = {
   engineVersion: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   activeProvider: "postgresql",
   inlineSchema:
-    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nmodel User {\n  id          String     @id @default(uuid())\n  email       String?\n  firebaseUid String     @unique\n  status      UserStatus @default(ACTIVE)\n  createdAt   DateTime   @default(now())\n  updatedAt   DateTime   @updatedAt\n  userRoles   UserRole[]\n\n  @@map("users")\n}\n\nmodel Role {\n  id          String     @id @default(uuid())\n  name        RoleType   @unique\n  description String?\n  userRoles   UserRole[]\n\n  @@map("roles")\n}\n\nmodel UserRole {\n  userId String\n  roleId String\n\n  user User @relation(fields: [userId], references: [id])\n  role Role @relation(fields: [roleId], references: [id])\n\n  @@id([userId, roleId])\n  @@map("user_roles")\n}\n\nenum UserStatus {\n  ACTIVE\n  INACTIVE\n  BLOCKED\n}\n\nenum RoleType {\n  CUSTOMER\n  VENDOR\n  ADMIN\n}\n',
+    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nmodel User {\n  id           String        @id @default(uuid())\n  email        String?\n  firebaseUid  String        @unique\n  status       UserStatus    @default(ACTIVE)\n  createdAt    DateTime      @default(now())\n  updatedAt    DateTime      @updatedAt\n  userRoles    UserRole[]\n  roleRequests RoleRequest[]\n\n  @@map("users")\n}\n\nmodel Role {\n  id           String        @id @default(uuid())\n  name         RoleType      @unique\n  description  String?\n  userRoles    UserRole[]\n  roleRequests RoleRequest[]\n\n  @@map("roles")\n}\n\nmodel UserRole {\n  userId String\n  roleId String\n\n  user User @relation(fields: [userId], references: [id])\n  role Role @relation(fields: [roleId], references: [id])\n\n  @@id([userId, roleId])\n  @@map("user_roles")\n}\n\nmodel RoleRequest {\n  userId    String\n  roleId    String\n  status    RoleRequestStatus @default(PENDING)\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n  role Role @relation(fields: [roleId], references: [id])\n\n  @@id([userId, roleId])\n  @@map("role_requests")\n}\n\nenum UserStatus {\n  ACTIVE\n  INACTIVE\n  BLOCKED\n}\n\nenum RoleType {\n  CUSTOMER\n  VENDOR\n  ADMIN\n  SUPER_ADMIN\n}\n\nenum RoleRequestStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n',
   runtimeDataModel: {
     models: {},
     enums: {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
 };
 
 config.runtimeDataModel = JSON.parse(
-  '{"models":{"User":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"email","kind":"scalar","type":"String"},{"name":"firebaseUid","kind":"scalar","type":"String"},{"name":"status","kind":"enum","type":"UserStatus"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"userRoles","kind":"object","type":"UserRole","relationName":"UserToUserRole"}],"dbName":"users"},"Role":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"enum","type":"RoleType"},{"name":"description","kind":"scalar","type":"String"},{"name":"userRoles","kind":"object","type":"UserRole","relationName":"RoleToUserRole"}],"dbName":"roles"},"UserRole":{"fields":[{"name":"userId","kind":"scalar","type":"String"},{"name":"roleId","kind":"scalar","type":"String"},{"name":"user","kind":"object","type":"User","relationName":"UserToUserRole"},{"name":"role","kind":"object","type":"Role","relationName":"RoleToUserRole"}],"dbName":"user_roles"}},"enums":{},"types":{}}'
+  '{"models":{"User":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"email","kind":"scalar","type":"String"},{"name":"firebaseUid","kind":"scalar","type":"String"},{"name":"status","kind":"enum","type":"UserStatus"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"userRoles","kind":"object","type":"UserRole","relationName":"UserToUserRole"},{"name":"roleRequests","kind":"object","type":"RoleRequest","relationName":"RoleRequestToUser"}],"dbName":"users"},"Role":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"enum","type":"RoleType"},{"name":"description","kind":"scalar","type":"String"},{"name":"userRoles","kind":"object","type":"UserRole","relationName":"RoleToUserRole"},{"name":"roleRequests","kind":"object","type":"RoleRequest","relationName":"RoleToRoleRequest"}],"dbName":"roles"},"UserRole":{"fields":[{"name":"userId","kind":"scalar","type":"String"},{"name":"roleId","kind":"scalar","type":"String"},{"name":"user","kind":"object","type":"User","relationName":"UserToUserRole"},{"name":"role","kind":"object","type":"Role","relationName":"RoleToUserRole"}],"dbName":"user_roles"},"RoleRequest":{"fields":[{"name":"userId","kind":"scalar","type":"String"},{"name":"roleId","kind":"scalar","type":"String"},{"name":"status","kind":"enum","type":"RoleRequestStatus"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"user","kind":"object","type":"User","relationName":"RoleRequestToUser"},{"name":"role","kind":"object","type":"Role","relationName":"RoleToRoleRequest"}],"dbName":"role_requests"}},"enums":{},"types":{}}'
 );
 
 async function decodeBase64AsWasm(
@@ -254,6 +254,16 @@ export interface PrismaClient<
    * ```
    */
   get userRole(): Prisma.UserRoleDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.roleRequest`: Exposes CRUD operations for the **RoleRequest** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more RoleRequests
+   * const roleRequests = await prisma.roleRequest.findMany()
+   * ```
+   */
+  get roleRequest(): Prisma.RoleRequestDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

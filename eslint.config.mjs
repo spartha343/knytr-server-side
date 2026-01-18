@@ -11,7 +11,13 @@ export default defineConfig(
   tseslint.configs.stylistic,
   eslintConfigPrettier,
   {
-    ignores: ["dist/**", "node_modules/**", "tsconfig.json"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "tsconfig.json",
+      "prisma/",
+      "prisma.config.ts"
+    ]
   },
   {
     files: ["**/*.ts", "src/**", ["src/*", "**/.ts"], ["src/*", "**/.tsx"]],
@@ -20,22 +26,22 @@ export default defineConfig(
       "prefer-const": "error",
       "no-console": "error",
       "no-unused-vars": "error",
-      "no-unused-expressions": "error",
+      "no-unused-expressions": "error"
     },
     languageOptions: {
       parserOptions: {
         sourceType: "module",
         parser: tseslint.parser,
-        projectService: true,
+        projectService: true
       },
       globals: {
         console: "readonly",
-        process: "readonly",
-      },
+        process: "readonly"
+      }
     },
     linterOptions: {
       reportUnusedDisableDirectives: "error",
-      reportUnusedInlineConfigs: "error",
-    },
-  },
+      reportUnusedInlineConfigs: "error"
+    }
+  }
 );

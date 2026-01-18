@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import ApiError from "../../errors/ApiError";
 import httpStatus from "http-status";
 import { prisma } from "../../shared/prisma";
+import type { UserWithRoles } from "../modules/role/role.interface";
 
 // please use verifyFirebaseAuth before using checkDBUser
 export const checkDBUser: RequestHandler = async (req, res, next) => {
@@ -9,7 +10,7 @@ export const checkDBUser: RequestHandler = async (req, res, next) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized");
   }
 
-  const dbUser = await prisma.user.findUnique({
+  const dbUser: UserWithRoles | null = await prisma.user.findUnique({
     where: { firebaseUid: req.firebaseUser.uid },
     include: {
       userRoles: {

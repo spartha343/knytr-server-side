@@ -14,22 +14,24 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid())
-  email       String?
-  firebaseUid String     @unique
-  status      UserStatus @default(ACTIVE)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  userRoles   UserRole[]
+  id           String        @id @default(uuid())
+  email        String?
+  firebaseUid  String        @unique
+  status       UserStatus    @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userRoles    UserRole[]
+  roleRequests RoleRequest[]
 
   @@map("users")
 }
 
 model Role {
-  id          String     @id @default(uuid())
-  name        RoleType   @unique
-  description String?
-  userRoles   UserRole[]
+  id           String        @id @default(uuid())
+  name         RoleType      @unique
+  description  String?
+  userRoles    UserRole[]
+  roleRequests RoleRequest[]
 
   @@map("roles")
 }
@@ -45,6 +47,20 @@ model UserRole {
   @@map("user_roles")
 }
 
+model RoleRequest {
+  userId    String
+  roleId    String
+  status    RoleRequestStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+  @@map("role_requests")
+}
+
 enum UserStatus {
   ACTIVE
   INACTIVE
@@ -55,4 +71,11 @@ enum RoleType {
   CUSTOMER
   VENDOR
   ADMIN
+  SUPER_ADMIN
+}
+
+enum RoleRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
