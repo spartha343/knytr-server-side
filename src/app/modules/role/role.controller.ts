@@ -4,6 +4,9 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { RoleService } from "./role.service";
+import { roleFilterableFields } from "./role.constants";
+import { paginationFields } from "../../../constants/pagination";
+import pick from "../../../shared/pick";
 
 const getRequestableRolesAndPreviousRequests = catchAsync(
   async (req: Request, res: Response) => {
@@ -45,7 +48,45 @@ const requestRole = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllRoleRequests = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, roleFilterableFields);
+  const options = pick(req.query, paginationFields);
+
+  const result = await RoleService.getAllRoleRequests(filters, options);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Role requests fetched successfully",
+    meta: result.meta,
+    data: result.data
+  });
+});
+
+const updateRoleRequestStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!["APPROVED", "REJECTED"].includes(status)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid status");
+  }
+  if (!id) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "id not found!");
+  }
+
+  const result = await RoleService.updateRoleRequestStatus(id, status);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Role request updated successfully",
+    data: result
+  });
+});
+
 export const RoleController = {
   getRequestableRolesAndPreviousRequests,
-  requestRole
+  requestRole,
+  getAllRoleRequests,
+  updateRoleRequestStatus
 };

@@ -10,3 +10,8 @@ export type UserWithRoles = Prisma.UserGetPayload<{
     };
   };
 }>;
+
+export interface IRoleFilterRequest {
+  searchTerm?: string;
+  status?: string;
+}

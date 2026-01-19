@@ -22,4 +22,20 @@ router.post(
   RoleController.requestRole
 );
 
+router.get(
+  "/requests",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole(RoleType.ADMIN, RoleType.SUPER_ADMIN),
+  RoleController.getAllRoleRequests
+);
+
+router.patch(
+  "/requests/:id",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole(RoleType.ADMIN, RoleType.SUPER_ADMIN),
+  RoleController.updateRoleRequestStatus
+);
+
 export const RoleRoutes = router;

@@ -48,6 +48,7 @@ model UserRole {
 }
 
 model RoleRequest {
+  id        String            @id @default(uuid())
   userId    String
   roleId    String
   status    RoleRequestStatus @default(PENDING)
@@ -57,7 +58,7 @@ model RoleRequest {
   user User @relation(fields: [userId], references: [id])
   role Role @relation(fields: [roleId], references: [id])
 
-  @@id([userId, roleId])
+  @@unique([userId, roleId], name: "userId_roleId")
   @@map("role_requests")
 }
 

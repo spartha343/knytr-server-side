@@ -25,6 +25,7 @@ export type AggregateRoleRequest = {
 };
 
 export type RoleRequestMinAggregateOutputType = {
+  id: string | null;
   userId: string | null;
   roleId: string | null;
   status: $Enums.RoleRequestStatus | null;
@@ -33,6 +34,7 @@ export type RoleRequestMinAggregateOutputType = {
 };
 
 export type RoleRequestMaxAggregateOutputType = {
+  id: string | null;
   userId: string | null;
   roleId: string | null;
   status: $Enums.RoleRequestStatus | null;
@@ -41,6 +43,7 @@ export type RoleRequestMaxAggregateOutputType = {
 };
 
 export type RoleRequestCountAggregateOutputType = {
+  id: number;
   userId: number;
   roleId: number;
   status: number;
@@ -50,6 +53,7 @@ export type RoleRequestCountAggregateOutputType = {
 };
 
 export type RoleRequestMinAggregateInputType = {
+  id?: true;
   userId?: true;
   roleId?: true;
   status?: true;
@@ -58,6 +62,7 @@ export type RoleRequestMinAggregateInputType = {
 };
 
 export type RoleRequestMaxAggregateInputType = {
+  id?: true;
   userId?: true;
   roleId?: true;
   status?: true;
@@ -66,6 +71,7 @@ export type RoleRequestMaxAggregateInputType = {
 };
 
 export type RoleRequestCountAggregateInputType = {
+  id?: true;
   userId?: true;
   roleId?: true;
   status?: true;
@@ -154,6 +160,7 @@ export type RoleRequestGroupByArgs<
 };
 
 export type RoleRequestGroupByOutputType = {
+  id: string;
   userId: string;
   roleId: string;
   status: $Enums.RoleRequestStatus;
@@ -181,6 +188,7 @@ export type RoleRequestWhereInput = {
   AND?: Prisma.RoleRequestWhereInput | Prisma.RoleRequestWhereInput[];
   OR?: Prisma.RoleRequestWhereInput[];
   NOT?: Prisma.RoleRequestWhereInput | Prisma.RoleRequestWhereInput[];
+  id?: Prisma.StringFilter<"RoleRequest"> | string;
   userId?: Prisma.StringFilter<"RoleRequest"> | string;
   roleId?: Prisma.StringFilter<"RoleRequest"> | string;
   status?:
@@ -193,6 +201,7 @@ export type RoleRequestWhereInput = {
 };
 
 export type RoleRequestOrderByWithRelationInput = {
+  id?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   roleId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -204,7 +213,8 @@ export type RoleRequestOrderByWithRelationInput = {
 
 export type RoleRequestWhereUniqueInput = Prisma.AtLeast<
   {
-    userId_roleId?: Prisma.RoleRequestUserIdRoleIdCompoundUniqueInput;
+    id?: string;
+    userId_roleId?: Prisma.RoleRequestUserId_roleIdCompoundUniqueInput;
     AND?: Prisma.RoleRequestWhereInput | Prisma.RoleRequestWhereInput[];
     OR?: Prisma.RoleRequestWhereInput[];
     NOT?: Prisma.RoleRequestWhereInput | Prisma.RoleRequestWhereInput[];
@@ -218,10 +228,11 @@ export type RoleRequestWhereUniqueInput = Prisma.AtLeast<
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>;
   },
-  "userId_roleId"
+  "id" | "userId_roleId"
 >;
 
 export type RoleRequestOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   roleId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -240,6 +251,7 @@ export type RoleRequestScalarWhereWithAggregatesInput = {
   NOT?:
     | Prisma.RoleRequestScalarWhereWithAggregatesInput
     | Prisma.RoleRequestScalarWhereWithAggregatesInput[];
+  id?: Prisma.StringWithAggregatesFilter<"RoleRequest"> | string;
   userId?: Prisma.StringWithAggregatesFilter<"RoleRequest"> | string;
   roleId?: Prisma.StringWithAggregatesFilter<"RoleRequest"> | string;
   status?:
@@ -256,6 +268,7 @@ export type RoleRequestScalarWhereWithAggregatesInput = {
 };
 
 export type RoleRequestCreateInput = {
+  id?: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -264,6 +277,7 @@ export type RoleRequestCreateInput = {
 };
 
 export type RoleRequestUncheckedCreateInput = {
+  id?: string;
   userId: string;
   roleId: string;
   status?: $Enums.RoleRequestStatus;
@@ -272,6 +286,7 @@ export type RoleRequestUncheckedCreateInput = {
 };
 
 export type RoleRequestUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
     | $Enums.RoleRequestStatus;
@@ -282,6 +297,7 @@ export type RoleRequestUpdateInput = {
 };
 
 export type RoleRequestUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   userId?: Prisma.StringFieldUpdateOperationsInput | string;
   roleId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -292,6 +308,7 @@ export type RoleRequestUncheckedUpdateInput = {
 };
 
 export type RoleRequestCreateManyInput = {
+  id?: string;
   userId: string;
   roleId: string;
   status?: $Enums.RoleRequestStatus;
@@ -300,6 +317,7 @@ export type RoleRequestCreateManyInput = {
 };
 
 export type RoleRequestUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
     | $Enums.RoleRequestStatus;
@@ -308,6 +326,7 @@ export type RoleRequestUpdateManyMutationInput = {
 };
 
 export type RoleRequestUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   userId?: Prisma.StringFieldUpdateOperationsInput | string;
   roleId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -327,12 +346,13 @@ export type RoleRequestOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
 };
 
-export type RoleRequestUserIdRoleIdCompoundUniqueInput = {
+export type RoleRequestUserId_roleIdCompoundUniqueInput = {
   userId: string;
   roleId: string;
 };
 
 export type RoleRequestCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   roleId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -341,6 +361,7 @@ export type RoleRequestCountOrderByAggregateInput = {
 };
 
 export type RoleRequestMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   roleId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -349,6 +370,7 @@ export type RoleRequestMaxOrderByAggregateInput = {
 };
 
 export type RoleRequestMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   roleId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -581,6 +603,7 @@ export type EnumRoleRequestStatusFieldUpdateOperationsInput = {
 };
 
 export type RoleRequestCreateWithoutUserInput = {
+  id?: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -588,6 +611,7 @@ export type RoleRequestCreateWithoutUserInput = {
 };
 
 export type RoleRequestUncheckedCreateWithoutUserInput = {
+  id?: string;
   roleId: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
@@ -645,6 +669,7 @@ export type RoleRequestScalarWhereInput = {
   NOT?:
     | Prisma.RoleRequestScalarWhereInput
     | Prisma.RoleRequestScalarWhereInput[];
+  id?: Prisma.StringFilter<"RoleRequest"> | string;
   userId?: Prisma.StringFilter<"RoleRequest"> | string;
   roleId?: Prisma.StringFilter<"RoleRequest"> | string;
   status?:
@@ -655,6 +680,7 @@ export type RoleRequestScalarWhereInput = {
 };
 
 export type RoleRequestCreateWithoutRoleInput = {
+  id?: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -662,6 +688,7 @@ export type RoleRequestCreateWithoutRoleInput = {
 };
 
 export type RoleRequestUncheckedCreateWithoutRoleInput = {
+  id?: string;
   userId: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
@@ -712,6 +739,7 @@ export type RoleRequestUpdateManyWithWhereWithoutRoleInput = {
 };
 
 export type RoleRequestCreateManyUserInput = {
+  id?: string;
   roleId: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
@@ -719,6 +747,7 @@ export type RoleRequestCreateManyUserInput = {
 };
 
 export type RoleRequestUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
     | $Enums.RoleRequestStatus;
@@ -728,6 +757,7 @@ export type RoleRequestUpdateWithoutUserInput = {
 };
 
 export type RoleRequestUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   roleId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
@@ -737,6 +767,7 @@ export type RoleRequestUncheckedUpdateWithoutUserInput = {
 };
 
 export type RoleRequestUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   roleId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
@@ -746,6 +777,7 @@ export type RoleRequestUncheckedUpdateManyWithoutUserInput = {
 };
 
 export type RoleRequestCreateManyRoleInput = {
+  id?: string;
   userId: string;
   status?: $Enums.RoleRequestStatus;
   createdAt?: Date | string;
@@ -753,6 +785,7 @@ export type RoleRequestCreateManyRoleInput = {
 };
 
 export type RoleRequestUpdateWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
     | $Enums.RoleRequestStatus;
@@ -762,6 +795,7 @@ export type RoleRequestUpdateWithoutRoleInput = {
 };
 
 export type RoleRequestUncheckedUpdateWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   userId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
@@ -771,6 +805,7 @@ export type RoleRequestUncheckedUpdateWithoutRoleInput = {
 };
 
 export type RoleRequestUncheckedUpdateManyWithoutRoleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
   userId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumRoleRequestStatusFieldUpdateOperationsInput
@@ -784,6 +819,7 @@ export type RoleRequestSelect<
     runtime.Types.Extensions.DefaultArgs
 > = runtime.Types.Extensions.GetSelect<
   {
+    id?: boolean;
     userId?: boolean;
     roleId?: boolean;
     status?: boolean;
@@ -800,6 +836,7 @@ export type RoleRequestSelectCreateManyAndReturn<
     runtime.Types.Extensions.DefaultArgs
 > = runtime.Types.Extensions.GetSelect<
   {
+    id?: boolean;
     userId?: boolean;
     roleId?: boolean;
     status?: boolean;
@@ -816,6 +853,7 @@ export type RoleRequestSelectUpdateManyAndReturn<
     runtime.Types.Extensions.DefaultArgs
 > = runtime.Types.Extensions.GetSelect<
   {
+    id?: boolean;
     userId?: boolean;
     roleId?: boolean;
     status?: boolean;
@@ -828,6 +866,7 @@ export type RoleRequestSelectUpdateManyAndReturn<
 >;
 
 export type RoleRequestSelectScalar = {
+  id?: boolean;
   userId?: boolean;
   roleId?: boolean;
   status?: boolean;
@@ -839,7 +878,7 @@ export type RoleRequestOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
 > = runtime.Types.Extensions.GetOmit<
-  "userId" | "roleId" | "status" | "createdAt" | "updatedAt",
+  "id" | "userId" | "roleId" | "status" | "createdAt" | "updatedAt",
   ExtArgs["result"]["roleRequest"]
 >;
 export type RoleRequestInclude<
@@ -875,6 +914,7 @@ export type $RoleRequestPayload<
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
+      id: string;
       userId: string;
       roleId: string;
       status: $Enums.RoleRequestStatus;
@@ -1027,8 +1067,8 @@ export interface RoleRequestDelegate<
    * // Get first 10 RoleRequests
    * const roleRequests = await prisma.roleRequest.findMany({ take: 10 })
    *
-   * // Only select the `userId`
-   * const roleRequestWithUserIdOnly = await prisma.roleRequest.findMany({ select: { userId: true } })
+   * // Only select the `id`
+   * const roleRequestWithIdOnly = await prisma.roleRequest.findMany({ select: { id: true } })
    *
    */
   findMany<T extends RoleRequestFindManyArgs>(
@@ -1095,9 +1135,9 @@ export interface RoleRequestDelegate<
    *   ]
    * })
    *
-   * // Create many RoleRequests and only return the `userId`
-   * const roleRequestWithUserIdOnly = await prisma.roleRequest.createManyAndReturn({
-   *   select: { userId: true },
+   * // Create many RoleRequests and only return the `id`
+   * const roleRequestWithIdOnly = await prisma.roleRequest.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1223,9 +1263,9 @@ export interface RoleRequestDelegate<
    *   ]
    * })
    *
-   * // Update zero or more RoleRequests and only return the `userId`
-   * const roleRequestWithUserIdOnly = await prisma.roleRequest.updateManyAndReturn({
-   *   select: { userId: true },
+   * // Update zero or more RoleRequests and only return the `id`
+   * const roleRequestWithIdOnly = await prisma.roleRequest.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1503,6 +1543,7 @@ export interface Prisma__RoleRequestClient<
  * Fields of the RoleRequest model
  */
 export interface RoleRequestFieldRefs {
+  readonly id: Prisma.FieldRef<"RoleRequest", "String">;
   readonly userId: Prisma.FieldRef<"RoleRequest", "String">;
   readonly roleId: Prisma.FieldRef<"RoleRequest", "String">;
   readonly status: Prisma.FieldRef<"RoleRequest", "RoleRequestStatus">;

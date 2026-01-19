@@ -106,6 +106,7 @@ export type UserRoleScalarFieldEnum =
   (typeof UserRoleScalarFieldEnum)[keyof typeof UserRoleScalarFieldEnum];
 
 export const RoleRequestScalarFieldEnum = {
+  id: "id",
   userId: "userId",
   roleId: "roleId",
   status: "status",

@@ -1,8 +1,11 @@
 import { prisma } from "../../../shared/prisma";
-import type { UserWithRoles } from "./role.interface";
-import { RoleType } from "../../../generated/prisma/client";
+import type { IRoleFilterRequest, UserWithRoles } from "./role.interface";
+import { Prisma, RoleType } from "../../../generated/prisma/client";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
+import type { IPaginationOptions } from "../../../interfaces/pagination";
+import { paginationHelpers } from "../../../helpers/paginationHelper";
+import dayjs from "dayjs";
 /**
  * Define your business rules here.
  * Each key is a role, the value is an array of roles that this role can request.
@@ -48,28 +51,27 @@ const getRequestableRolesAndPreviousRequests = async (
   return {
     requestableRoles: roles,
     previousRequests: previousRequests.map((req) => ({
-      id: req.role.id,
+      id: req.id,
       role: req.role,
       status: req.status,
-      requestedAt: req.createdAt
+      requestedAt: req.createdAt,
+      updatedAt: req.updatedAt
     }))
   };
 };
 
+const COOLDOWN_DAYS = 3;
 const requestRole = async (dbUser: UserWithRoles, roleId: string) => {
-  // 1. Check role exists
   const role = await prisma.role.findUnique({ where: { id: roleId } });
   if (!role) {
     throw new ApiError(httpStatus.NOT_FOUND, "Role not found");
   }
 
-  // 2. Check user already has role
   const hasRole = dbUser.userRoles.some((ur) => ur.roleId === roleId);
   if (hasRole) {
     throw new ApiError(httpStatus.BAD_REQUEST, "You already have this role");
   }
 
-  // 3. Check existing request
   const existingRequest = await prisma.roleRequest.findUnique({
     where: {
       userId_roleId: {
@@ -81,20 +83,32 @@ const requestRole = async (dbUser: UserWithRoles, roleId: string) => {
 
   if (existingRequest) {
     if (existingRequest.status === "PENDING") {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        "Role request already pending"
-      );
+      throw new ApiError(httpStatus.CONFLICT, "Role request already pending");
     }
 
     if (existingRequest.status === "APPROVED") {
       throw new ApiError(httpStatus.BAD_REQUEST, "Role already approved");
     }
+
+    if (existingRequest.status === "REJECTED") {
+      const daysSinceRejection = dayjs().diff(existingRequest.updatedAt, "day");
+
+      if (daysSinceRejection < COOLDOWN_DAYS) {
+        throw new ApiError(
+          httpStatus.TOO_MANY_REQUESTS,
+          `You can reapply after ${COOLDOWN_DAYS - daysSinceRejection} day(s)`
+        );
+      }
+
+      // cooldown passed → allow reapply
+      await prisma.roleRequest.delete({
+        where: { id: existingRequest.id }
+      });
+    }
   }
 
-  // 4. Business rule: CUSTOMER → VENDOR only
+  // business rule check (CUSTOMER → VENDOR)
   const userRoleNames = dbUser.userRoles.map((ur) => ur.role.name);
-
   if (role.name === "VENDOR" && !userRoleNames.includes("CUSTOMER")) {
     throw new ApiError(
       httpStatus.FORBIDDEN,
@@ -102,7 +116,6 @@ const requestRole = async (dbUser: UserWithRoles, roleId: string) => {
     );
   }
 
-  // 5. Create request
   return prisma.roleRequest.create({
     data: {
       userId: dbUser.id,
@@ -114,7 +127,129 @@ const requestRole = async (dbUser: UserWithRoles, roleId: string) => {
   });
 };
 
+const getAllRoleRequests = async (
+  filters: IRoleFilterRequest,
+  options: IPaginationOptions
+) => {
+  const { limit, page, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+  const { searchTerm, ...filterData } = filters;
+
+  const andConditions: Prisma.RoleRequestWhereInput[] = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: [
+        {
+          role: {
+            name: {
+              equals: searchTerm as RoleType
+            }
+          }
+        },
+        {
+          role: {
+            description: {
+              contains: searchTerm,
+              mode: Prisma.QueryMode.insensitive
+            }
+          }
+        },
+        {
+          user: {
+            email: {
+              contains: searchTerm,
+              mode: Prisma.QueryMode.insensitive
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          equals: (filterData as any)[key]
+        }
+      }))
+    });
+  }
+
+  const whereConditions: Prisma.RoleRequestWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const result = await prisma.roleRequest.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder
+    },
+    include: {
+      role: true,
+      user: true
+    }
+  });
+
+  const total = await prisma.roleRequest.count({
+    where: whereConditions
+  });
+
+  return {
+    meta: {
+      total,
+      page,
+      limit
+    },
+    data: result
+  };
+};
+
+const updateRoleRequestStatus = async (
+  requestId: string,
+  status: "APPROVED" | "REJECTED"
+) => {
+  return prisma.$transaction(async (tx) => {
+    const request = await tx.roleRequest.findUnique({
+      where: { id: requestId },
+      include: { role: true }
+    });
+
+    if (!request) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Role request not found");
+    }
+
+    if (request.status !== "PENDING") {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Only pending requests can be updated"
+      );
+    }
+
+    const updated = await tx.roleRequest.update({
+      where: { id: requestId },
+      data: { status }
+    });
+
+    if (status === "APPROVED") {
+      await tx.userRole.create({
+        data: {
+          userId: request.userId,
+          roleId: request.roleId
+        }
+      });
+    }
+
+    return updated;
+  });
+};
+
 export const RoleService = {
   getRequestableRolesAndPreviousRequests,
-  requestRole
+  requestRole,
+  getAllRoleRequests,
+  updateRoleRequestStatus
 };
