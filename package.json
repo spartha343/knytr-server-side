@@ -8,6 +8,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "seed": "tsx prisma/seed.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "eslint": "eslint .",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
+    "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dayjs": "^1.11.19",
@@ -32,13 +34,17 @@
     "express": "^5.2.1",
     "firebase-admin": "^13.6.0",
     "http-status": "^2.1.0",
-    "pg": "^8.16.3"
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "pg": "^8.16.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.0.0",
     "@types/node": "^25.0.3",
     "@types/pg": "^8.16.0",
     "eslint": "^9.39.2",

@@ -5,6 +5,8 @@ import ApiError from "../../errors/ApiError.js";
 import handleValidationError from "../../errors/handleValidationError.js";
 import { Prisma } from "../../generated/prisma/client.js";
 import handleClientError from "../../errors/handleClientError.js";
+import { ZodError } from "zod";
+import handleZodError from "../../errors/handleZodError.js";
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -24,15 +26,12 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
-  }
-  // TODO: handle that code. Just install zod and uncomment it
-  // else if (error instanceof ZodError) {
-  //   const simplifiedError = handleZodError(error);
-  //   statusCode = simplifiedError.statusCode;
-  //   message = simplifiedError.message;
-  //   errorMessages = simplifiedError.errorMessages;
-  // }
-  else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  } else if (error instanceof ZodError) {
+    const simplifiedError = handleZodError(error);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
+  } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const simplifiedError = handleClientError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;

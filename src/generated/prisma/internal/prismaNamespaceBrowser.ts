@@ -57,7 +57,10 @@ export const ModelName = {
   User: "User",
   Role: "Role",
   UserRole: "UserRole",
-  RoleRequest: "RoleRequest"
+  RoleRequest: "RoleRequest",
+  Store: "Store",
+  Branch: "Branch",
+  Address: "Address"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -116,6 +119,61 @@ export const RoleRequestScalarFieldEnum = {
 
 export type RoleRequestScalarFieldEnum =
   (typeof RoleRequestScalarFieldEnum)[keyof typeof RoleRequestScalarFieldEnum];
+
+export const StoreScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  slug: "slug",
+  description: "description",
+  logo: "logo",
+  banner: "banner",
+  vendorId: "vendorId",
+  isActive: "isActive",
+  isDeleted: "isDeleted",
+  deletedAt: "deletedAt",
+  seoTitle: "seoTitle",
+  seoDescription: "seoDescription",
+  seoKeywords: "seoKeywords",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type StoreScalarFieldEnum =
+  (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum];
+
+export const BranchScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  storeId: "storeId",
+  contactPhone: "contactPhone",
+  contactEmail: "contactEmail",
+  isActive: "isActive",
+  isDeleted: "isDeleted",
+  deletedAt: "deletedAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type BranchScalarFieldEnum =
+  (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum];
+
+export const AddressScalarFieldEnum = {
+  id: "id",
+  branchId: "branchId",
+  addressLine1: "addressLine1",
+  addressLine2: "addressLine2",
+  city: "city",
+  state: "state",
+  postalCode: "postalCode",
+  country: "country",
+  latitude: "latitude",
+  longitude: "longitude",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type AddressScalarFieldEnum =
+  (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",

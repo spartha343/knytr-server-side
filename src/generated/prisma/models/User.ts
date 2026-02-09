@@ -195,6 +195,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
   userRoles?: Prisma.UserRoleListRelationFilter;
   roleRequests?: Prisma.RoleRequestListRelationFilter;
+  stores?: Prisma.StoreListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -206,6 +207,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder;
   userRoles?: Prisma.UserRoleOrderByRelationAggregateInput;
   roleRequests?: Prisma.RoleRequestOrderByRelationAggregateInput;
+  stores?: Prisma.StoreOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -221,6 +223,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     userRoles?: Prisma.UserRoleListRelationFilter;
     roleRequests?: Prisma.RoleRequestListRelationFilter;
+    stores?: Prisma.StoreListRelationFilter;
   },
   "id" | "firebaseUid"
 >;
@@ -264,6 +267,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string;
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput;
   roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -275,6 +279,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string;
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput;
   roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
 };
 
 export type UserUpdateInput = {
@@ -286,6 +291,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput;
   roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -297,6 +303,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput;
   roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -426,6 +433,32 @@ export type UserUpdateOneRequiredWithoutRoleRequestsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutStoresInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutStoresInput,
+    Prisma.UserUncheckedCreateWithoutStoresInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStoresInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutStoresNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutStoresInput,
+    Prisma.UserUncheckedCreateWithoutStoresInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStoresInput;
+  upsert?: Prisma.UserUpsertWithoutStoresInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutStoresInput,
+      Prisma.UserUpdateWithoutStoresInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutStoresInput
+  >;
+};
+
 export type UserCreateWithoutUserRolesInput = {
   id?: string;
   email?: string | null;
@@ -434,6 +467,7 @@ export type UserCreateWithoutUserRolesInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
 };
 
 export type UserUncheckedCreateWithoutUserRolesInput = {
@@ -444,6 +478,7 @@ export type UserUncheckedCreateWithoutUserRolesInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
 };
 
 export type UserCreateOrConnectWithoutUserRolesInput = {
@@ -482,6 +517,7 @@ export type UserUpdateWithoutUserRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutUserRolesInput = {
@@ -492,6 +528,7 @@ export type UserUncheckedUpdateWithoutUserRolesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
 };
 
 export type UserCreateWithoutRoleRequestsInput = {
@@ -502,6 +539,7 @@ export type UserCreateWithoutRoleRequestsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
 };
 
 export type UserUncheckedCreateWithoutRoleRequestsInput = {
@@ -512,6 +550,7 @@ export type UserUncheckedCreateWithoutRoleRequestsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
 };
 
 export type UserCreateOrConnectWithoutRoleRequestsInput = {
@@ -550,6 +589,7 @@ export type UserUpdateWithoutRoleRequestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRoleRequestsInput = {
@@ -560,6 +600,79 @@ export type UserUncheckedUpdateWithoutRoleRequestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
+};
+
+export type UserCreateWithoutStoresInput = {
+  id?: string;
+  email?: string | null;
+  firebaseUid: string;
+  status?: $Enums.UserStatus;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput;
+  roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutStoresInput = {
+  id?: string;
+  email?: string | null;
+  firebaseUid: string;
+  status?: $Enums.UserStatus;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput;
+  roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutStoresInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutStoresInput,
+    Prisma.UserUncheckedCreateWithoutStoresInput
+  >;
+};
+
+export type UserUpsertWithoutStoresInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutStoresInput,
+    Prisma.UserUncheckedUpdateWithoutStoresInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutStoresInput,
+    Prisma.UserUncheckedCreateWithoutStoresInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutStoresInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutStoresInput,
+    Prisma.UserUncheckedUpdateWithoutStoresInput
+  >;
+};
+
+export type UserUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  firebaseUid?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput;
+  roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  firebaseUid?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput;
+  roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 /**
@@ -569,6 +682,7 @@ export type UserUncheckedUpdateWithoutRoleRequestsInput = {
 export type UserCountOutputType = {
   userRoles: number;
   roleRequests: number;
+  stores: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -577,6 +691,7 @@ export type UserCountOutputTypeSelect<
 > = {
   userRoles?: boolean | UserCountOutputTypeCountUserRolesArgs;
   roleRequests?: boolean | UserCountOutputTypeCountRoleRequestsArgs;
+  stores?: boolean | UserCountOutputTypeCountStoresArgs;
 };
 
 /**
@@ -612,6 +727,16 @@ export type UserCountOutputTypeCountRoleRequestsArgs<
   where?: Prisma.RoleRequestWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStoresArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  where?: Prisma.StoreWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
@@ -625,6 +750,7 @@ export type UserSelect<
     updatedAt?: boolean;
     userRoles?: boolean | Prisma.User$userRolesArgs<ExtArgs>;
     roleRequests?: boolean | Prisma.User$roleRequestsArgs<ExtArgs>;
+    stores?: boolean | Prisma.User$storesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["user"]
@@ -682,6 +808,7 @@ export type UserInclude<
 > = {
   userRoles?: boolean | Prisma.User$userRolesArgs<ExtArgs>;
   roleRequests?: boolean | Prisma.User$roleRequestsArgs<ExtArgs>;
+  stores?: boolean | Prisma.User$storesArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -701,6 +828,7 @@ export type $UserPayload<
   objects: {
     userRoles: Prisma.$UserRolePayload<ExtArgs>[];
     roleRequests: Prisma.$RoleRequestPayload<ExtArgs>[];
+    stores: Prisma.$StorePayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1282,6 +1410,17 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
+  stores<T extends Prisma.User$storesArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$storesArgs<ExtArgs>>
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$StorePayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1828,6 +1967,35 @@ export type User$roleRequestsArgs<
   distinct?:
     | Prisma.RoleRequestScalarFieldEnum
     | Prisma.RoleRequestScalarFieldEnum[];
+};
+
+/**
+ * User.stores
+ */
+export type User$storesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the Store
+   */
+  select?: Prisma.StoreSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Store
+   */
+  omit?: Prisma.StoreOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreInclude<ExtArgs> | null;
+  where?: Prisma.StoreWhereInput;
+  orderBy?:
+    | Prisma.StoreOrderByWithRelationInput
+    | Prisma.StoreOrderByWithRelationInput[];
+  cursor?: Prisma.StoreWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.StoreScalarFieldEnum | Prisma.StoreScalarFieldEnum[];
 };
 
 /**

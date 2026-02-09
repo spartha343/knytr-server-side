@@ -22,6 +22,7 @@ model User {
   updatedAt    DateTime      @updatedAt
   userRoles    UserRole[]
   roleRequests RoleRequest[]
+  stores       Store[]
 
   @@map("users")
 }
@@ -60,6 +61,85 @@ model RoleRequest {
 
   @@unique([userId, roleId], name: "userId_roleId")
   @@map("role_requests")
+}
+
+model Store {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  logo        String?
+  banner      String?
+  vendorId    String
+  isActive    Boolean @default(true)
+
+  // Soft delete fields
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+
+  // SEO fields
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  vendor   User     @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  branches Branch[]
+
+  @@index([vendorId])
+  @@index([slug])
+  @@index([isActive])
+  @@index([isDeleted])
+}
+
+model Branch {
+  id           String  @id @default(uuid())
+  name         String
+  storeId      String
+  contactPhone String?
+  contactEmail String?
+  isActive     Boolean @default(true)
+
+  // Soft delete
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  store   Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  address Address?
+
+  @@index([storeId])
+  @@index([isDeleted])
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  branchId     String  @unique
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String?
+  postalCode   String
+  country      String  @default("Bangladesh")
+
+  // Location coordinates (for map & location-based search)
+  latitude  Float?
+  longitude Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  branch Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@index([branchId])
+  @@index([latitude, longitude]) // Add compound index for location queries
 }
 
 enum UserStatus {

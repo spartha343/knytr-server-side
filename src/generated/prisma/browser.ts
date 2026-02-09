@@ -36,3 +36,18 @@ export type UserRole = Prisma.UserRoleModel;
  *
  */
 export type RoleRequest = Prisma.RoleRequestModel;
+/**
+ * Model Store
+ *
+ */
+export type Store = Prisma.StoreModel;
+/**
+ * Model Branch
+ *
+ */
+export type Branch = Prisma.BranchModel;
+/**
+ * Model Address
+ *
+ */
+export type Address = Prisma.AddressModel;

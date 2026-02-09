@@ -11,4 +11,7 @@ export type * from "./models/User.ts";
 export type * from "./models/Role.ts";
 export type * from "./models/UserRole.ts";
 export type * from "./models/RoleRequest.ts";
+export type * from "./models/Store.ts";
+export type * from "./models/Branch.ts";
+export type * from "./models/Address.ts";
 export type * from "./commonInputTypes.ts";
