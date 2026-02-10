@@ -14,15 +14,17 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String?
-  firebaseUid  String        @unique
-  status       UserStatus    @default(ACTIVE)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  userRoles    UserRole[]
-  roleRequests RoleRequest[]
-  stores       Store[]
+  id                       String            @id @default(uuid())
+  email                    String?
+  firebaseUid              String            @unique
+  status                   UserStatus        @default(ACTIVE)
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+  userRoles                UserRole[]
+  roleRequests             RoleRequest[]
+  stores                   Store[]
+  categoryRequests         CategoryRequest[] @relation("RequestedCategories")
+  reviewedCategoryRequests CategoryRequest[] @relation("ReviewedRequests")
 
   @@map("users")
 }
@@ -142,6 +144,92 @@ model Address {
   @@index([latitude, longitude]) // Add compound index for location queries
 }
 
+model Category {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  imageUrl    String?
+  parentId    String?
+  isActive    Boolean @default(true)
+
+  // Soft delete
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  parent           Category?         @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  children         Category[]        @relation("CategoryHierarchy")
+  categoryRequests CategoryRequest[]
+
+  @@index([parentId])
+  @@index([slug])
+  @@index([isActive])
+  @@index([isDeleted])
+  @@map("categories")
+}
+
+model CategoryRequest {
+  id          String                @id @default(uuid())
+  name        String
+  description String?               @db.Text
+  parentId    String?
+  requestedBy String
+  status      CategoryRequestStatus @default(PENDING)
+
+  // Admin response
+  reviewedBy String?
+  reviewNote String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  vendor   User      @relation("RequestedCategories", fields: [requestedBy], references: [id])
+  parent   Category? @relation(fields: [parentId], references: [id])
+  reviewer User?     @relation("ReviewedRequests", fields: [reviewedBy], references: [id])
+
+  @@index([requestedBy])
+  @@index([status])
+  @@index([parentId])
+  @@map("category_requests")
+}
+
+model Brand {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
+  description String? @db.Text
+  logoUrl     String?
+  websiteUrl  String?
+  isActive    Boolean @default(true)
+
+  // Soft delete
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+  @@index([isDeleted])
+  @@map("brands")
+}
+
 enum UserStatus {
   ACTIVE
   INACTIVE
@@ -156,6 +244,12 @@ enum RoleType {
 }
 
 enum RoleRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CategoryRequestStatus {
   PENDING
   APPROVED
   REJECTED

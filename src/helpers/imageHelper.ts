@@ -38,14 +38,18 @@ export const uploadToCloudinary = async (
 // Delete image from Cloudinary
 export const deleteFromCloudinary = async (publicId: string): Promise<void> => {
   try {
-    await cloudinary.uploader.destroy(publicId);
+    const result = await cloudinary.uploader.destroy(publicId);
+
+    // Check if deletion was successful
+    if (result.result !== "ok" && result.result !== "not found") {
+      throw new Error(`Failed to delete image: ${result.result}`);
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error("Error deleting image from Cloudinary:", error);
-    // Don't throw error - just log it
+    throw error; // Re-throw to propagate error
   }
 };
-
 // Extract public_id from Cloudinary URL
 export const extractPublicId = (url: string): string => {
   // Example URL: https://res.cloudinary.com/cloud_name/image/upload/v1234567890/knytr/stores/logos/image.jpg

@@ -5,6 +5,7 @@ import { RoleRoutes } from "../modules/role/role.route.js";
 import { UploadRoutes } from "../modules/upload/upload.route.js";
 import { StoreRoutes } from "../modules/store/store.route.js";
 import { BranchRoutes } from "../modules/branch/branch.route.js";
+import { CategoryRoutes } from "../modules/category/category.route.js";
 
 const router = express.Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
   {
     path: "/branches",
     route: BranchRoutes
+  },
+  {
+    path: "/categories",
+    route: CategoryRoutes
   }
 ];
 

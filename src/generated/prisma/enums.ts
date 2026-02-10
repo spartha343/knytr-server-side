@@ -33,3 +33,12 @@ export const RoleRequestStatus = {
 
 export type RoleRequestStatus =
   (typeof RoleRequestStatus)[keyof typeof RoleRequestStatus];
+
+export const CategoryRequestStatus = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED"
+} as const;
+
+export type CategoryRequestStatus =
+  (typeof CategoryRequestStatus)[keyof typeof CategoryRequestStatus];

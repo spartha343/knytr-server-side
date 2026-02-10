@@ -51,3 +51,18 @@ export type Branch = Prisma.BranchModel;
  *
  */
 export type Address = Prisma.AddressModel;
+/**
+ * Model Category
+ *
+ */
+export type Category = Prisma.CategoryModel;
+/**
+ * Model CategoryRequest
+ *
+ */
+export type CategoryRequest = Prisma.CategoryRequestModel;
+/**
+ * Model Brand
+ *
+ */
+export type Brand = Prisma.BrandModel;

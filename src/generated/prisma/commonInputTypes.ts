@@ -286,6 +286,41 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>;
 };
 
+export type EnumCategoryRequestStatusFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.CategoryRequestStatus
+    | Prisma.EnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>
+    | $Enums.CategoryRequestStatus;
+};
+
+export type EnumCategoryRequestStatusWithAggregatesFilter<
+  $PrismaModel = never
+> = {
+  equals?:
+    | $Enums.CategoryRequestStatus
+    | Prisma.EnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumCategoryRequestStatusWithAggregatesFilter<$PrismaModel>
+    | $Enums.CategoryRequestStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>;
+};
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -573,4 +608,39 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>;
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>;
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>;
+};
+
+export type NestedEnumCategoryRequestStatusFilter<$PrismaModel = never> = {
+  equals?:
+    | $Enums.CategoryRequestStatus
+    | Prisma.EnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>
+    | $Enums.CategoryRequestStatus;
+};
+
+export type NestedEnumCategoryRequestStatusWithAggregatesFilter<
+  $PrismaModel = never
+> = {
+  equals?:
+    | $Enums.CategoryRequestStatus
+    | Prisma.EnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  in?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  notIn?:
+    | $Enums.CategoryRequestStatus[]
+    | Prisma.ListEnumCategoryRequestStatusFieldRefInput<$PrismaModel>;
+  not?:
+    | Prisma.NestedEnumCategoryRequestStatusWithAggregatesFilter<$PrismaModel>
+    | $Enums.CategoryRequestStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumCategoryRequestStatusFilter<$PrismaModel>;
 };

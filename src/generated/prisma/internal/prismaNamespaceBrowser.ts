@@ -60,7 +60,10 @@ export const ModelName = {
   RoleRequest: "RoleRequest",
   Store: "Store",
   Branch: "Branch",
-  Address: "Address"
+  Address: "Address",
+  Category: "Category",
+  CategoryRequest: "CategoryRequest",
+  Brand: "Brand"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -174,6 +177,62 @@ export const AddressScalarFieldEnum = {
 
 export type AddressScalarFieldEnum =
   (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum];
+
+export const CategoryScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  slug: "slug",
+  description: "description",
+  imageUrl: "imageUrl",
+  parentId: "parentId",
+  isActive: "isActive",
+  isDeleted: "isDeleted",
+  deletedAt: "deletedAt",
+  seoTitle: "seoTitle",
+  seoDescription: "seoDescription",
+  seoKeywords: "seoKeywords",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type CategoryScalarFieldEnum =
+  (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum];
+
+export const CategoryRequestScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  description: "description",
+  parentId: "parentId",
+  requestedBy: "requestedBy",
+  status: "status",
+  reviewedBy: "reviewedBy",
+  reviewNote: "reviewNote",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type CategoryRequestScalarFieldEnum =
+  (typeof CategoryRequestScalarFieldEnum)[keyof typeof CategoryRequestScalarFieldEnum];
+
+export const BrandScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  slug: "slug",
+  description: "description",
+  logoUrl: "logoUrl",
+  websiteUrl: "websiteUrl",
+  isActive: "isActive",
+  isDeleted: "isDeleted",
+  deletedAt: "deletedAt",
+  seoTitle: "seoTitle",
+  seoDescription: "seoDescription",
+  seoKeywords: "seoKeywords",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type BrandScalarFieldEnum =
+  (typeof BrandScalarFieldEnum)[keyof typeof BrandScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",
