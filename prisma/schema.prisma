@@ -84,17 +84,24 @@ model Store {
   seoDescription String?
   seoKeywords    String?
 
+  //  Vendor Contact Information (NEW - Add these 3 lines)
+  whatsappNumber String? // Format: +8801XXXXXXXXX or 01XXXXXXXXX
+  messengerLink  String? // Format: https://m.me/username or fb.com/username
+  contactPhone   String? // Primary phone for customer contact
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  vendor   User     @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  vendor   User      @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   branches Branch[]
+  products Product[]
 
   @@index([vendorId])
   @@index([slug])
   @@index([isActive])
   @@index([isDeleted])
+  @@index([whatsappNumber])
 }
 
 model Branch {
@@ -113,8 +120,9 @@ model Branch {
   updatedAt DateTime @updatedAt
 
   // Relations
-  store   Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  address Address?
+  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  address     Address?
+  inventories Inventory[]
 
   @@index([storeId])
   @@index([isDeleted])
@@ -169,6 +177,7 @@ model Category {
   parent           Category?         @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
   children         Category[]        @relation("CategoryHierarchy")
   categoryRequests CategoryRequest[]
+  products         Product[]
 
   @@index([parentId])
   @@index([slug])
@@ -221,13 +230,222 @@ model Brand {
   seoDescription String?
   seoKeywords    String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 
   @@index([slug])
   @@index([isActive])
   @@index([isDeleted])
   @@map("brands")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+
+  basePrice    Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)
+
+  categoryId String
+  brandId    String
+  storeId    String
+
+  isActive    Boolean @default(true)
+  isPublished Boolean @default(false)
+  isFeatured  Boolean @default(false)
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+
+  weight       Decimal? @db.Decimal(10, 2)
+  length       Decimal? @db.Decimal(10, 2)
+  width        Decimal? @db.Decimal(10, 2)
+  height       Decimal? @db.Decimal(10, 2)
+  freeShipping Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category          Category           @relation(fields: [categoryId], references: [id])
+  brand             Brand              @relation(fields: [brandId], references: [id])
+  store             Store              @relation(fields: [storeId], references: [id])
+  media             ProductMedia[]
+  variants          ProductVariant[]
+  productAttributes ProductAttribute[]
+  sections          ProductSection[]
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([storeId])
+  @@index([slug])
+  @@index([isPublished])
+  @@index([isFeatured])
+  @@map("products")
+}
+
+model ProductMedia {
+  id        String @id @default(uuid())
+  productId String
+
+  mediaType String
+  mediaUrl  String
+  altText   String?
+
+  isPrimary Boolean @default(false)
+  order     Int     @default(0)
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([isPrimary])
+  @@index([order])
+  @@map("product_media")
+}
+
+model ProductSection {
+  id        String @id @default(uuid())
+  productId String
+
+  title String
+  type  String
+  order Int    @default(0)
+
+  isVisible Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items   ProductSectionItem[]
+
+  @@index([productId])
+  @@index([order])
+  @@map("product_sections")
+}
+
+model ProductSectionItem {
+  id        String @id @default(uuid())
+  sectionId String
+
+  label String?
+  value String
+  order Int     @default(0)
+
+  section ProductSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
+  @@index([order])
+  @@map("product_section_items")
+}
+
+model Attribute {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  displayName String?
+  type        String  @default("text")
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  values            AttributeValue[]
+  productAttributes ProductAttribute[]
+
+  @@map("attributes")
+}
+
+model AttributeValue {
+  id          String  @id @default(uuid())
+  attributeId String
+  value       String
+  colorCode   String?
+  imageUrl    String?
+
+  createdAt DateTime @default(now())
+
+  attribute         Attribute          @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  variantAttributes VariantAttribute[]
+
+  @@unique([attributeId, value])
+  @@index([attributeId])
+  @@map("attribute_values")
+}
+
+model ProductAttribute {
+  productId   String
+  attributeId String
+
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  attribute Attribute @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  @@id([productId, attributeId])
+  @@map("product_attributes")
+}
+
+model ProductVariant {
+  id           String   @id @default(uuid())
+  productId    String
+  sku          String   @unique
+  price        Decimal  @db.Decimal(10, 2)
+  comparePrice Decimal? @db.Decimal(10, 2)
+  isActive     Boolean  @default(true)
+
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product           Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantAttributes VariantAttribute[]
+  inventories       Inventory[]
+
+  @@index([productId])
+  @@index([sku])
+  @@map("product_variants")
+}
+
+model VariantAttribute {
+  variantId        String
+  attributeValueId String
+
+  variant        ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)
+
+  @@id([variantId, attributeValueId])
+  @@map("variant_attributes")
+}
+
+model Inventory {
+  id        String @id @default(uuid())
+  variantId String
+  branchId  String
+
+  quantity      Int @default(0)
+  reservedQty   Int @default(0)
+  lowStockAlert Int @default(10)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  branch  Branch         @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, branchId])
+  @@index([variantId])
+  @@index([branchId])
+  @@index([quantity])
+  @@map("inventories")
 }
 
 enum UserStatus {

@@ -66,3 +66,53 @@ export type CategoryRequest = Prisma.CategoryRequestModel;
  *
  */
 export type Brand = Prisma.BrandModel;
+/**
+ * Model Product
+ *
+ */
+export type Product = Prisma.ProductModel;
+/**
+ * Model ProductMedia
+ *
+ */
+export type ProductMedia = Prisma.ProductMediaModel;
+/**
+ * Model ProductSection
+ *
+ */
+export type ProductSection = Prisma.ProductSectionModel;
+/**
+ * Model ProductSectionItem
+ *
+ */
+export type ProductSectionItem = Prisma.ProductSectionItemModel;
+/**
+ * Model Attribute
+ *
+ */
+export type Attribute = Prisma.AttributeModel;
+/**
+ * Model AttributeValue
+ *
+ */
+export type AttributeValue = Prisma.AttributeValueModel;
+/**
+ * Model ProductAttribute
+ *
+ */
+export type ProductAttribute = Prisma.ProductAttributeModel;
+/**
+ * Model ProductVariant
+ *
+ */
+export type ProductVariant = Prisma.ProductVariantModel;
+/**
+ * Model VariantAttribute
+ *
+ */
+export type VariantAttribute = Prisma.VariantAttributeModel;
+/**
+ * Model Inventory
+ *
+ */
+export type Inventory = Prisma.InventoryModel;

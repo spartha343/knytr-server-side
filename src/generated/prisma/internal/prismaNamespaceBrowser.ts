@@ -63,7 +63,17 @@ export const ModelName = {
   Address: "Address",
   Category: "Category",
   CategoryRequest: "CategoryRequest",
-  Brand: "Brand"
+  Brand: "Brand",
+  Product: "Product",
+  ProductMedia: "ProductMedia",
+  ProductSection: "ProductSection",
+  ProductSectionItem: "ProductSectionItem",
+  Attribute: "Attribute",
+  AttributeValue: "AttributeValue",
+  ProductAttribute: "ProductAttribute",
+  ProductVariant: "ProductVariant",
+  VariantAttribute: "VariantAttribute",
+  Inventory: "Inventory"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -137,6 +147,9 @@ export const StoreScalarFieldEnum = {
   seoTitle: "seoTitle",
   seoDescription: "seoDescription",
   seoKeywords: "seoKeywords",
+  whatsappNumber: "whatsappNumber",
+  messengerLink: "messengerLink",
+  contactPhone: "contactPhone",
   createdAt: "createdAt",
   updatedAt: "updatedAt"
 } as const;
@@ -234,12 +247,160 @@ export const BrandScalarFieldEnum = {
 export type BrandScalarFieldEnum =
   (typeof BrandScalarFieldEnum)[keyof typeof BrandScalarFieldEnum];
 
+export const ProductScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  slug: "slug",
+  description: "description",
+  basePrice: "basePrice",
+  comparePrice: "comparePrice",
+  categoryId: "categoryId",
+  brandId: "brandId",
+  storeId: "storeId",
+  isActive: "isActive",
+  isPublished: "isPublished",
+  isFeatured: "isFeatured",
+  isDeleted: "isDeleted",
+  deletedAt: "deletedAt",
+  seoTitle: "seoTitle",
+  seoDescription: "seoDescription",
+  seoKeywords: "seoKeywords",
+  weight: "weight",
+  length: "length",
+  width: "width",
+  height: "height",
+  freeShipping: "freeShipping",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type ProductScalarFieldEnum =
+  (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum];
+
+export const ProductMediaScalarFieldEnum = {
+  id: "id",
+  productId: "productId",
+  mediaType: "mediaType",
+  mediaUrl: "mediaUrl",
+  altText: "altText",
+  isPrimary: "isPrimary",
+  order: "order",
+  metadata: "metadata",
+  createdAt: "createdAt"
+} as const;
+
+export type ProductMediaScalarFieldEnum =
+  (typeof ProductMediaScalarFieldEnum)[keyof typeof ProductMediaScalarFieldEnum];
+
+export const ProductSectionScalarFieldEnum = {
+  id: "id",
+  productId: "productId",
+  title: "title",
+  type: "type",
+  order: "order",
+  isVisible: "isVisible",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type ProductSectionScalarFieldEnum =
+  (typeof ProductSectionScalarFieldEnum)[keyof typeof ProductSectionScalarFieldEnum];
+
+export const ProductSectionItemScalarFieldEnum = {
+  id: "id",
+  sectionId: "sectionId",
+  label: "label",
+  value: "value",
+  order: "order"
+} as const;
+
+export type ProductSectionItemScalarFieldEnum =
+  (typeof ProductSectionItemScalarFieldEnum)[keyof typeof ProductSectionItemScalarFieldEnum];
+
+export const AttributeScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  displayName: "displayName",
+  type: "type",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type AttributeScalarFieldEnum =
+  (typeof AttributeScalarFieldEnum)[keyof typeof AttributeScalarFieldEnum];
+
+export const AttributeValueScalarFieldEnum = {
+  id: "id",
+  attributeId: "attributeId",
+  value: "value",
+  colorCode: "colorCode",
+  imageUrl: "imageUrl",
+  createdAt: "createdAt"
+} as const;
+
+export type AttributeValueScalarFieldEnum =
+  (typeof AttributeValueScalarFieldEnum)[keyof typeof AttributeValueScalarFieldEnum];
+
+export const ProductAttributeScalarFieldEnum = {
+  productId: "productId",
+  attributeId: "attributeId"
+} as const;
+
+export type ProductAttributeScalarFieldEnum =
+  (typeof ProductAttributeScalarFieldEnum)[keyof typeof ProductAttributeScalarFieldEnum];
+
+export const ProductVariantScalarFieldEnum = {
+  id: "id",
+  productId: "productId",
+  sku: "sku",
+  price: "price",
+  comparePrice: "comparePrice",
+  isActive: "isActive",
+  imageUrl: "imageUrl",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type ProductVariantScalarFieldEnum =
+  (typeof ProductVariantScalarFieldEnum)[keyof typeof ProductVariantScalarFieldEnum];
+
+export const VariantAttributeScalarFieldEnum = {
+  variantId: "variantId",
+  attributeValueId: "attributeValueId"
+} as const;
+
+export type VariantAttributeScalarFieldEnum =
+  (typeof VariantAttributeScalarFieldEnum)[keyof typeof VariantAttributeScalarFieldEnum];
+
+export const InventoryScalarFieldEnum = {
+  id: "id",
+  variantId: "variantId",
+  branchId: "branchId",
+  quantity: "quantity",
+  reservedQty: "reservedQty",
+  lowStockAlert: "lowStockAlert",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type InventoryScalarFieldEnum =
+  (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum];
+
 export const SortOrder = {
   asc: "asc",
   desc: "desc"
 } as const;
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+
+export const NullableJsonNullValueInput = {
+  DbNull: "DbNull",
+  JsonNull: "JsonNull"
+} as const;
+
+export type NullableJsonNullValueInput =
+  (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 
 export const QueryMode = {
   default: "default",
@@ -254,3 +415,12 @@ export const NullsOrder = {
 } as const;
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+
+export const JsonNullValueFilter = {
+  DbNull: "DbNull",
+  JsonNull: "JsonNull",
+  AnyNull: "AnyNull"
+} as const;
+
+export type JsonNullValueFilter =
+  (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];

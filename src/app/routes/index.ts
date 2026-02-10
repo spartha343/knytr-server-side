@@ -7,6 +7,11 @@ import { StoreRoutes } from "../modules/store/store.route.js";
 import { BranchRoutes } from "../modules/branch/branch.route.js";
 import { CategoryRoutes } from "../modules/category/category.route.js";
 import { BrandRoutes } from "../modules/brand/brand.route.js";
+import { AttributeRoutes } from "../modules/attribute/attribute.route.js";
+import { ProductRoutes } from "../modules/product/product.route.js";
+import { ProductVariantRoutes } from "../modules/productVariant/productVariant.route.js";
+import { InventoryRoutes } from "../modules/inventory/inventory.route.js";
+import { ProductMediaRoutes } from "../modules/productMedia/productMedia.route.js";
 
 const router = express.Router();
 
@@ -42,6 +47,26 @@ const moduleRoutes = [
   {
     path: "/brands",
     route: BrandRoutes
+  },
+  {
+    path: "/attributes",
+    route: AttributeRoutes
+  },
+  {
+    path: "/products",
+    route: ProductRoutes
+  },
+  {
+    path: "/product-variants",
+    route: ProductVariantRoutes
+  },
+  {
+    path: "/inventory",
+    route: InventoryRoutes
+  },
+  {
+    path: "/product-media",
+    route: ProductMediaRoutes
   }
 ];
 

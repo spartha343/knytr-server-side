@@ -257,6 +257,7 @@ export type BrandWhereInput = {
   seoKeywords?: Prisma.StringNullableFilter<"Brand"> | string | null;
   createdAt?: Prisma.DateTimeFilter<"Brand"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Brand"> | Date | string;
+  products?: Prisma.ProductListRelationFilter;
 };
 
 export type BrandOrderByWithRelationInput = {
@@ -274,6 +275,7 @@ export type BrandOrderByWithRelationInput = {
   seoKeywords?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  products?: Prisma.ProductOrderByRelationAggregateInput;
 };
 
 export type BrandWhereUniqueInput = Prisma.AtLeast<
@@ -295,6 +297,7 @@ export type BrandWhereUniqueInput = Prisma.AtLeast<
     seoKeywords?: Prisma.StringNullableFilter<"Brand"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Brand"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Brand"> | Date | string;
+    products?: Prisma.ProductListRelationFilter;
   },
   "id" | "name" | "slug"
 >;
@@ -374,6 +377,7 @@ export type BrandCreateInput = {
   seoKeywords?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  products?: Prisma.ProductCreateNestedManyWithoutBrandInput;
 };
 
 export type BrandUncheckedCreateInput = {
@@ -391,6 +395,7 @@ export type BrandUncheckedCreateInput = {
   seoKeywords?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput;
 };
 
 export type BrandUpdateInput = {
@@ -415,6 +420,7 @@ export type BrandUpdateInput = {
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  products?: Prisma.ProductUpdateManyWithoutBrandNestedInput;
 };
 
 export type BrandUncheckedUpdateInput = {
@@ -439,6 +445,7 @@ export type BrandUncheckedUpdateInput = {
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput;
 };
 
 export type BrandCreateManyInput = {
@@ -557,6 +564,185 @@ export type BrandMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder;
 };
 
+export type BrandScalarRelationFilter = {
+  is?: Prisma.BrandWhereInput;
+  isNot?: Prisma.BrandWhereInput;
+};
+
+export type BrandCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<
+    Prisma.BrandCreateWithoutProductsInput,
+    Prisma.BrandUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.BrandCreateOrConnectWithoutProductsInput;
+  connect?: Prisma.BrandWhereUniqueInput;
+};
+
+export type BrandUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.BrandCreateWithoutProductsInput,
+    Prisma.BrandUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.BrandCreateOrConnectWithoutProductsInput;
+  upsert?: Prisma.BrandUpsertWithoutProductsInput;
+  connect?: Prisma.BrandWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.BrandUpdateToOneWithWhereWithoutProductsInput,
+      Prisma.BrandUpdateWithoutProductsInput
+    >,
+    Prisma.BrandUncheckedUpdateWithoutProductsInput
+  >;
+};
+
+export type BrandCreateWithoutProductsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logoUrl?: string | null;
+  websiteUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type BrandUncheckedCreateWithoutProductsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logoUrl?: string | null;
+  websiteUrl?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type BrandCreateOrConnectWithoutProductsInput = {
+  where: Prisma.BrandWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.BrandCreateWithoutProductsInput,
+    Prisma.BrandUncheckedCreateWithoutProductsInput
+  >;
+};
+
+export type BrandUpsertWithoutProductsInput = {
+  update: Prisma.XOR<
+    Prisma.BrandUpdateWithoutProductsInput,
+    Prisma.BrandUncheckedUpdateWithoutProductsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.BrandCreateWithoutProductsInput,
+    Prisma.BrandUncheckedCreateWithoutProductsInput
+  >;
+  where?: Prisma.BrandWhereInput;
+};
+
+export type BrandUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.BrandWhereInput;
+  data: Prisma.XOR<
+    Prisma.BrandUpdateWithoutProductsInput,
+    Prisma.BrandUncheckedUpdateWithoutProductsInput
+  >;
+};
+
+export type BrandUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type BrandUncheckedUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+/**
+ * Count Type BrandCountOutputType
+ */
+
+export type BrandCountOutputType = {
+  products: number;
+};
+
+export type BrandCountOutputTypeSelect<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  products?: boolean | BrandCountOutputTypeCountProductsArgs;
+};
+
+/**
+ * BrandCountOutputType without action
+ */
+export type BrandCountOutputTypeDefaultArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the BrandCountOutputType
+   */
+  select?: Prisma.BrandCountOutputTypeSelect<ExtArgs> | null;
+};
+
+/**
+ * BrandCountOutputType without action
+ */
+export type BrandCountOutputTypeCountProductsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  where?: Prisma.ProductWhereInput;
+};
+
 export type BrandSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
@@ -576,6 +762,8 @@ export type BrandSelect<
     seoKeywords?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    products?: boolean | Prisma.Brand$productsArgs<ExtArgs>;
+    _count?: boolean | Prisma.BrandCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["brand"]
 >;
@@ -663,13 +851,30 @@ export type BrandOmit<
   | "updatedAt",
   ExtArgs["result"]["brand"]
 >;
+export type BrandInclude<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  products?: boolean | Prisma.Brand$productsArgs<ExtArgs>;
+  _count?: boolean | Prisma.BrandCountOutputTypeDefaultArgs<ExtArgs>;
+};
+export type BrandIncludeCreateManyAndReturn<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {};
+export type BrandIncludeUpdateManyAndReturn<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {};
 
 export type $BrandPayload<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
 > = {
   name: "Brand";
-  objects: {};
+  objects: {
+    products: Prisma.$ProductPayload<ExtArgs>[];
+  };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       id: string;
@@ -1236,6 +1441,17 @@ export interface Prisma__BrandClient<
   GlobalOmitOptions = {}
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise";
+  products<T extends Prisma.Brand$productsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Brand$productsArgs<ExtArgs>>
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ProductPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1311,6 +1527,10 @@ export type BrandFindUniqueArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * Filter, which Brand to fetch.
    */
   where: Prisma.BrandWhereUniqueInput;
@@ -1332,6 +1552,10 @@ export type BrandFindUniqueOrThrowArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * Filter, which Brand to fetch.
    */
   where: Prisma.BrandWhereUniqueInput;
@@ -1352,6 +1576,10 @@ export type BrandFindFirstArgs<
    * Omit specific fields from the Brand
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
   /**
    * Filter, which Brand to fetch.
    */
@@ -1406,6 +1634,10 @@ export type BrandFindFirstOrThrowArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * Filter, which Brand to fetch.
    */
   where?: Prisma.BrandWhereInput;
@@ -1459,6 +1691,10 @@ export type BrandFindManyArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * Filter, which Brands to fetch.
    */
   where?: Prisma.BrandWhereInput;
@@ -1506,6 +1742,10 @@ export type BrandCreateArgs<
    * Omit specific fields from the Brand
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
   /**
    * The data needed to create a Brand.
    */
@@ -1563,6 +1803,10 @@ export type BrandUpdateArgs<
    * Omit specific fields from the Brand
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
   /**
    * The data needed to update a Brand.
    */
@@ -1645,6 +1889,10 @@ export type BrandUpsertArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * The filter to search for the Brand to update in case it exists.
    */
   where: Prisma.BrandWhereUniqueInput;
@@ -1674,6 +1922,10 @@ export type BrandDeleteArgs<
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
+  /**
    * Filter which Brand to delete.
    */
   where: Prisma.BrandWhereUniqueInput;
@@ -1697,6 +1949,35 @@ export type BrandDeleteManyArgs<
 };
 
 /**
+ * Brand.products
+ */
+export type Brand$productsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the Product
+   */
+  select?: Prisma.ProductSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Product
+   */
+  omit?: Prisma.ProductOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null;
+  where?: Prisma.ProductWhereInput;
+  orderBy?:
+    | Prisma.ProductOrderByWithRelationInput
+    | Prisma.ProductOrderByWithRelationInput[];
+  cursor?: Prisma.ProductWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.ProductScalarFieldEnum | Prisma.ProductScalarFieldEnum[];
+};
+
+/**
  * Brand without action
  */
 export type BrandDefaultArgs<
@@ -1711,4 +1992,8 @@ export type BrandDefaultArgs<
    * Omit specific fields from the Brand
    */
   omit?: Prisma.BrandOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BrandInclude<ExtArgs> | null;
 };

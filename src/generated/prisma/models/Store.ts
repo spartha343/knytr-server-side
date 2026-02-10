@@ -38,6 +38,9 @@ export type StoreMinAggregateOutputType = {
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string | null;
+  whatsappNumber: string | null;
+  messengerLink: string | null;
+  contactPhone: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -56,6 +59,9 @@ export type StoreMaxAggregateOutputType = {
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string | null;
+  whatsappNumber: string | null;
+  messengerLink: string | null;
+  contactPhone: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -74,6 +80,9 @@ export type StoreCountAggregateOutputType = {
   seoTitle: number;
   seoDescription: number;
   seoKeywords: number;
+  whatsappNumber: number;
+  messengerLink: number;
+  contactPhone: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -93,6 +102,9 @@ export type StoreMinAggregateInputType = {
   seoTitle?: true;
   seoDescription?: true;
   seoKeywords?: true;
+  whatsappNumber?: true;
+  messengerLink?: true;
+  contactPhone?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -111,6 +123,9 @@ export type StoreMaxAggregateInputType = {
   seoTitle?: true;
   seoDescription?: true;
   seoKeywords?: true;
+  whatsappNumber?: true;
+  messengerLink?: true;
+  contactPhone?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -129,6 +144,9 @@ export type StoreCountAggregateInputType = {
   seoTitle?: true;
   seoDescription?: true;
   seoKeywords?: true;
+  whatsappNumber?: true;
+  messengerLink?: true;
+  contactPhone?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -227,6 +245,9 @@ export type StoreGroupByOutputType = {
   seoTitle: string | null;
   seoDescription: string | null;
   seoKeywords: string | null;
+  whatsappNumber: string | null;
+  messengerLink: string | null;
+  contactPhone: string | null;
   createdAt: Date;
   updatedAt: Date;
   _count: StoreCountAggregateOutputType | null;
@@ -263,10 +284,14 @@ export type StoreWhereInput = {
   seoTitle?: Prisma.StringNullableFilter<"Store"> | string | null;
   seoDescription?: Prisma.StringNullableFilter<"Store"> | string | null;
   seoKeywords?: Prisma.StringNullableFilter<"Store"> | string | null;
+  whatsappNumber?: Prisma.StringNullableFilter<"Store"> | string | null;
+  messengerLink?: Prisma.StringNullableFilter<"Store"> | string | null;
+  contactPhone?: Prisma.StringNullableFilter<"Store"> | string | null;
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
   vendor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   branches?: Prisma.BranchListRelationFilter;
+  products?: Prisma.ProductListRelationFilter;
 };
 
 export type StoreOrderByWithRelationInput = {
@@ -283,10 +308,14 @@ export type StoreOrderByWithRelationInput = {
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder;
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder;
   seoKeywords?: Prisma.SortOrderInput | Prisma.SortOrder;
+  whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  messengerLink?: Prisma.SortOrderInput | Prisma.SortOrder;
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   vendor?: Prisma.UserOrderByWithRelationInput;
   branches?: Prisma.BranchOrderByRelationAggregateInput;
+  products?: Prisma.ProductOrderByRelationAggregateInput;
 };
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<
@@ -307,10 +336,14 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<
     seoTitle?: Prisma.StringNullableFilter<"Store"> | string | null;
     seoDescription?: Prisma.StringNullableFilter<"Store"> | string | null;
     seoKeywords?: Prisma.StringNullableFilter<"Store"> | string | null;
+    whatsappNumber?: Prisma.StringNullableFilter<"Store"> | string | null;
+    messengerLink?: Prisma.StringNullableFilter<"Store"> | string | null;
+    contactPhone?: Prisma.StringNullableFilter<"Store"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
     vendor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     branches?: Prisma.BranchListRelationFilter;
+    products?: Prisma.ProductListRelationFilter;
   },
   "id" | "slug"
 >;
@@ -329,6 +362,9 @@ export type StoreOrderByWithAggregationInput = {
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder;
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder;
   seoKeywords?: Prisma.SortOrderInput | Prisma.SortOrder;
+  whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+  messengerLink?: Prisma.SortOrderInput | Prisma.SortOrder;
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.StoreCountOrderByAggregateInput;
@@ -370,6 +406,18 @@ export type StoreScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<"Store">
     | string
     | null;
+  whatsappNumber?:
+    | Prisma.StringNullableWithAggregatesFilter<"Store">
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.StringNullableWithAggregatesFilter<"Store">
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.StringNullableWithAggregatesFilter<"Store">
+    | string
+    | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string;
 };
@@ -387,10 +435,14 @@ export type StoreCreateInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
   branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreUncheckedCreateInput = {
@@ -407,9 +459,13 @@ export type StoreUncheckedCreateInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreUpdateInput = {
@@ -432,10 +488,23 @@ export type StoreUpdateInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
   branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreUncheckedUpdateInput = {
@@ -459,9 +528,22 @@ export type StoreUncheckedUpdateInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreCreateManyInput = {
@@ -478,6 +560,9 @@ export type StoreCreateManyInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -502,6 +587,18 @@ export type StoreUpdateManyMutationInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -527,6 +624,18 @@ export type StoreUncheckedUpdateManyInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -555,6 +664,9 @@ export type StoreCountOrderByAggregateInput = {
   seoTitle?: Prisma.SortOrder;
   seoDescription?: Prisma.SortOrder;
   seoKeywords?: Prisma.SortOrder;
+  whatsappNumber?: Prisma.SortOrder;
+  messengerLink?: Prisma.SortOrder;
+  contactPhone?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -573,6 +685,9 @@ export type StoreMaxOrderByAggregateInput = {
   seoTitle?: Prisma.SortOrder;
   seoDescription?: Prisma.SortOrder;
   seoKeywords?: Prisma.SortOrder;
+  whatsappNumber?: Prisma.SortOrder;
+  messengerLink?: Prisma.SortOrder;
+  contactPhone?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -591,6 +706,9 @@ export type StoreMinOrderByAggregateInput = {
   seoTitle?: Prisma.SortOrder;
   seoDescription?: Prisma.SortOrder;
   seoKeywords?: Prisma.SortOrder;
+  whatsappNumber?: Prisma.SortOrder;
+  messengerLink?: Prisma.SortOrder;
+  contactPhone?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -720,6 +838,32 @@ export type StoreUpdateOneRequiredWithoutBranchesNestedInput = {
   >;
 };
 
+export type StoreCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<
+    Prisma.StoreCreateWithoutProductsInput,
+    Prisma.StoreUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutProductsInput;
+  connect?: Prisma.StoreWhereUniqueInput;
+};
+
+export type StoreUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.StoreCreateWithoutProductsInput,
+    Prisma.StoreUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutProductsInput;
+  upsert?: Prisma.StoreUpsertWithoutProductsInput;
+  connect?: Prisma.StoreWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.StoreUpdateToOneWithWhereWithoutProductsInput,
+      Prisma.StoreUpdateWithoutProductsInput
+    >,
+    Prisma.StoreUncheckedUpdateWithoutProductsInput
+  >;
+};
+
 export type StoreCreateWithoutVendorInput = {
   id?: string;
   name: string;
@@ -733,9 +877,13 @@ export type StoreCreateWithoutVendorInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreUncheckedCreateWithoutVendorInput = {
@@ -751,9 +899,13 @@ export type StoreUncheckedCreateWithoutVendorInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreCreateOrConnectWithoutVendorInput = {
@@ -814,6 +966,9 @@ export type StoreScalarWhereInput = {
   seoTitle?: Prisma.StringNullableFilter<"Store"> | string | null;
   seoDescription?: Prisma.StringNullableFilter<"Store"> | string | null;
   seoKeywords?: Prisma.StringNullableFilter<"Store"> | string | null;
+  whatsappNumber?: Prisma.StringNullableFilter<"Store"> | string | null;
+  messengerLink?: Prisma.StringNullableFilter<"Store"> | string | null;
+  contactPhone?: Prisma.StringNullableFilter<"Store"> | string | null;
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
 };
@@ -831,9 +986,13 @@ export type StoreCreateWithoutBranchesInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreUncheckedCreateWithoutBranchesInput = {
@@ -850,8 +1009,12 @@ export type StoreUncheckedCreateWithoutBranchesInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
 
 export type StoreCreateOrConnectWithoutBranchesInput = {
@@ -902,9 +1065,22 @@ export type StoreUpdateWithoutBranchesInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreUncheckedUpdateWithoutBranchesInput = {
@@ -928,8 +1104,169 @@ export type StoreUncheckedUpdateWithoutBranchesInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
+};
+
+export type StoreCreateWithoutProductsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logo?: string | null;
+  banner?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
+  branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
+};
+
+export type StoreUncheckedCreateWithoutProductsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logo?: string | null;
+  banner?: string | null;
+  vendorId: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
+};
+
+export type StoreCreateOrConnectWithoutProductsInput = {
+  where: Prisma.StoreWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.StoreCreateWithoutProductsInput,
+    Prisma.StoreUncheckedCreateWithoutProductsInput
+  >;
+};
+
+export type StoreUpsertWithoutProductsInput = {
+  update: Prisma.XOR<
+    Prisma.StoreUpdateWithoutProductsInput,
+    Prisma.StoreUncheckedUpdateWithoutProductsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.StoreCreateWithoutProductsInput,
+    Prisma.StoreUncheckedCreateWithoutProductsInput
+  >;
+  where?: Prisma.StoreWhereInput;
+};
+
+export type StoreUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.StoreWhereInput;
+  data: Prisma.XOR<
+    Prisma.StoreUpdateWithoutProductsInput,
+    Prisma.StoreUncheckedUpdateWithoutProductsInput
+  >;
+};
+
+export type StoreUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
+  branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
+};
+
+export type StoreUncheckedUpdateWithoutProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  vendorId?: Prisma.StringFieldUpdateOperationsInput | string;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreCreateManyVendorInput = {
@@ -945,6 +1282,9 @@ export type StoreCreateManyVendorInput = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -969,9 +1309,22 @@ export type StoreUpdateWithoutVendorInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreUncheckedUpdateWithoutVendorInput = {
@@ -994,9 +1347,22 @@ export type StoreUncheckedUpdateWithoutVendorInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreUncheckedUpdateManyWithoutVendorInput = {
@@ -1019,6 +1385,18 @@ export type StoreUncheckedUpdateManyWithoutVendorInput = {
     | string
     | null;
   seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1029,6 +1407,7 @@ export type StoreUncheckedUpdateManyWithoutVendorInput = {
 
 export type StoreCountOutputType = {
   branches: number;
+  products: number;
 };
 
 export type StoreCountOutputTypeSelect<
@@ -1036,6 +1415,7 @@ export type StoreCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs
 > = {
   branches?: boolean | StoreCountOutputTypeCountBranchesArgs;
+  products?: boolean | StoreCountOutputTypeCountProductsArgs;
 };
 
 /**
@@ -1061,6 +1441,16 @@ export type StoreCountOutputTypeCountBranchesArgs<
   where?: Prisma.BranchWhereInput;
 };
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountProductsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  where?: Prisma.ProductWhereInput;
+};
+
 export type StoreSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
@@ -1079,10 +1469,14 @@ export type StoreSelect<
     seoTitle?: boolean;
     seoDescription?: boolean;
     seoKeywords?: boolean;
+    whatsappNumber?: boolean;
+    messengerLink?: boolean;
+    contactPhone?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     branches?: boolean | Prisma.Store$branchesArgs<ExtArgs>;
+    products?: boolean | Prisma.Store$productsArgs<ExtArgs>;
     _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["store"]
@@ -1106,6 +1500,9 @@ export type StoreSelectCreateManyAndReturn<
     seoTitle?: boolean;
     seoDescription?: boolean;
     seoKeywords?: boolean;
+    whatsappNumber?: boolean;
+    messengerLink?: boolean;
+    contactPhone?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -1131,6 +1528,9 @@ export type StoreSelectUpdateManyAndReturn<
     seoTitle?: boolean;
     seoDescription?: boolean;
     seoKeywords?: boolean;
+    whatsappNumber?: boolean;
+    messengerLink?: boolean;
+    contactPhone?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -1152,6 +1552,9 @@ export type StoreSelectScalar = {
   seoTitle?: boolean;
   seoDescription?: boolean;
   seoKeywords?: boolean;
+  whatsappNumber?: boolean;
+  messengerLink?: boolean;
+  contactPhone?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -1173,6 +1576,9 @@ export type StoreOmit<
   | "seoTitle"
   | "seoDescription"
   | "seoKeywords"
+  | "whatsappNumber"
+  | "messengerLink"
+  | "contactPhone"
   | "createdAt"
   | "updatedAt",
   ExtArgs["result"]["store"]
@@ -1183,6 +1589,7 @@ export type StoreInclude<
 > = {
   vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   branches?: boolean | Prisma.Store$branchesArgs<ExtArgs>;
+  products?: boolean | Prisma.Store$productsArgs<ExtArgs>;
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type StoreIncludeCreateManyAndReturn<
@@ -1206,6 +1613,7 @@ export type $StorePayload<
   objects: {
     vendor: Prisma.$UserPayload<ExtArgs>;
     branches: Prisma.$BranchPayload<ExtArgs>[];
+    products: Prisma.$ProductPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1222,6 +1630,9 @@ export type $StorePayload<
       seoTitle: string | null;
       seoDescription: string | null;
       seoKeywords: string | null;
+      whatsappNumber: string | null;
+      messengerLink: string | null;
+      contactPhone: string | null;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1799,6 +2210,17 @@ export interface Prisma__StoreClient<
       >
     | Null
   >;
+  products<T extends Prisma.Store$productsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Store$productsArgs<ExtArgs>>
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ProductPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1854,6 +2276,9 @@ export interface StoreFieldRefs {
   readonly seoTitle: Prisma.FieldRef<"Store", "String">;
   readonly seoDescription: Prisma.FieldRef<"Store", "String">;
   readonly seoKeywords: Prisma.FieldRef<"Store", "String">;
+  readonly whatsappNumber: Prisma.FieldRef<"Store", "String">;
+  readonly messengerLink: Prisma.FieldRef<"Store", "String">;
+  readonly contactPhone: Prisma.FieldRef<"Store", "String">;
   readonly createdAt: Prisma.FieldRef<"Store", "DateTime">;
   readonly updatedAt: Prisma.FieldRef<"Store", "DateTime">;
 }
@@ -2331,6 +2756,35 @@ export type Store$branchesArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.BranchScalarFieldEnum | Prisma.BranchScalarFieldEnum[];
+};
+
+/**
+ * Store.products
+ */
+export type Store$productsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the Product
+   */
+  select?: Prisma.ProductSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Product
+   */
+  omit?: Prisma.ProductOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null;
+  where?: Prisma.ProductWhereInput;
+  orderBy?:
+    | Prisma.ProductOrderByWithRelationInput
+    | Prisma.ProductOrderByWithRelationInput[];
+  cursor?: Prisma.ProductWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.ProductScalarFieldEnum | Prisma.ProductScalarFieldEnum[];
 };
 
 /**
