@@ -6,6 +6,7 @@ import { UploadRoutes } from "../modules/upload/upload.route.js";
 import { StoreRoutes } from "../modules/store/store.route.js";
 import { BranchRoutes } from "../modules/branch/branch.route.js";
 import { CategoryRoutes } from "../modules/category/category.route.js";
+import { BrandRoutes } from "../modules/brand/brand.route.js";
 
 const router = express.Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: "/categories",
     route: CategoryRoutes
+  },
+  {
+    path: "/brands",
+    route: BrandRoutes
   }
 ];
 
