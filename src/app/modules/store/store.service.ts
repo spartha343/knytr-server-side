@@ -176,10 +176,14 @@ const getMyStores = async (
   };
 };
 
-const getStoreById = async (id: string): Promise<Store | null> => {
-  const result = await prisma.store.findUnique({
+// Get public store by ID or slug (for public browsing)
+const getPublicStoreByIdOrSlug = async (
+  idOrSlug: string
+): Promise<Store | null> => {
+  // Try to find by ID first, then by slug
+  const result = await prisma.store.findFirst({
     where: {
-      id,
+      OR: [{ id: idOrSlug }, { slug: idOrSlug }],
       isDeleted: false
     },
     include: {
@@ -191,10 +195,6 @@ const getStoreById = async (id: string): Promise<Store | null> => {
       }
     }
   });
-
-  if (!result) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Store not found");
-  }
 
   return result;
 };
@@ -260,6 +260,18 @@ const updateStore = async (
     updateData.seoKeywords = payload.seoKeywords;
   }
 
+  if (payload.whatsappNumber !== undefined) {
+    updateData.whatsappNumber = payload.whatsappNumber;
+  }
+
+  if (payload.messengerLink !== undefined) {
+    updateData.messengerLink = payload.messengerLink;
+  }
+
+  if (payload.contactPhone !== undefined) {
+    updateData.contactPhone = payload.contactPhone;
+  }
+
   const result = await prisma.store.update({
     where: { id },
     data: updateData,
@@ -309,7 +321,7 @@ export const StoreService = {
   createStore,
   getAllStores,
   getMyStores,
-  getStoreById,
+  getPublicStoreByIdOrSlug,
   updateStore,
   deleteStore
 };

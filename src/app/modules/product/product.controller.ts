@@ -99,10 +99,29 @@ const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSimilarProducts = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 8;
+
+  if (!id) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Product ID is required");
+  }
+
+  const result = await ProductService.getSimilarProducts(id, limit);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Similar products retrieved successfully",
+    data: result
+  });
+});
+
 export const ProductController = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getSimilarProducts
 };

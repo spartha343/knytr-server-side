@@ -144,3 +144,13 @@ export type VariantAttribute = Prisma.VariantAttributeModel;
  *
  */
 export type Inventory = Prisma.InventoryModel;
+/**
+ * Model Cart
+ *
+ */
+export type Cart = Prisma.CartModel;
+/**
+ * Model CartItem
+ *
+ */
+export type CartItem = Prisma.CartItemModel;

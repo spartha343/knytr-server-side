@@ -8,11 +8,13 @@ import { requireRole } from "../../middlewares/requireRole";
 
 const router = express.Router();
 
-// Get all stores (Admin only)
+// ===== SPECIFIC ROUTES FIRST (before dynamic :idOrSlug) =====
+
+// ADMIN ONLY: Get all stores including inactive (protected route)
 router.get(
-  "/",
+  "/admin/all",
   verifyFirebaseAuth,
-  checkDBUser, // Add this
+  checkDBUser,
   requireRole("ADMIN", "SUPER_ADMIN"),
   StoreController.getAllStores
 );
@@ -21,24 +23,26 @@ router.get(
 router.get(
   "/my-stores",
   verifyFirebaseAuth,
-  checkDBUser, // Add this
+  checkDBUser,
   requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
   StoreController.getMyStores
 );
 
-// Get store by ID
-router.get(
-  "/:id",
-  verifyFirebaseAuth,
-  checkDBUser, // Add this
-  StoreController.getStoreById
-);
+// ===== PUBLIC ROUTES (No authentication) =====
+
+// Get all active stores (public browsing)
+router.get("/", StoreController.getPublicStores);
+
+// Get store by ID or slug (public)
+router.get("/:idOrSlug", StoreController.getPublicStoreByIdOrSlug);
+
+// ===== MUTATION ROUTES =====
 
 // Create store (Vendor only)
 router.post(
   "/",
   verifyFirebaseAuth,
-  checkDBUser, // Add this
+  checkDBUser,
   requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
   validateRequest(StoreValidation.create),
   StoreController.createStore
@@ -48,7 +52,7 @@ router.post(
 router.patch(
   "/:id",
   verifyFirebaseAuth,
-  checkDBUser, // Add this
+  checkDBUser,
   requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
   validateRequest(StoreValidation.update),
   StoreController.updateStore
@@ -58,7 +62,7 @@ router.patch(
 router.delete(
   "/:id",
   verifyFirebaseAuth,
-  checkDBUser, // Add this
+  checkDBUser,
   requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
   StoreController.deleteStore
 );

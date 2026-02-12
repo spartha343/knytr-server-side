@@ -427,10 +427,142 @@ const deleteProduct = async (id: string, userId: string): Promise<Product> => {
   return result;
 };
 
+const getSimilarProducts = async (
+  productId: string,
+  limit = 8
+): Promise<Product[]> => {
+  // Get the current product to know its category, brand, and store
+  const currentProduct = await prisma.product.findUnique({
+    where: { id: productId, isDeleted: false },
+    select: {
+      categoryId: true,
+      brandId: true,
+      storeId: true
+    }
+  });
+
+  if (!currentProduct) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Product not found");
+  }
+
+  const { categoryId, brandId, storeId } = currentProduct;
+
+  // Priority 1: Same category AND same brand (but different product)
+  let similarProducts = await prisma.product.findMany({
+    where: {
+      id: { not: productId }, // Exclude current product
+      categoryId,
+      brandId,
+      isDeleted: false,
+      isActive: true
+    },
+    include: {
+      category: true,
+      brand: true,
+      store: true,
+      media: {
+        where: { isPrimary: true },
+        take: 1
+      }
+    },
+    orderBy: [
+      { createdAt: "desc" } // Newer products first
+    ],
+    take: limit
+  });
+
+  // If not enough, add Priority 2: Same category only
+  if (similarProducts.length < limit) {
+    const sameCategoryProducts = await prisma.product.findMany({
+      where: {
+        id: {
+          not: productId,
+          notIn: similarProducts.map((p) => p.id) // Exclude already selected
+        },
+        categoryId,
+        isDeleted: false,
+        isActive: true
+      },
+      include: {
+        category: true,
+        brand: true,
+        store: true,
+        media: {
+          where: { isPrimary: true },
+          take: 1
+        }
+      },
+      orderBy: [{ createdAt: "desc" }],
+      take: limit - similarProducts.length
+    });
+
+    similarProducts = [...similarProducts, ...sameCategoryProducts];
+  }
+
+  // If still not enough, add Priority 3: Same brand only
+  if (similarProducts.length < limit && brandId) {
+    const sameBrandProducts = await prisma.product.findMany({
+      where: {
+        id: {
+          not: productId,
+          notIn: similarProducts.map((p) => p.id)
+        },
+        brandId,
+        isDeleted: false,
+        isActive: true
+      },
+      include: {
+        category: true,
+        brand: true,
+        store: true,
+        media: {
+          where: { isPrimary: true },
+          take: 1
+        }
+      },
+      orderBy: [{ createdAt: "desc" }],
+      take: limit - similarProducts.length
+    });
+
+    similarProducts = [...similarProducts, ...sameBrandProducts];
+  }
+
+  // If still not enough, add Priority 4: Same store (popular products)
+  if (similarProducts.length < limit) {
+    const sameStoreProducts = await prisma.product.findMany({
+      where: {
+        id: {
+          not: productId,
+          notIn: similarProducts.map((p) => p.id)
+        },
+        storeId,
+        isDeleted: false,
+        isActive: true
+      },
+      include: {
+        category: true,
+        brand: true,
+        store: true,
+        media: {
+          where: { isPrimary: true },
+          take: 1
+        }
+      },
+      orderBy: [{ createdAt: "desc" }],
+      take: limit - similarProducts.length
+    });
+
+    similarProducts = [...similarProducts, ...sameStoreProducts];
+  }
+
+  return similarProducts;
+};
+
 export const ProductService = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getSimilarProducts
 };

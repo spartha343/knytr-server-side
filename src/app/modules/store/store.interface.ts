@@ -12,6 +12,10 @@ export interface ICreateStoreRequest {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
+  // Contact fields (NEW)
+  whatsappNumber?: string;
+  messengerLink?: string;
+  contactPhone?: string;
 }
 
 export interface IUpdateStoreRequest {
@@ -23,4 +27,8 @@ export interface IUpdateStoreRequest {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
+  // Contact fields (NEW)
+  whatsappNumber?: string;
+  messengerLink?: string;
+  contactPhone?: string;
 }

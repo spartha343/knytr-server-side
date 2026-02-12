@@ -27,4 +27,6 @@ export type * from "./models/ProductAttribute.ts";
 export type * from "./models/ProductVariant.ts";
 export type * from "./models/VariantAttribute.ts";
 export type * from "./models/Inventory.ts";
+export type * from "./models/Cart.ts";
+export type * from "./models/CartItem.ts";
 export type * from "./commonInputTypes.ts";

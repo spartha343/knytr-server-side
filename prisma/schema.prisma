@@ -25,6 +25,7 @@ model User {
   stores                   Store[]
   categoryRequests         CategoryRequest[] @relation("RequestedCategories")
   reviewedCategoryRequests CategoryRequest[] @relation("ReviewedRequests")
+  cart                     Cart?
 
   @@map("users")
 }
@@ -280,6 +281,7 @@ model Product {
   variants          ProductVariant[]
   productAttributes ProductAttribute[]
   sections          ProductSection[]
+  cartItems         CartItem[]
 
   @@index([categoryId])
   @@index([brandId])
@@ -409,6 +411,7 @@ model ProductVariant {
   product           Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
   variantAttributes VariantAttribute[]
   inventories       Inventory[]
+  cartItems         CartItem[]
 
   @@index([productId])
   @@index([sku])
@@ -446,6 +449,44 @@ model Inventory {
   @@index([branchId])
   @@index([quantity])
   @@map("inventories")
+}
+
+model Cart {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  items CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("carts")
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  productId String
+  variantId String?
+  quantity  Int     @default(1)
+
+  // Price snapshot (in case product price changes later)
+  priceSnapshot Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@unique([cartId, productId, variantId])
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
 }
 
 enum UserStatus {

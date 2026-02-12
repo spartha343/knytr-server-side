@@ -198,6 +198,10 @@ export type UserWhereInput = {
   stores?: Prisma.StoreListRelationFilter;
   categoryRequests?: Prisma.CategoryRequestListRelationFilter;
   reviewedCategoryRequests?: Prisma.CategoryRequestListRelationFilter;
+  cart?: Prisma.XOR<
+    Prisma.CartNullableScalarRelationFilter,
+    Prisma.CartWhereInput
+  > | null;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -212,6 +216,7 @@ export type UserOrderByWithRelationInput = {
   stores?: Prisma.StoreOrderByRelationAggregateInput;
   categoryRequests?: Prisma.CategoryRequestOrderByRelationAggregateInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestOrderByRelationAggregateInput;
+  cart?: Prisma.CartOrderByWithRelationInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -230,6 +235,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     stores?: Prisma.StoreListRelationFilter;
     categoryRequests?: Prisma.CategoryRequestListRelationFilter;
     reviewedCategoryRequests?: Prisma.CategoryRequestListRelationFilter;
+    cart?: Prisma.XOR<
+      Prisma.CartNullableScalarRelationFilter,
+      Prisma.CartWhereInput
+    > | null;
   },
   "id" | "firebaseUid"
 >;
@@ -276,6 +285,7 @@ export type UserCreateInput = {
   stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -290,6 +300,7 @@ export type UserUncheckedCreateInput = {
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserUpdateInput = {
@@ -304,6 +315,7 @@ export type UserUpdateInput = {
   stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -318,6 +330,7 @@ export type UserUncheckedUpdateInput = {
   stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -532,6 +545,32 @@ export type UserUpdateOneWithoutReviewedCategoryRequestsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutCartInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutCartInput,
+    Prisma.UserUncheckedCreateWithoutCartInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutCartNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutCartInput,
+    Prisma.UserUncheckedCreateWithoutCartInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartInput;
+  upsert?: Prisma.UserUpsertWithoutCartInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutCartInput,
+      Prisma.UserUpdateWithoutCartInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutCartInput
+  >;
+};
+
 export type UserCreateWithoutUserRolesInput = {
   id?: string;
   email?: string | null;
@@ -543,6 +582,7 @@ export type UserCreateWithoutUserRolesInput = {
   stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutUserRolesInput = {
@@ -556,6 +596,7 @@ export type UserUncheckedCreateWithoutUserRolesInput = {
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutUserRolesInput = {
@@ -597,6 +638,7 @@ export type UserUpdateWithoutUserRolesInput = {
   stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutUserRolesInput = {
@@ -610,6 +652,7 @@ export type UserUncheckedUpdateWithoutUserRolesInput = {
   stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutRoleRequestsInput = {
@@ -623,6 +666,7 @@ export type UserCreateWithoutRoleRequestsInput = {
   stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutRoleRequestsInput = {
@@ -636,6 +680,7 @@ export type UserUncheckedCreateWithoutRoleRequestsInput = {
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutRoleRequestsInput = {
@@ -677,6 +722,7 @@ export type UserUpdateWithoutRoleRequestsInput = {
   stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRoleRequestsInput = {
@@ -690,6 +736,7 @@ export type UserUncheckedUpdateWithoutRoleRequestsInput = {
   stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutStoresInput = {
@@ -703,6 +750,7 @@ export type UserCreateWithoutStoresInput = {
   roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
   categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutStoresInput = {
@@ -716,6 +764,7 @@ export type UserUncheckedCreateWithoutStoresInput = {
   roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutStoresInput = {
@@ -757,6 +806,7 @@ export type UserUpdateWithoutStoresInput = {
   roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
   categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutStoresInput = {
@@ -770,6 +820,7 @@ export type UserUncheckedUpdateWithoutStoresInput = {
   roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserCreateWithoutCategoryRequestsInput = {
@@ -783,6 +834,7 @@ export type UserCreateWithoutCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
   stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutCategoryRequestsInput = {
@@ -796,6 +848,7 @@ export type UserUncheckedCreateWithoutCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutCategoryRequestsInput = {
@@ -817,6 +870,7 @@ export type UserCreateWithoutReviewedCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
   stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
+  cart?: Prisma.CartCreateNestedOneWithoutUserInput;
 };
 
 export type UserUncheckedCreateWithoutReviewedCategoryRequestsInput = {
@@ -830,6 +884,7 @@ export type UserUncheckedCreateWithoutReviewedCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
+  cart?: Prisma.CartUncheckedCreateNestedOneWithoutUserInput;
 };
 
 export type UserCreateOrConnectWithoutReviewedCategoryRequestsInput = {
@@ -871,6 +926,7 @@ export type UserUpdateWithoutCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
   stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutCategoryRequestsInput = {
@@ -884,6 +940,7 @@ export type UserUncheckedUpdateWithoutCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
   stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
   reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUpsertWithoutReviewedCategoryRequestsInput = {
@@ -917,6 +974,7 @@ export type UserUpdateWithoutReviewedCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
   stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
+  cart?: Prisma.CartUpdateOneWithoutUserNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutReviewedCategoryRequestsInput = {
@@ -930,6 +988,91 @@ export type UserUncheckedUpdateWithoutReviewedCategoryRequestsInput = {
   roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
   stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
   categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
+  cart?: Prisma.CartUncheckedUpdateOneWithoutUserNestedInput;
+};
+
+export type UserCreateWithoutCartInput = {
+  id?: string;
+  email?: string | null;
+  firebaseUid: string;
+  status?: $Enums.UserStatus;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput;
+  roleRequests?: Prisma.RoleRequestCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreCreateNestedManyWithoutVendorInput;
+  categoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutVendorInput;
+  reviewedCategoryRequests?: Prisma.CategoryRequestCreateNestedManyWithoutReviewerInput;
+};
+
+export type UserUncheckedCreateWithoutCartInput = {
+  id?: string;
+  email?: string | null;
+  firebaseUid: string;
+  status?: $Enums.UserStatus;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput;
+  roleRequests?: Prisma.RoleRequestUncheckedCreateNestedManyWithoutUserInput;
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutVendorInput;
+  categoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutVendorInput;
+  reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedCreateNestedManyWithoutReviewerInput;
+};
+
+export type UserCreateOrConnectWithoutCartInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutCartInput,
+    Prisma.UserUncheckedCreateWithoutCartInput
+  >;
+};
+
+export type UserUpsertWithoutCartInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutCartInput,
+    Prisma.UserUncheckedUpdateWithoutCartInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutCartInput,
+    Prisma.UserUncheckedCreateWithoutCartInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutCartInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutCartInput,
+    Prisma.UserUncheckedUpdateWithoutCartInput
+  >;
+};
+
+export type UserUpdateWithoutCartInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  firebaseUid?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput;
+  roleRequests?: Prisma.RoleRequestUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUpdateManyWithoutVendorNestedInput;
+  categoryRequests?: Prisma.CategoryRequestUpdateManyWithoutVendorNestedInput;
+  reviewedCategoryRequests?: Prisma.CategoryRequestUpdateManyWithoutReviewerNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutCartInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  firebaseUid?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput;
+  roleRequests?: Prisma.RoleRequestUncheckedUpdateManyWithoutUserNestedInput;
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutVendorNestedInput;
+  categoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutVendorNestedInput;
+  reviewedCategoryRequests?: Prisma.CategoryRequestUncheckedUpdateManyWithoutReviewerNestedInput;
 };
 
 /**
@@ -1038,6 +1181,7 @@ export type UserSelect<
     reviewedCategoryRequests?:
       | boolean
       | Prisma.User$reviewedCategoryRequestsArgs<ExtArgs>;
+    cart?: boolean | Prisma.User$cartArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["user"]
@@ -1100,6 +1244,7 @@ export type UserInclude<
   reviewedCategoryRequests?:
     | boolean
     | Prisma.User$reviewedCategoryRequestsArgs<ExtArgs>;
+  cart?: boolean | Prisma.User$cartArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -1122,6 +1267,7 @@ export type $UserPayload<
     stores: Prisma.$StorePayload<ExtArgs>[];
     categoryRequests: Prisma.$CategoryRequestPayload<ExtArgs>[];
     reviewedCategoryRequests: Prisma.$CategoryRequestPayload<ExtArgs>[];
+    cart: Prisma.$CartPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1737,6 +1883,19 @@ export interface Prisma__UserClient<
         GlobalOmitOptions
       >
     | Null
+  >;
+  cart<T extends Prisma.User$cartArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$cartArgs<ExtArgs>>
+  ): Prisma.Prisma__CartClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$CartPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
   >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2375,6 +2534,28 @@ export type User$reviewedCategoryRequestsArgs<
   distinct?:
     | Prisma.CategoryRequestScalarFieldEnum
     | Prisma.CategoryRequestScalarFieldEnum[];
+};
+
+/**
+ * User.cart
+ */
+export type User$cartArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the Cart
+   */
+  select?: Prisma.CartSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Cart
+   */
+  omit?: Prisma.CartOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartInclude<ExtArgs> | null;
+  where?: Prisma.CartWhereInput;
 };
 
 /**

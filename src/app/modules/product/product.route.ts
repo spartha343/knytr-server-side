@@ -11,6 +11,9 @@ const router = express.Router();
 // Get all products (Public)
 router.get("/", ProductController.getAllProducts);
 
+// Get similar products (public - at the top with other GET routes)
+router.get("/:id/similar", ProductController.getSimilarProducts);
+
 // Get product by ID (Public)
 router.get("/:id", ProductController.getProductById);
 

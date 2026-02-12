@@ -12,7 +12,29 @@ const create = z.object({
     banner: z.string().url().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
-    seoKeywords: z.string().optional()
+    seoKeywords: z.string().optional(),
+    // Contact fields (NEW)
+    whatsappNumber: z
+      .string()
+      .regex(
+        /^(\+8801|01)[3-9]\d{8}$/,
+        "Invalid Bangladesh phone number format"
+      )
+      .optional()
+      .or(z.literal("")),
+    messengerLink: z
+      .string()
+      .url("Invalid Messenger link")
+      .optional()
+      .or(z.literal("")),
+    contactPhone: z
+      .string()
+      .regex(
+        /^(\+8801|01)[3-9]\d{8}$/,
+        "Invalid Bangladesh phone number format"
+      )
+      .optional()
+      .or(z.literal(""))
   })
 });
 
@@ -25,7 +47,29 @@ const update = z.object({
     isActive: z.boolean().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
-    seoKeywords: z.string().optional()
+    seoKeywords: z.string().optional(),
+    // Contact fields (NEW)
+    whatsappNumber: z
+      .string()
+      .regex(
+        /^(\+8801|01)[3-9]\d{8}$/,
+        "Invalid Bangladesh phone number format"
+      )
+      .optional()
+      .or(z.literal("")),
+    messengerLink: z
+      .string()
+      .url("Invalid Messenger link")
+      .optional()
+      .or(z.literal("")),
+    contactPhone: z
+      .string()
+      .regex(
+        /^(\+8801|01)[3-9]\d{8}$/,
+        "Invalid Bangladesh phone number format"
+      )
+      .optional()
+      .or(z.literal(""))
   })
 });
 
