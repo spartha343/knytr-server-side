@@ -12,6 +12,7 @@ import { ProductRoutes } from "../modules/product/product.route.js";
 import { ProductVariantRoutes } from "../modules/productVariant/productVariant.route.js";
 import { InventoryRoutes } from "../modules/inventory/inventory.route.js";
 import { ProductMediaRoutes } from "../modules/productMedia/productMedia.route.js";
+import { CartRoutes } from "../modules/cart/cart.route.js";
 
 const router = express.Router();
 
@@ -67,6 +68,10 @@ const moduleRoutes = [
   {
     path: "/product-media",
     route: ProductMediaRoutes
+  },
+  {
+    path: "/cart",
+    route: CartRoutes
   }
 ];
 
