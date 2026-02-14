@@ -26,6 +26,7 @@ model User {
   categoryRequests         CategoryRequest[] @relation("RequestedCategories")
   reviewedCategoryRequests CategoryRequest[] @relation("ReviewedRequests")
   cart                     Cart?
+  orders                   Order[]
 
   @@map("users")
 }
@@ -89,6 +90,7 @@ model Store {
   whatsappNumber String? // Format: +8801XXXXXXXXX or 01XXXXXXXXX
   messengerLink  String? // Format: https://m.me/username or fb.com/username
   contactPhone   String? // Primary phone for customer contact
+  orders         Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -124,6 +126,8 @@ model Branch {
   store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
   address     Address?
   inventories Inventory[]
+  orderItems  OrderItem[]
+  orders      Order[]
 
   @@index([storeId])
   @@index([isDeleted])
@@ -244,7 +248,7 @@ model Brand {
 model Product {
   id          String  @id @default(uuid())
   name        String
-  slug        String  @unique
+  slug        String
   description String? @db.Text
 
   basePrice    Decimal  @db.Decimal(10, 2)
@@ -282,7 +286,9 @@ model Product {
   productAttributes ProductAttribute[]
   sections          ProductSection[]
   cartItems         CartItem[]
+  orderItems        OrderItem[]
 
+  @@unique([storeId, slug], name: "store_product_slug")
   @@index([categoryId])
   @@index([brandId])
   @@index([storeId])
@@ -412,6 +418,7 @@ model ProductVariant {
   variantAttributes VariantAttribute[]
   inventories       Inventory[]
   cartItems         CartItem[]
+  orderItems        OrderItem[]
 
   @@index([productId])
   @@index([sku])
@@ -487,6 +494,132 @@ model CartItem {
   @@index([cartId])
   @@index([productId])
   @@map("cart_items")
+}
+
+model Order {
+  id          String @id @default(uuid())
+  orderNumber String @unique // AUTO: ORD-{store-slug}-YYYYMMDD-0000001
+
+  // Customer Info (Phone is REQUIRED, rest optional)
+  customerPhone String // REQUIRED - for voice confirmation
+  customerName  String?
+  customerEmail String?
+
+  // Delivery Info
+  deliveryDistrict String?
+  policeStation    String?
+  deliveryArea     String?
+  deliveryAddress  String?
+  deliveryLocation DeliveryLocation // INSIDE_DHAKA or OUTSIDE_DHAKA
+  deliveryCharge   Decimal          @db.Decimal(10, 2) // 70 or 120 BDT based on location (configurable)
+
+  // Order Details
+  userId        String? // null for guest orders
+  storeId       String // Which store this order belongs to
+  status        OrderStatus   @default(PENDING)
+  paymentMethod PaymentMethod @default(COD)
+
+  // Pricing
+  subtotal      Decimal @db.Decimal(10, 2) // Sum of all items
+  totalDiscount Decimal @db.Decimal(10, 2) // Total savings
+  totalAmount   Decimal @db.Decimal(10, 2) // subtotal - totalDiscount + deliveryCharge
+
+  // Voice Confirmation
+  isVoiceConfirmed Boolean   @default(false)
+  voiceConfirmedAt DateTime?
+  voiceConfirmedBy String? // Vendor user ID
+
+  // Vendor Editing
+  isEditedByVendor Boolean   @default(false)
+  editedAt         DateTime?
+  editNotes        String?   @db.Text
+
+  // Branch Assignment
+  assignedBranchId String? // Which branch fulfills this order
+
+  // Pathao Integration
+  pathaoConsignmentId   String? // Pathao tracking number
+  pathaoStatus          String? // Delivery status from Pathao
+  estimatedDeliveryDate DateTime?
+  actualDeliveryDate    DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user           User?       @relation(fields: [userId], references: [id])
+  store          Store       @relation(fields: [storeId], references: [id])
+  assignedBranch Branch?     @relation(fields: [assignedBranchId], references: [id])
+  items          OrderItem[]
+
+  @@index([userId])
+  @@index([storeId])
+  @@index([status])
+  @@index([orderNumber])
+  @@index([customerPhone])
+  @@index([storeId, status])
+  @@index([userId, status])
+  @@index([storeId, createdAt])
+  @@index([createdAt])
+  @@index([assignedBranchId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  variantId String?
+  branchId  String? // Nullable - Vendor assigns this later
+
+  quantity Int
+  price    Decimal @db.Decimal(10, 2)
+  discount Decimal @default(0) @db.Decimal(10, 2) // Discount at time of order
+  total    Decimal @db.Decimal(10, 2) // (price - discount) * quantity
+
+  // Snapshot data (in case product/variant deleted)
+  productName  String
+  variantName  String?
+  productImage String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  order   Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+  branch  Branch?         @relation(fields: [branchId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([branchId])
+  @@map("order_items")
+}
+
+enum OrderStatus {
+  PENDING // Order created, inventory reserved, waiting vendor confirmation
+  CONFIRMED // Vendor confirmed order
+  PROCESSING // Vendor packaging for Pathao
+  READY_FOR_PICKUP // Ready, will auto-send Pathao request
+  SHIPPED // Given to Pathao worker
+  OUT_FOR_DELIVERY // Pathao webhook (future)
+  DELIVERED // Pathao webhook (future)
+  CANCELLED // Cancelled by customer/vendor
+  RETURNED // Customer returned (future)
+}
+
+enum DeliveryLocation {
+  INSIDE_DHAKA // 70 BDT delivery charge
+  OUTSIDE_DHAKA // 120 BDT delivery charge
+}
+
+enum PaymentMethod {
+  COD // Cash on Delivery (Phase 1)
+  BKASH // Future
+  NAGAD // Future
+  ROCKET // Future
 }
 
 enum UserStatus {

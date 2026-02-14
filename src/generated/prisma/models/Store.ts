@@ -289,6 +289,7 @@ export type StoreWhereInput = {
   contactPhone?: Prisma.StringNullableFilter<"Store"> | string | null;
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
+  orders?: Prisma.OrderListRelationFilter;
   vendor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   branches?: Prisma.BranchListRelationFilter;
   products?: Prisma.ProductListRelationFilter;
@@ -313,6 +314,7 @@ export type StoreOrderByWithRelationInput = {
   contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
+  orders?: Prisma.OrderOrderByRelationAggregateInput;
   vendor?: Prisma.UserOrderByWithRelationInput;
   branches?: Prisma.BranchOrderByRelationAggregateInput;
   products?: Prisma.ProductOrderByRelationAggregateInput;
@@ -341,6 +343,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<
     contactPhone?: Prisma.StringNullableFilter<"Store"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string;
+    orders?: Prisma.OrderListRelationFilter;
     vendor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     branches?: Prisma.BranchListRelationFilter;
     products?: Prisma.ProductListRelationFilter;
@@ -440,6 +443,7 @@ export type StoreCreateInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput;
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
   branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
@@ -464,6 +468,7 @@ export type StoreUncheckedCreateInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput;
   branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
@@ -502,6 +507,7 @@ export type StoreUpdateInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput;
   vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
   branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
@@ -542,6 +548,7 @@ export type StoreUncheckedUpdateInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput;
   branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
@@ -864,6 +871,32 @@ export type StoreUpdateOneRequiredWithoutProductsNestedInput = {
   >;
 };
 
+export type StoreCreateNestedOneWithoutOrdersInput = {
+  create?: Prisma.XOR<
+    Prisma.StoreCreateWithoutOrdersInput,
+    Prisma.StoreUncheckedCreateWithoutOrdersInput
+  >;
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutOrdersInput;
+  connect?: Prisma.StoreWhereUniqueInput;
+};
+
+export type StoreUpdateOneRequiredWithoutOrdersNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.StoreCreateWithoutOrdersInput,
+    Prisma.StoreUncheckedCreateWithoutOrdersInput
+  >;
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutOrdersInput;
+  upsert?: Prisma.StoreUpsertWithoutOrdersInput;
+  connect?: Prisma.StoreWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.StoreUpdateToOneWithWhereWithoutOrdersInput,
+      Prisma.StoreUpdateWithoutOrdersInput
+    >,
+    Prisma.StoreUncheckedUpdateWithoutOrdersInput
+  >;
+};
+
 export type StoreCreateWithoutVendorInput = {
   id?: string;
   name: string;
@@ -882,6 +915,7 @@ export type StoreCreateWithoutVendorInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput;
   branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
 };
@@ -904,6 +938,7 @@ export type StoreUncheckedCreateWithoutVendorInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput;
   branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
@@ -991,6 +1026,7 @@ export type StoreCreateWithoutBranchesInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput;
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
 };
@@ -1014,6 +1050,7 @@ export type StoreUncheckedCreateWithoutBranchesInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput;
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
 };
 
@@ -1079,6 +1116,7 @@ export type StoreUpdateWithoutBranchesInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput;
   vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
 };
@@ -1118,6 +1156,7 @@ export type StoreUncheckedUpdateWithoutBranchesInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput;
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
 
@@ -1139,6 +1178,7 @@ export type StoreCreateWithoutProductsInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput;
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
   branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
 };
@@ -1162,6 +1202,7 @@ export type StoreUncheckedCreateWithoutProductsInput = {
   contactPhone?: string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput;
   branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
 };
 
@@ -1227,6 +1268,7 @@ export type StoreUpdateWithoutProductsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput;
   vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
   branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
 };
@@ -1266,7 +1308,160 @@ export type StoreUncheckedUpdateWithoutProductsInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput;
   branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
+};
+
+export type StoreCreateWithoutOrdersInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logo?: string | null;
+  banner?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
+  branches?: Prisma.BranchCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput;
+};
+
+export type StoreUncheckedCreateWithoutOrdersInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logo?: string | null;
+  banner?: string | null;
+  vendorId: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  whatsappNumber?: string | null;
+  messengerLink?: string | null;
+  contactPhone?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  branches?: Prisma.BranchUncheckedCreateNestedManyWithoutStoreInput;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput;
+};
+
+export type StoreCreateOrConnectWithoutOrdersInput = {
+  where: Prisma.StoreWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.StoreCreateWithoutOrdersInput,
+    Prisma.StoreUncheckedCreateWithoutOrdersInput
+  >;
+};
+
+export type StoreUpsertWithoutOrdersInput = {
+  update: Prisma.XOR<
+    Prisma.StoreUpdateWithoutOrdersInput,
+    Prisma.StoreUncheckedUpdateWithoutOrdersInput
+  >;
+  create: Prisma.XOR<
+    Prisma.StoreCreateWithoutOrdersInput,
+    Prisma.StoreUncheckedCreateWithoutOrdersInput
+  >;
+  where?: Prisma.StoreWhereInput;
+};
+
+export type StoreUpdateToOneWithWhereWithoutOrdersInput = {
+  where?: Prisma.StoreWhereInput;
+  data: Prisma.XOR<
+    Prisma.StoreUpdateWithoutOrdersInput,
+    Prisma.StoreUncheckedUpdateWithoutOrdersInput
+  >;
+};
+
+export type StoreUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  vendor?: Prisma.UserUpdateOneRequiredWithoutStoresNestedInput;
+  branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
+};
+
+export type StoreUncheckedUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  vendorId?: Prisma.StringFieldUpdateOperationsInput | string;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  seoDescription?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  seoKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  whatsappNumber?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  messengerLink?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
 
 export type StoreCreateManyVendorInput = {
@@ -1323,6 +1518,7 @@ export type StoreUpdateWithoutVendorInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput;
   branches?: Prisma.BranchUpdateManyWithoutStoreNestedInput;
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput;
 };
@@ -1361,6 +1557,7 @@ export type StoreUncheckedUpdateWithoutVendorInput = {
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput;
   branches?: Prisma.BranchUncheckedUpdateManyWithoutStoreNestedInput;
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput;
 };
@@ -1406,6 +1603,7 @@ export type StoreUncheckedUpdateManyWithoutVendorInput = {
  */
 
 export type StoreCountOutputType = {
+  orders: number;
   branches: number;
   products: number;
 };
@@ -1414,6 +1612,7 @@ export type StoreCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
 > = {
+  orders?: boolean | StoreCountOutputTypeCountOrdersArgs;
   branches?: boolean | StoreCountOutputTypeCountBranchesArgs;
   products?: boolean | StoreCountOutputTypeCountProductsArgs;
 };
@@ -1429,6 +1628,16 @@ export type StoreCountOutputTypeDefaultArgs<
    * Select specific fields to fetch from the StoreCountOutputType
    */
   select?: Prisma.StoreCountOutputTypeSelect<ExtArgs> | null;
+};
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountOrdersArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  where?: Prisma.OrderWhereInput;
 };
 
 /**
@@ -1474,6 +1683,7 @@ export type StoreSelect<
     contactPhone?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
+    orders?: boolean | Prisma.Store$ordersArgs<ExtArgs>;
     vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     branches?: boolean | Prisma.Store$branchesArgs<ExtArgs>;
     products?: boolean | Prisma.Store$productsArgs<ExtArgs>;
@@ -1587,6 +1797,7 @@ export type StoreInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs
 > = {
+  orders?: boolean | Prisma.Store$ordersArgs<ExtArgs>;
   vendor?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   branches?: boolean | Prisma.Store$branchesArgs<ExtArgs>;
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>;
@@ -1611,6 +1822,7 @@ export type $StorePayload<
 > = {
   name: "Store";
   objects: {
+    orders: Prisma.$OrderPayload<ExtArgs>[];
     vendor: Prisma.$UserPayload<ExtArgs>;
     branches: Prisma.$BranchPayload<ExtArgs>[];
     products: Prisma.$ProductPayload<ExtArgs>[];
@@ -2185,6 +2397,17 @@ export interface Prisma__StoreClient<
   GlobalOmitOptions = {}
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise";
+  orders<T extends Prisma.Store$ordersArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Store$ordersArgs<ExtArgs>>
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$OrderPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   vendor<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>
   ): Prisma.Prisma__UserClient<
@@ -2727,6 +2950,35 @@ export type StoreDeleteManyArgs<
    * Limit how many Stores to delete.
    */
   limit?: number;
+};
+
+/**
+ * Store.orders
+ */
+export type Store$ordersArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null;
+  where?: Prisma.OrderWhereInput;
+  orderBy?:
+    | Prisma.OrderOrderByWithRelationInput
+    | Prisma.OrderOrderByWithRelationInput[];
+  cursor?: Prisma.OrderWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[];
 };
 
 /**

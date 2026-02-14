@@ -55,6 +55,31 @@ const getProductById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getProductByStoreAndSlug = catchAsync(
+  async (req: Request, res: Response) => {
+    const { storeSlug, productSlug } = req.params;
+
+    if (!storeSlug || !productSlug) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Store slug and product slug are required"
+      );
+    }
+
+    const result = await ProductService.getProductByStoreAndSlug(
+      storeSlug,
+      productSlug
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Product retrieved successfully",
+      data: result
+    });
+  }
+);
+
 const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.dbUser?.id;
@@ -121,6 +146,7 @@ export const ProductController = {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductByStoreAndSlug,
   updateProduct,
   deleteProduct,
   getSimilarProducts

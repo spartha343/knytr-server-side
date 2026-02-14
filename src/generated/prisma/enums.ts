@@ -8,6 +8,37 @@
  * 🟢 You can import this file directly.
  */
 
+export const OrderStatus = {
+  PENDING: "PENDING",
+  CONFIRMED: "CONFIRMED",
+  PROCESSING: "PROCESSING",
+  READY_FOR_PICKUP: "READY_FOR_PICKUP",
+  SHIPPED: "SHIPPED",
+  OUT_FOR_DELIVERY: "OUT_FOR_DELIVERY",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
+  RETURNED: "RETURNED"
+} as const;
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
+
+export const DeliveryLocation = {
+  INSIDE_DHAKA: "INSIDE_DHAKA",
+  OUTSIDE_DHAKA: "OUTSIDE_DHAKA"
+} as const;
+
+export type DeliveryLocation =
+  (typeof DeliveryLocation)[keyof typeof DeliveryLocation];
+
+export const PaymentMethod = {
+  COD: "COD",
+  BKASH: "BKASH",
+  NAGAD: "NAGAD",
+  ROCKET: "ROCKET"
+} as const;
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod];
+
 export const UserStatus = {
   ACTIVE: "ACTIVE",
   INACTIVE: "INACTIVE",

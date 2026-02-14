@@ -7,6 +7,7 @@ export const cartRelations = {
             id: true,
             name: true,
             slug: true,
+            storeId: true,
             basePrice: true,
             comparePrice: true,
             isDeleted: true,

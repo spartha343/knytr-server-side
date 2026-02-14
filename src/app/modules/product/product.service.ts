@@ -17,7 +17,7 @@ import type { IPaginationOptions } from "../../../interfaces/pagination";
 import type { IGenericResponse } from "../../../interfaces/common";
 
 // Helper: Generate unique slug
-const generateSlug = async (name: string): Promise<string> => {
+const generateSlug = async (name: string, storeId: string): Promise<string> => {
   let slug = name
     .toLowerCase()
     .replace(/[^\w\s-]/g, "")
@@ -25,13 +25,17 @@ const generateSlug = async (name: string): Promise<string> => {
     .replace(/-+/g, "-")
     .trim();
 
-  // Check if slug exists
-  const existingProduct = await prisma.product.findUnique({
-    where: { slug, isDeleted: false }
+  // Check if slug exists in this store
+  const existingProduct = await prisma.product.findFirst({
+    where: {
+      storeId,
+      slug,
+      isDeleted: false
+    }
   });
 
   if (existingProduct) {
-    // Add random suffix
+    // Add timestamp suffix
     slug = `${slug}-${Date.now()}`;
   }
 
@@ -77,7 +81,7 @@ const createProduct = async (
   }
 
   // Generate slug
-  const slug = await generateSlug(payload.name);
+  const slug = await generateSlug(payload.name, payload.storeId);
 
   // Extract attributeIds from payload
   const { attributeIds, ...productData } = payload;
@@ -168,10 +172,16 @@ const getAllProducts = async (
           ? productRelationalFieldsMapper[key]
           : key;
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let value = (filterData as any)[key];
+
+        // Convert string booleans to actual booleans
+        if (value === "true") value = true;
+        if (value === "false") value = false;
+
         return {
           [mappedKey as string]: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            equals: (filterData as any)[key]
+            equals: value
           }
         } as Prisma.ProductWhereInput;
       })
@@ -314,6 +324,113 @@ const getProductById = async (id: string): Promise<Product | null> => {
   return result;
 };
 
+const getProductByStoreAndSlug = async (
+  storeSlug: string,
+  productSlug: string
+): Promise<Product | null> => {
+  // First, find the store by slug
+  const store = await prisma.store.findUnique({
+    where: {
+      slug: storeSlug,
+      isDeleted: false
+    }
+  });
+
+  if (!store) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      `Store not found with slug: ${storeSlug}`
+    );
+  }
+
+  // Then find the product by storeId and slug
+  const result = await prisma.product.findFirst({
+    where: {
+      storeId: store.id,
+      slug: productSlug,
+      isDeleted: false,
+      isPublished: true, // Only show published products on public pages,
+      isActive: true
+    },
+    include: {
+      category: true,
+      brand: true,
+      store: {
+        include: {
+          branches: {
+            where: { isDeleted: false, isActive: true },
+            select: {
+              id: true,
+              name: true,
+              contactPhone: true
+            }
+          }
+        }
+      },
+      media: {
+        orderBy: {
+          order: "asc"
+        }
+      },
+      productAttributes: {
+        include: {
+          attribute: {
+            include: {
+              values: true
+            }
+          }
+        }
+      },
+      variants: {
+        where: { isActive: true },
+        include: {
+          variantAttributes: {
+            include: {
+              attributeValue: {
+                include: {
+                  attribute: true
+                }
+              }
+            }
+          },
+          inventories: {
+            include: {
+              branch: {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      },
+      sections: {
+        where: { isVisible: true },
+        orderBy: {
+          order: "asc"
+        },
+        include: {
+          items: {
+            orderBy: {
+              order: "asc"
+            }
+          }
+        }
+      }
+    }
+  });
+
+  if (!result) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      `Product not found with slug: ${productSlug} in store: ${storeSlug}`
+    );
+  }
+
+  return result;
+};
+
 const updateProduct = async (
   id: string,
   userId: string,
@@ -366,8 +483,23 @@ const updateProduct = async (
   const updateData: any = { ...payload };
 
   if (payload.name && payload.name !== existingProduct.name) {
-    updateData.slug = await generateSlug(payload.name);
+    updateData.slug = await generateSlug(payload.name, existingProduct.storeId);
   }
+
+  // Remove nested objects and read-only fields that Prisma doesn't accept in update
+  delete updateData.id;
+  delete updateData.category;
+  delete updateData.brand;
+  delete updateData.store;
+  delete updateData.media;
+  delete updateData.productAttributes;
+  delete updateData.variants;
+  delete updateData.sections;
+  delete updateData.cartItems;
+  delete updateData.orderItems;
+  delete updateData.createdAt;
+  delete updateData.updatedAt;
+  delete updateData.deletedAt;
 
   const result = await prisma.product.update({
     where: { id },
@@ -562,6 +694,7 @@ export const ProductService = {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductByStoreAndSlug,
   updateProduct,
   deleteProduct,
   getSimilarProducts

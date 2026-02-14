@@ -11,6 +11,12 @@ const router = express.Router();
 // Get all products (Public)
 router.get("/", ProductController.getAllProducts);
 
+// Get product by store slug and product slug (Public) - Must be before /:id route
+router.get(
+  "/store/:storeSlug/product/:productSlug",
+  ProductController.getProductByStoreAndSlug
+);
+
 // Get similar products (public - at the top with other GET routes)
 router.get("/:id/similar", ProductController.getSimilarProducts);
 

@@ -75,7 +75,9 @@ export const ModelName = {
   VariantAttribute: "VariantAttribute",
   Inventory: "Inventory",
   Cart: "Cart",
-  CartItem: "CartItem"
+  CartItem: "CartItem",
+  Order: "Order",
+  OrderItem: "OrderItem"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -412,6 +414,63 @@ export const CartItemScalarFieldEnum = {
 
 export type CartItemScalarFieldEnum =
   (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum];
+
+export const OrderScalarFieldEnum = {
+  id: "id",
+  orderNumber: "orderNumber",
+  customerPhone: "customerPhone",
+  customerName: "customerName",
+  customerEmail: "customerEmail",
+  deliveryDistrict: "deliveryDistrict",
+  policeStation: "policeStation",
+  deliveryArea: "deliveryArea",
+  deliveryAddress: "deliveryAddress",
+  deliveryLocation: "deliveryLocation",
+  deliveryCharge: "deliveryCharge",
+  userId: "userId",
+  storeId: "storeId",
+  status: "status",
+  paymentMethod: "paymentMethod",
+  subtotal: "subtotal",
+  totalDiscount: "totalDiscount",
+  totalAmount: "totalAmount",
+  isVoiceConfirmed: "isVoiceConfirmed",
+  voiceConfirmedAt: "voiceConfirmedAt",
+  voiceConfirmedBy: "voiceConfirmedBy",
+  isEditedByVendor: "isEditedByVendor",
+  editedAt: "editedAt",
+  editNotes: "editNotes",
+  assignedBranchId: "assignedBranchId",
+  pathaoConsignmentId: "pathaoConsignmentId",
+  pathaoStatus: "pathaoStatus",
+  estimatedDeliveryDate: "estimatedDeliveryDate",
+  actualDeliveryDate: "actualDeliveryDate",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type OrderScalarFieldEnum =
+  (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum];
+
+export const OrderItemScalarFieldEnum = {
+  id: "id",
+  orderId: "orderId",
+  productId: "productId",
+  variantId: "variantId",
+  branchId: "branchId",
+  quantity: "quantity",
+  price: "price",
+  discount: "discount",
+  total: "total",
+  productName: "productName",
+  variantName: "variantName",
+  productImage: "productImage",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type OrderItemScalarFieldEnum =
+  (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",
