@@ -17,9 +17,6 @@ export interface ICreateOrderRequest {
   customerEmail?: string;
 
   // Delivery Info
-  policeStation?: string;
-  deliveryDistrict?: string;
-  deliveryArea?: string;
   deliveryAddress?: string;
   deliveryLocation: DeliveryLocation;
 
@@ -31,21 +28,41 @@ export interface ICreateOrderRequest {
   items: ICreateOrderItem[];
 }
 
+export interface IUpdateOrderItem {
+  id?: string; // If editing existing item
+  productId: string;
+  variantId?: string;
+  quantity: number;
+  priceOverride?: number; // Vendor can override price for this order
+}
+
 export interface IUpdateOrderRequest {
+  // Customer Info
   customerPhone?: string;
   customerName?: string;
   customerEmail?: string;
-  policeStation?: string;
-  deliveryDistrict?: string;
-  deliveryArea?: string;
+  secondaryPhone?: string;
+  specialInstructions?: string;
+
+  // Delivery Info
   deliveryAddress?: string;
   deliveryLocation?: DeliveryLocation;
+  recipientCityId?: number;
+  recipientZoneId?: number;
+  recipientAreaId?: number;
+
+  // Items (if provided, will replace all items)
+  items?: IUpdateOrderItem[];
+
+  // Override delivery charge
+  deliveryChargeOverride?: number;
+
+  // Notes about edits
   editNotes?: string;
 }
 
 export interface IUpdateOrderStatusRequest {
   status: OrderStatus;
-  editNotes?: string;
 }
 
 export interface IAssignBranchToItemRequest {
@@ -59,5 +76,4 @@ export interface IOrderFilterRequest {
   userId?: string;
   paymentMethod?: PaymentMethod;
   deliveryLocation?: DeliveryLocation;
-  isVoiceConfirmed?: boolean;
 }

@@ -234,6 +234,14 @@ export type BranchWhereInput = {
   inventories?: Prisma.InventoryListRelationFilter;
   orderItems?: Prisma.OrderItemListRelationFilter;
   orders?: Prisma.OrderListRelationFilter;
+  pathaoStore?: Prisma.XOR<
+    Prisma.PathaoStoreNullableScalarRelationFilter,
+    Prisma.PathaoStoreWhereInput
+  > | null;
+  pathaoCredentials?: Prisma.XOR<
+    Prisma.PathaoCredentialNullableScalarRelationFilter,
+    Prisma.PathaoCredentialWhereInput
+  > | null;
 };
 
 export type BranchOrderByWithRelationInput = {
@@ -252,6 +260,8 @@ export type BranchOrderByWithRelationInput = {
   inventories?: Prisma.InventoryOrderByRelationAggregateInput;
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput;
   orders?: Prisma.OrderOrderByRelationAggregateInput;
+  pathaoStore?: Prisma.PathaoStoreOrderByWithRelationInput;
+  pathaoCredentials?: Prisma.PathaoCredentialOrderByWithRelationInput;
 };
 
 export type BranchWhereUniqueInput = Prisma.AtLeast<
@@ -280,6 +290,14 @@ export type BranchWhereUniqueInput = Prisma.AtLeast<
     inventories?: Prisma.InventoryListRelationFilter;
     orderItems?: Prisma.OrderItemListRelationFilter;
     orders?: Prisma.OrderListRelationFilter;
+    pathaoStore?: Prisma.XOR<
+      Prisma.PathaoStoreNullableScalarRelationFilter,
+      Prisma.PathaoStoreWhereInput
+    > | null;
+    pathaoCredentials?: Prisma.XOR<
+      Prisma.PathaoCredentialNullableScalarRelationFilter,
+      Prisma.PathaoCredentialWhereInput
+    > | null;
   },
   "id"
 >;
@@ -345,6 +363,8 @@ export type BranchCreateInput = {
   inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateInput = {
@@ -362,6 +382,8 @@ export type BranchUncheckedCreateInput = {
   inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUpdateInput = {
@@ -389,6 +411,8 @@ export type BranchUpdateInput = {
   inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateInput = {
@@ -416,6 +440,8 @@ export type BranchUncheckedUpdateInput = {
   inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchCreateManyInput = {
@@ -729,6 +755,58 @@ export type BranchUpdateOneWithoutOrderItemsNestedInput = {
   >;
 };
 
+export type BranchCreateNestedOneWithoutPathaoCredentialsInput = {
+  create?: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoCredentialsInput
+  >;
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutPathaoCredentialsInput;
+  connect?: Prisma.BranchWhereUniqueInput;
+};
+
+export type BranchUpdateOneRequiredWithoutPathaoCredentialsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoCredentialsInput
+  >;
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutPathaoCredentialsInput;
+  upsert?: Prisma.BranchUpsertWithoutPathaoCredentialsInput;
+  connect?: Prisma.BranchWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.BranchUpdateToOneWithWhereWithoutPathaoCredentialsInput,
+      Prisma.BranchUpdateWithoutPathaoCredentialsInput
+    >,
+    Prisma.BranchUncheckedUpdateWithoutPathaoCredentialsInput
+  >;
+};
+
+export type BranchCreateNestedOneWithoutPathaoStoreInput = {
+  create?: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoStoreInput
+  >;
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutPathaoStoreInput;
+  connect?: Prisma.BranchWhereUniqueInput;
+};
+
+export type BranchUpdateOneRequiredWithoutPathaoStoreNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoStoreInput
+  >;
+  connectOrCreate?: Prisma.BranchCreateOrConnectWithoutPathaoStoreInput;
+  upsert?: Prisma.BranchUpsertWithoutPathaoStoreInput;
+  connect?: Prisma.BranchWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.BranchUpdateToOneWithWhereWithoutPathaoStoreInput,
+      Prisma.BranchUpdateWithoutPathaoStoreInput
+    >,
+    Prisma.BranchUncheckedUpdateWithoutPathaoStoreInput
+  >;
+};
+
 export type BranchCreateWithoutStoreInput = {
   id?: string;
   name: string;
@@ -743,6 +821,8 @@ export type BranchCreateWithoutStoreInput = {
   inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateWithoutStoreInput = {
@@ -759,6 +839,8 @@ export type BranchUncheckedCreateWithoutStoreInput = {
   inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchCreateOrConnectWithoutStoreInput = {
@@ -832,6 +914,8 @@ export type BranchCreateWithoutAddressInput = {
   inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateWithoutAddressInput = {
@@ -848,6 +932,8 @@ export type BranchUncheckedCreateWithoutAddressInput = {
   inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchCreateOrConnectWithoutAddressInput = {
@@ -902,6 +988,8 @@ export type BranchUpdateWithoutAddressInput = {
   inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateWithoutAddressInput = {
@@ -928,6 +1016,8 @@ export type BranchUncheckedUpdateWithoutAddressInput = {
   inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchCreateWithoutInventoriesInput = {
@@ -944,6 +1034,8 @@ export type BranchCreateWithoutInventoriesInput = {
   address?: Prisma.AddressCreateNestedOneWithoutBranchInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateWithoutInventoriesInput = {
@@ -960,6 +1052,8 @@ export type BranchUncheckedCreateWithoutInventoriesInput = {
   address?: Prisma.AddressUncheckedCreateNestedOneWithoutBranchInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchCreateOrConnectWithoutInventoriesInput = {
@@ -1014,6 +1108,8 @@ export type BranchUpdateWithoutInventoriesInput = {
   address?: Prisma.AddressUpdateOneWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateWithoutInventoriesInput = {
@@ -1040,6 +1136,8 @@ export type BranchUncheckedUpdateWithoutInventoriesInput = {
   address?: Prisma.AddressUncheckedUpdateOneWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchCreateWithoutOrdersInput = {
@@ -1056,6 +1154,8 @@ export type BranchCreateWithoutOrdersInput = {
   address?: Prisma.AddressCreateNestedOneWithoutBranchInput;
   inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateWithoutOrdersInput = {
@@ -1072,6 +1172,8 @@ export type BranchUncheckedCreateWithoutOrdersInput = {
   address?: Prisma.AddressUncheckedCreateNestedOneWithoutBranchInput;
   inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchCreateOrConnectWithoutOrdersInput = {
@@ -1126,6 +1228,8 @@ export type BranchUpdateWithoutOrdersInput = {
   address?: Prisma.AddressUpdateOneWithoutBranchNestedInput;
   inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateWithoutOrdersInput = {
@@ -1152,6 +1256,8 @@ export type BranchUncheckedUpdateWithoutOrdersInput = {
   address?: Prisma.AddressUncheckedUpdateOneWithoutBranchNestedInput;
   inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchCreateWithoutOrderItemsInput = {
@@ -1168,6 +1274,8 @@ export type BranchCreateWithoutOrderItemsInput = {
   address?: Prisma.AddressCreateNestedOneWithoutBranchInput;
   inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchUncheckedCreateWithoutOrderItemsInput = {
@@ -1184,6 +1292,8 @@ export type BranchUncheckedCreateWithoutOrderItemsInput = {
   address?: Prisma.AddressUncheckedCreateNestedOneWithoutBranchInput;
   inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
 };
 
 export type BranchCreateOrConnectWithoutOrderItemsInput = {
@@ -1238,6 +1348,8 @@ export type BranchUpdateWithoutOrderItemsInput = {
   address?: Prisma.AddressUpdateOneWithoutBranchNestedInput;
   inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateWithoutOrderItemsInput = {
@@ -1264,6 +1376,248 @@ export type BranchUncheckedUpdateWithoutOrderItemsInput = {
   address?: Prisma.AddressUncheckedUpdateOneWithoutBranchNestedInput;
   inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
+};
+
+export type BranchCreateWithoutPathaoCredentialsInput = {
+  id?: string;
+  name: string;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  store: Prisma.StoreCreateNestedOneWithoutBranchesInput;
+  address?: Prisma.AddressCreateNestedOneWithoutBranchInput;
+  inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreCreateNestedOneWithoutBranchInput;
+};
+
+export type BranchUncheckedCreateWithoutPathaoCredentialsInput = {
+  id?: string;
+  name: string;
+  storeId: string;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  address?: Prisma.AddressUncheckedCreateNestedOneWithoutBranchInput;
+  inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedCreateNestedOneWithoutBranchInput;
+};
+
+export type BranchCreateOrConnectWithoutPathaoCredentialsInput = {
+  where: Prisma.BranchWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoCredentialsInput
+  >;
+};
+
+export type BranchUpsertWithoutPathaoCredentialsInput = {
+  update: Prisma.XOR<
+    Prisma.BranchUpdateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedUpdateWithoutPathaoCredentialsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoCredentialsInput
+  >;
+  where?: Prisma.BranchWhereInput;
+};
+
+export type BranchUpdateToOneWithWhereWithoutPathaoCredentialsInput = {
+  where?: Prisma.BranchWhereInput;
+  data: Prisma.XOR<
+    Prisma.BranchUpdateWithoutPathaoCredentialsInput,
+    Prisma.BranchUncheckedUpdateWithoutPathaoCredentialsInput
+  >;
+};
+
+export type BranchUpdateWithoutPathaoCredentialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  store?: Prisma.StoreUpdateOneRequiredWithoutBranchesNestedInput;
+  address?: Prisma.AddressUpdateOneWithoutBranchNestedInput;
+  inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
+  orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+};
+
+export type BranchUncheckedUpdateWithoutPathaoCredentialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  address?: Prisma.AddressUncheckedUpdateOneWithoutBranchNestedInput;
+  inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+};
+
+export type BranchCreateWithoutPathaoStoreInput = {
+  id?: string;
+  name: string;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  store: Prisma.StoreCreateNestedOneWithoutBranchesInput;
+  address?: Prisma.AddressCreateNestedOneWithoutBranchInput;
+  inventories?: Prisma.InventoryCreateNestedManyWithoutBranchInput;
+  orderItems?: Prisma.OrderItemCreateNestedManyWithoutBranchInput;
+  orders?: Prisma.OrderCreateNestedManyWithoutAssignedBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialCreateNestedOneWithoutBranchInput;
+};
+
+export type BranchUncheckedCreateWithoutPathaoStoreInput = {
+  id?: string;
+  name: string;
+  storeId: string;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  address?: Prisma.AddressUncheckedCreateNestedOneWithoutBranchInput;
+  inventories?: Prisma.InventoryUncheckedCreateNestedManyWithoutBranchInput;
+  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutBranchInput;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAssignedBranchInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedCreateNestedOneWithoutBranchInput;
+};
+
+export type BranchCreateOrConnectWithoutPathaoStoreInput = {
+  where: Prisma.BranchWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoStoreInput
+  >;
+};
+
+export type BranchUpsertWithoutPathaoStoreInput = {
+  update: Prisma.XOR<
+    Prisma.BranchUpdateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedUpdateWithoutPathaoStoreInput
+  >;
+  create: Prisma.XOR<
+    Prisma.BranchCreateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedCreateWithoutPathaoStoreInput
+  >;
+  where?: Prisma.BranchWhereInput;
+};
+
+export type BranchUpdateToOneWithWhereWithoutPathaoStoreInput = {
+  where?: Prisma.BranchWhereInput;
+  data: Prisma.XOR<
+    Prisma.BranchUpdateWithoutPathaoStoreInput,
+    Prisma.BranchUncheckedUpdateWithoutPathaoStoreInput
+  >;
+};
+
+export type BranchUpdateWithoutPathaoStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  store?: Prisma.StoreUpdateOneRequiredWithoutBranchesNestedInput;
+  address?: Prisma.AddressUpdateOneWithoutBranchNestedInput;
+  inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
+  orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
+  orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
+};
+
+export type BranchUncheckedUpdateWithoutPathaoStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  contactPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  contactEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  deletedAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  address?: Prisma.AddressUncheckedUpdateOneWithoutBranchNestedInput;
+  inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
+  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchCreateManyStoreInput = {
@@ -1302,6 +1656,8 @@ export type BranchUpdateWithoutStoreInput = {
   inventories?: Prisma.InventoryUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateWithoutStoreInput = {
@@ -1328,6 +1684,8 @@ export type BranchUncheckedUpdateWithoutStoreInput = {
   inventories?: Prisma.InventoryUncheckedUpdateManyWithoutBranchNestedInput;
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutBranchNestedInput;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAssignedBranchNestedInput;
+  pathaoStore?: Prisma.PathaoStoreUncheckedUpdateOneWithoutBranchNestedInput;
+  pathaoCredentials?: Prisma.PathaoCredentialUncheckedUpdateOneWithoutBranchNestedInput;
 };
 
 export type BranchUncheckedUpdateManyWithoutStoreInput = {
@@ -1434,6 +1792,8 @@ export type BranchSelect<
     inventories?: boolean | Prisma.Branch$inventoriesArgs<ExtArgs>;
     orderItems?: boolean | Prisma.Branch$orderItemsArgs<ExtArgs>;
     orders?: boolean | Prisma.Branch$ordersArgs<ExtArgs>;
+    pathaoStore?: boolean | Prisma.Branch$pathaoStoreArgs<ExtArgs>;
+    pathaoCredentials?: boolean | Prisma.Branch$pathaoCredentialsArgs<ExtArgs>;
     _count?: boolean | Prisma.BranchCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["branch"]
@@ -1517,6 +1877,8 @@ export type BranchInclude<
   inventories?: boolean | Prisma.Branch$inventoriesArgs<ExtArgs>;
   orderItems?: boolean | Prisma.Branch$orderItemsArgs<ExtArgs>;
   orders?: boolean | Prisma.Branch$ordersArgs<ExtArgs>;
+  pathaoStore?: boolean | Prisma.Branch$pathaoStoreArgs<ExtArgs>;
+  pathaoCredentials?: boolean | Prisma.Branch$pathaoCredentialsArgs<ExtArgs>;
   _count?: boolean | Prisma.BranchCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type BranchIncludeCreateManyAndReturn<
@@ -1543,6 +1905,8 @@ export type $BranchPayload<
     inventories: Prisma.$InventoryPayload<ExtArgs>[];
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[];
     orders: Prisma.$OrderPayload<ExtArgs>[];
+    pathaoStore: Prisma.$PathaoStorePayload<ExtArgs> | null;
+    pathaoCredentials: Prisma.$PathaoCredentialPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2166,6 +2530,34 @@ export interface Prisma__BranchClient<
       >
     | Null
   >;
+  pathaoStore<T extends Prisma.Branch$pathaoStoreArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Branch$pathaoStoreArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoStoreClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoStorePayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  pathaoCredentials<
+    T extends Prisma.Branch$pathaoCredentialsArgs<ExtArgs> = {}
+  >(
+    args?: Prisma.Subset<T, Prisma.Branch$pathaoCredentialsArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoCredentialClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoCredentialPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2783,6 +3175,50 @@ export type Branch$ordersArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[];
+};
+
+/**
+ * Branch.pathaoStore
+ */
+export type Branch$pathaoStoreArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoStore
+   */
+  select?: Prisma.PathaoStoreSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoStore
+   */
+  omit?: Prisma.PathaoStoreOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoStoreInclude<ExtArgs> | null;
+  where?: Prisma.PathaoStoreWhereInput;
+};
+
+/**
+ * Branch.pathaoCredentials
+ */
+export type Branch$pathaoCredentialsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoCredential
+   */
+  select?: Prisma.PathaoCredentialSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoCredential
+   */
+  omit?: Prisma.PathaoCredentialOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoCredentialInclude<ExtArgs> | null;
+  where?: Prisma.PathaoCredentialWhereInput;
 };
 
 /**

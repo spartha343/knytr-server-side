@@ -14,10 +14,12 @@ const createOrderZodSchema = z.object({
       .min(11, "Phone number must be at least 11 digits"),
     customerName: z.string().optional(),
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
-    policeStation: z.string().optional(),
-    deliveryDistrict: z.string().optional(),
-    deliveryArea: z.string().optional(),
+    secondaryPhone: z.string().optional(),
+    specialInstructions: z.string().optional(),
     deliveryAddress: z.string().optional(),
+    recipientCityId: z.number().int().positive().optional(),
+    recipientZoneId: z.number().int().positive().optional(),
+    recipientAreaId: z.number().int().positive().optional(),
     deliveryLocation: z.enum(DeliveryLocation, {
       error: "Delivery location is required"
     }),
@@ -46,17 +48,47 @@ const createOrderZodSchema = z.object({
 
 const updateOrderZodSchema = z.object({
   body: z.object({
+    // Customer Info
     customerPhone: z
       .string()
       .min(11, "Phone number must be at least 11 digits")
       .optional(),
     customerName: z.string().optional(),
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
-    policeStation: z.string().optional(),
-    deliveryDistrict: z.string().optional(),
-    deliveryArea: z.string().optional(),
+    secondaryPhone: z.string().optional(),
+    specialInstructions: z.string().optional(),
+
+    // Delivery Info
+    recipientCityId: z.number().int().positive().optional(),
+    recipientZoneId: z.number().int().positive().optional(),
+    recipientAreaId: z.number().int().positive().optional(),
     deliveryAddress: z.string().optional(),
     deliveryLocation: z.enum(DeliveryLocation).optional(),
+
+    // Items (optional - if provided, will replace all items)
+    items: z
+      .array(
+        z.object({
+          id: z.string().optional(), // Existing item ID (if editing)
+          productId: z.string({
+            error: "Product ID is required"
+          }),
+          variantId: z.string().optional(),
+          quantity: z
+            .number({
+              error: "Quantity is required"
+            })
+            .int()
+            .min(1, "Quantity must be at least 1"),
+          priceOverride: z.number().positive().optional() // Vendor can override price
+        })
+      )
+      .optional(),
+
+    // Override delivery charge
+    deliveryChargeOverride: z.number().nonnegative().optional(),
+
+    // Edit notes
     editNotes: z.string().optional()
   })
 });
@@ -78,9 +110,63 @@ const assignBranchToItemZodSchema = z.object({
   })
 });
 
+const createManualOrderZodSchema = z.object({
+  body: z.object({
+    storeId: z.string({
+      error: "Store ID is required"
+    }),
+    customerName: z.string({
+      error: "Customer name is required"
+    }),
+    customerPhone: z
+      .string({
+        error: "Customer phone is required"
+      })
+      .min(11, "Phone number must be at least 11 digits"),
+    customerEmail: z.email("Invalid email").optional().or(z.literal("")),
+    secondaryPhone: z.string().optional(),
+    specialInstructions: z.string().optional(),
+    deliveryLocation: z.enum(DeliveryLocation, {
+      error: "Delivery location is required"
+    }),
+    deliveryAddress: z.string().optional(),
+    recipientCityId: z.number().int().positive().optional(),
+    recipientZoneId: z.number().int().positive().optional(),
+    recipientAreaId: z.number().int().positive().optional(),
+    items: z
+      .array(
+        z.object({
+          productId: z.string({
+            error: "Product ID is required"
+          }),
+          variantId: z.string().optional(),
+          quantity: z
+            .number({
+              error: "Quantity is required"
+            })
+            .int()
+            .min(1, "Quantity must be at least 1"),
+          unitPrice: z
+            .number({
+              error: "Unit price is required"
+            })
+            .positive("Unit price must be positive")
+        })
+      )
+      .min(1, "At least one item is required"),
+    paymentMethod: z.enum(PaymentMethod, {
+      error: "Payment method is required"
+    }),
+    deliveryCharge: z.number().nonnegative().optional().default(0),
+    totalDiscount: z.number().nonnegative().optional().default(0),
+    notes: z.string().optional()
+  })
+});
+
 export const OrderValidation = {
   createOrderZodSchema,
   updateOrderZodSchema,
   updateOrderStatusZodSchema,
-  assignBranchToItemZodSchema
+  assignBranchToItemZodSchema,
+  createManualOrderZodSchema
 };

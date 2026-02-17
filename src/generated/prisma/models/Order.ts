@@ -27,6 +27,9 @@ export type AggregateOrder = {
 };
 
 export type OrderAvgAggregateOutputType = {
+  recipientCityId: number | null;
+  recipientZoneId: number | null;
+  recipientAreaId: number | null;
   deliveryCharge: runtime.Decimal | null;
   subtotal: runtime.Decimal | null;
   totalDiscount: runtime.Decimal | null;
@@ -34,6 +37,9 @@ export type OrderAvgAggregateOutputType = {
 };
 
 export type OrderSumAggregateOutputType = {
+  recipientCityId: number | null;
+  recipientZoneId: number | null;
+  recipientAreaId: number | null;
   deliveryCharge: runtime.Decimal | null;
   subtotal: runtime.Decimal | null;
   totalDiscount: runtime.Decimal | null;
@@ -46,12 +52,14 @@ export type OrderMinAggregateOutputType = {
   customerPhone: string | null;
   customerName: string | null;
   customerEmail: string | null;
-  deliveryDistrict: string | null;
-  policeStation: string | null;
-  deliveryArea: string | null;
+  secondaryPhone: string | null;
+  recipientCityId: number | null;
+  recipientZoneId: number | null;
+  recipientAreaId: number | null;
   deliveryAddress: string | null;
   deliveryLocation: $Enums.DeliveryLocation | null;
   deliveryCharge: runtime.Decimal | null;
+  specialInstructions: string | null;
   userId: string | null;
   storeId: string | null;
   status: $Enums.OrderStatus | null;
@@ -59,17 +67,7 @@ export type OrderMinAggregateOutputType = {
   subtotal: runtime.Decimal | null;
   totalDiscount: runtime.Decimal | null;
   totalAmount: runtime.Decimal | null;
-  isVoiceConfirmed: boolean | null;
-  voiceConfirmedAt: Date | null;
-  voiceConfirmedBy: string | null;
-  isEditedByVendor: boolean | null;
-  editedAt: Date | null;
-  editNotes: string | null;
   assignedBranchId: string | null;
-  pathaoConsignmentId: string | null;
-  pathaoStatus: string | null;
-  estimatedDeliveryDate: Date | null;
-  actualDeliveryDate: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -80,12 +78,14 @@ export type OrderMaxAggregateOutputType = {
   customerPhone: string | null;
   customerName: string | null;
   customerEmail: string | null;
-  deliveryDistrict: string | null;
-  policeStation: string | null;
-  deliveryArea: string | null;
+  secondaryPhone: string | null;
+  recipientCityId: number | null;
+  recipientZoneId: number | null;
+  recipientAreaId: number | null;
   deliveryAddress: string | null;
   deliveryLocation: $Enums.DeliveryLocation | null;
   deliveryCharge: runtime.Decimal | null;
+  specialInstructions: string | null;
   userId: string | null;
   storeId: string | null;
   status: $Enums.OrderStatus | null;
@@ -93,17 +93,7 @@ export type OrderMaxAggregateOutputType = {
   subtotal: runtime.Decimal | null;
   totalDiscount: runtime.Decimal | null;
   totalAmount: runtime.Decimal | null;
-  isVoiceConfirmed: boolean | null;
-  voiceConfirmedAt: Date | null;
-  voiceConfirmedBy: string | null;
-  isEditedByVendor: boolean | null;
-  editedAt: Date | null;
-  editNotes: string | null;
   assignedBranchId: string | null;
-  pathaoConsignmentId: string | null;
-  pathaoStatus: string | null;
-  estimatedDeliveryDate: Date | null;
-  actualDeliveryDate: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -114,12 +104,14 @@ export type OrderCountAggregateOutputType = {
   customerPhone: number;
   customerName: number;
   customerEmail: number;
-  deliveryDistrict: number;
-  policeStation: number;
-  deliveryArea: number;
+  secondaryPhone: number;
+  recipientCityId: number;
+  recipientZoneId: number;
+  recipientAreaId: number;
   deliveryAddress: number;
   deliveryLocation: number;
   deliveryCharge: number;
+  specialInstructions: number;
   userId: number;
   storeId: number;
   status: number;
@@ -127,23 +119,16 @@ export type OrderCountAggregateOutputType = {
   subtotal: number;
   totalDiscount: number;
   totalAmount: number;
-  isVoiceConfirmed: number;
-  voiceConfirmedAt: number;
-  voiceConfirmedBy: number;
-  isEditedByVendor: number;
-  editedAt: number;
-  editNotes: number;
   assignedBranchId: number;
-  pathaoConsignmentId: number;
-  pathaoStatus: number;
-  estimatedDeliveryDate: number;
-  actualDeliveryDate: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
 };
 
 export type OrderAvgAggregateInputType = {
+  recipientCityId?: true;
+  recipientZoneId?: true;
+  recipientAreaId?: true;
   deliveryCharge?: true;
   subtotal?: true;
   totalDiscount?: true;
@@ -151,6 +136,9 @@ export type OrderAvgAggregateInputType = {
 };
 
 export type OrderSumAggregateInputType = {
+  recipientCityId?: true;
+  recipientZoneId?: true;
+  recipientAreaId?: true;
   deliveryCharge?: true;
   subtotal?: true;
   totalDiscount?: true;
@@ -163,12 +151,14 @@ export type OrderMinAggregateInputType = {
   customerPhone?: true;
   customerName?: true;
   customerEmail?: true;
-  deliveryDistrict?: true;
-  policeStation?: true;
-  deliveryArea?: true;
+  secondaryPhone?: true;
+  recipientCityId?: true;
+  recipientZoneId?: true;
+  recipientAreaId?: true;
   deliveryAddress?: true;
   deliveryLocation?: true;
   deliveryCharge?: true;
+  specialInstructions?: true;
   userId?: true;
   storeId?: true;
   status?: true;
@@ -176,17 +166,7 @@ export type OrderMinAggregateInputType = {
   subtotal?: true;
   totalDiscount?: true;
   totalAmount?: true;
-  isVoiceConfirmed?: true;
-  voiceConfirmedAt?: true;
-  voiceConfirmedBy?: true;
-  isEditedByVendor?: true;
-  editedAt?: true;
-  editNotes?: true;
   assignedBranchId?: true;
-  pathaoConsignmentId?: true;
-  pathaoStatus?: true;
-  estimatedDeliveryDate?: true;
-  actualDeliveryDate?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -197,12 +177,14 @@ export type OrderMaxAggregateInputType = {
   customerPhone?: true;
   customerName?: true;
   customerEmail?: true;
-  deliveryDistrict?: true;
-  policeStation?: true;
-  deliveryArea?: true;
+  secondaryPhone?: true;
+  recipientCityId?: true;
+  recipientZoneId?: true;
+  recipientAreaId?: true;
   deliveryAddress?: true;
   deliveryLocation?: true;
   deliveryCharge?: true;
+  specialInstructions?: true;
   userId?: true;
   storeId?: true;
   status?: true;
@@ -210,17 +192,7 @@ export type OrderMaxAggregateInputType = {
   subtotal?: true;
   totalDiscount?: true;
   totalAmount?: true;
-  isVoiceConfirmed?: true;
-  voiceConfirmedAt?: true;
-  voiceConfirmedBy?: true;
-  isEditedByVendor?: true;
-  editedAt?: true;
-  editNotes?: true;
   assignedBranchId?: true;
-  pathaoConsignmentId?: true;
-  pathaoStatus?: true;
-  estimatedDeliveryDate?: true;
-  actualDeliveryDate?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -231,12 +203,14 @@ export type OrderCountAggregateInputType = {
   customerPhone?: true;
   customerName?: true;
   customerEmail?: true;
-  deliveryDistrict?: true;
-  policeStation?: true;
-  deliveryArea?: true;
+  secondaryPhone?: true;
+  recipientCityId?: true;
+  recipientZoneId?: true;
+  recipientAreaId?: true;
   deliveryAddress?: true;
   deliveryLocation?: true;
   deliveryCharge?: true;
+  specialInstructions?: true;
   userId?: true;
   storeId?: true;
   status?: true;
@@ -244,17 +218,7 @@ export type OrderCountAggregateInputType = {
   subtotal?: true;
   totalDiscount?: true;
   totalAmount?: true;
-  isVoiceConfirmed?: true;
-  voiceConfirmedAt?: true;
-  voiceConfirmedBy?: true;
-  isEditedByVendor?: true;
-  editedAt?: true;
-  editNotes?: true;
   assignedBranchId?: true;
-  pathaoConsignmentId?: true;
-  pathaoStatus?: true;
-  estimatedDeliveryDate?: true;
-  actualDeliveryDate?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -359,12 +323,14 @@ export type OrderGroupByOutputType = {
   customerPhone: string;
   customerName: string | null;
   customerEmail: string | null;
-  deliveryDistrict: string | null;
-  policeStation: string | null;
-  deliveryArea: string | null;
+  secondaryPhone: string | null;
+  recipientCityId: number | null;
+  recipientZoneId: number | null;
+  recipientAreaId: number | null;
   deliveryAddress: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal;
+  specialInstructions: string | null;
   userId: string | null;
   storeId: string;
   status: $Enums.OrderStatus;
@@ -372,17 +338,7 @@ export type OrderGroupByOutputType = {
   subtotal: runtime.Decimal;
   totalDiscount: runtime.Decimal;
   totalAmount: runtime.Decimal;
-  isVoiceConfirmed: boolean;
-  voiceConfirmedAt: Date | null;
-  voiceConfirmedBy: string | null;
-  isEditedByVendor: boolean;
-  editedAt: Date | null;
-  editNotes: string | null;
   assignedBranchId: string | null;
-  pathaoConsignmentId: string | null;
-  pathaoStatus: string | null;
-  estimatedDeliveryDate: Date | null;
-  actualDeliveryDate: Date | null;
   createdAt: Date;
   updatedAt: Date;
   _count: OrderCountAggregateOutputType | null;
@@ -413,9 +369,10 @@ export type OrderWhereInput = {
   customerPhone?: Prisma.StringFilter<"Order"> | string;
   customerName?: Prisma.StringNullableFilter<"Order"> | string | null;
   customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null;
-  deliveryDistrict?: Prisma.StringNullableFilter<"Order"> | string | null;
-  policeStation?: Prisma.StringNullableFilter<"Order"> | string | null;
-  deliveryArea?: Prisma.StringNullableFilter<"Order"> | string | null;
+  secondaryPhone?: Prisma.StringNullableFilter<"Order"> | string | null;
+  recipientCityId?: Prisma.IntNullableFilter<"Order"> | number | null;
+  recipientZoneId?: Prisma.IntNullableFilter<"Order"> | number | null;
+  recipientAreaId?: Prisma.IntNullableFilter<"Order"> | number | null;
   deliveryAddress?: Prisma.StringNullableFilter<"Order"> | string | null;
   deliveryLocation?:
     | Prisma.EnumDeliveryLocationFilter<"Order">
@@ -426,6 +383,7 @@ export type OrderWhereInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?: Prisma.StringNullableFilter<"Order"> | string | null;
   userId?: Prisma.StringNullableFilter<"Order"> | string | null;
   storeId?: Prisma.StringFilter<"Order"> | string;
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus;
@@ -450,29 +408,7 @@ export type OrderWhereInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFilter<"Order"> | boolean;
-  voiceConfirmedAt?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?: Prisma.StringNullableFilter<"Order"> | string | null;
-  isEditedByVendor?: Prisma.BoolFilter<"Order"> | boolean;
-  editedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
-  editNotes?: Prisma.StringNullableFilter<"Order"> | string | null;
   assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
-  pathaoConsignmentId?: Prisma.StringNullableFilter<"Order"> | string | null;
-  pathaoStatus?: Prisma.StringNullableFilter<"Order"> | string | null;
-  estimatedDeliveryDate?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   user?: Prisma.XOR<
@@ -485,6 +421,22 @@ export type OrderWhereInput = {
     Prisma.BranchWhereInput
   > | null;
   items?: Prisma.OrderItemListRelationFilter;
+  pathaoDelivery?: Prisma.XOR<
+    Prisma.PathaoDeliveryNullableScalarRelationFilter,
+    Prisma.PathaoDeliveryWhereInput
+  > | null;
+  recipientCity?: Prisma.XOR<
+    Prisma.PathaoCityNullableScalarRelationFilter,
+    Prisma.PathaoCityWhereInput
+  > | null;
+  recipientZone?: Prisma.XOR<
+    Prisma.PathaoZoneNullableScalarRelationFilter,
+    Prisma.PathaoZoneWhereInput
+  > | null;
+  recipientArea?: Prisma.XOR<
+    Prisma.PathaoAreaNullableScalarRelationFilter,
+    Prisma.PathaoAreaWhereInput
+  > | null;
 };
 
 export type OrderOrderByWithRelationInput = {
@@ -493,12 +445,14 @@ export type OrderOrderByWithRelationInput = {
   customerPhone?: Prisma.SortOrder;
   customerName?: Prisma.SortOrderInput | Prisma.SortOrder;
   customerEmail?: Prisma.SortOrderInput | Prisma.SortOrder;
-  deliveryDistrict?: Prisma.SortOrderInput | Prisma.SortOrder;
-  policeStation?: Prisma.SortOrderInput | Prisma.SortOrder;
-  deliveryArea?: Prisma.SortOrderInput | Prisma.SortOrder;
+  secondaryPhone?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientCityId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrderInput | Prisma.SortOrder;
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder;
   deliveryLocation?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
+  specialInstructions?: Prisma.SortOrderInput | Prisma.SortOrder;
   userId?: Prisma.SortOrderInput | Prisma.SortOrder;
   storeId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -506,23 +460,17 @@ export type OrderOrderByWithRelationInput = {
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
-  isVoiceConfirmed?: Prisma.SortOrder;
-  voiceConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-  voiceConfirmedBy?: Prisma.SortOrderInput | Prisma.SortOrder;
-  isEditedByVendor?: Prisma.SortOrder;
-  editedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-  editNotes?: Prisma.SortOrderInput | Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrderInput | Prisma.SortOrder;
-  pathaoConsignmentId?: Prisma.SortOrderInput | Prisma.SortOrder;
-  pathaoStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
-  estimatedDeliveryDate?: Prisma.SortOrderInput | Prisma.SortOrder;
-  actualDeliveryDate?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   user?: Prisma.UserOrderByWithRelationInput;
   store?: Prisma.StoreOrderByWithRelationInput;
   assignedBranch?: Prisma.BranchOrderByWithRelationInput;
   items?: Prisma.OrderItemOrderByRelationAggregateInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryOrderByWithRelationInput;
+  recipientCity?: Prisma.PathaoCityOrderByWithRelationInput;
+  recipientZone?: Prisma.PathaoZoneOrderByWithRelationInput;
+  recipientArea?: Prisma.PathaoAreaOrderByWithRelationInput;
 };
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<
@@ -535,9 +483,10 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
     customerPhone?: Prisma.StringFilter<"Order"> | string;
     customerName?: Prisma.StringNullableFilter<"Order"> | string | null;
     customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null;
-    deliveryDistrict?: Prisma.StringNullableFilter<"Order"> | string | null;
-    policeStation?: Prisma.StringNullableFilter<"Order"> | string | null;
-    deliveryArea?: Prisma.StringNullableFilter<"Order"> | string | null;
+    secondaryPhone?: Prisma.StringNullableFilter<"Order"> | string | null;
+    recipientCityId?: Prisma.IntNullableFilter<"Order"> | number | null;
+    recipientZoneId?: Prisma.IntNullableFilter<"Order"> | number | null;
+    recipientAreaId?: Prisma.IntNullableFilter<"Order"> | number | null;
     deliveryAddress?: Prisma.StringNullableFilter<"Order"> | string | null;
     deliveryLocation?:
       | Prisma.EnumDeliveryLocationFilter<"Order">
@@ -548,6 +497,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
       | runtime.DecimalJsLike
       | number
       | string;
+    specialInstructions?: Prisma.StringNullableFilter<"Order"> | string | null;
     userId?: Prisma.StringNullableFilter<"Order"> | string | null;
     storeId?: Prisma.StringFilter<"Order"> | string;
     status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus;
@@ -572,29 +522,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
       | runtime.DecimalJsLike
       | number
       | string;
-    isVoiceConfirmed?: Prisma.BoolFilter<"Order"> | boolean;
-    voiceConfirmedAt?:
-      | Prisma.DateTimeNullableFilter<"Order">
-      | Date
-      | string
-      | null;
-    voiceConfirmedBy?: Prisma.StringNullableFilter<"Order"> | string | null;
-    isEditedByVendor?: Prisma.BoolFilter<"Order"> | boolean;
-    editedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
-    editNotes?: Prisma.StringNullableFilter<"Order"> | string | null;
     assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
-    pathaoConsignmentId?: Prisma.StringNullableFilter<"Order"> | string | null;
-    pathaoStatus?: Prisma.StringNullableFilter<"Order"> | string | null;
-    estimatedDeliveryDate?:
-      | Prisma.DateTimeNullableFilter<"Order">
-      | Date
-      | string
-      | null;
-    actualDeliveryDate?:
-      | Prisma.DateTimeNullableFilter<"Order">
-      | Date
-      | string
-      | null;
     createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
     user?: Prisma.XOR<
@@ -610,6 +538,22 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
       Prisma.BranchWhereInput
     > | null;
     items?: Prisma.OrderItemListRelationFilter;
+    pathaoDelivery?: Prisma.XOR<
+      Prisma.PathaoDeliveryNullableScalarRelationFilter,
+      Prisma.PathaoDeliveryWhereInput
+    > | null;
+    recipientCity?: Prisma.XOR<
+      Prisma.PathaoCityNullableScalarRelationFilter,
+      Prisma.PathaoCityWhereInput
+    > | null;
+    recipientZone?: Prisma.XOR<
+      Prisma.PathaoZoneNullableScalarRelationFilter,
+      Prisma.PathaoZoneWhereInput
+    > | null;
+    recipientArea?: Prisma.XOR<
+      Prisma.PathaoAreaNullableScalarRelationFilter,
+      Prisma.PathaoAreaWhereInput
+    > | null;
   },
   "id" | "orderNumber"
 >;
@@ -620,12 +564,14 @@ export type OrderOrderByWithAggregationInput = {
   customerPhone?: Prisma.SortOrder;
   customerName?: Prisma.SortOrderInput | Prisma.SortOrder;
   customerEmail?: Prisma.SortOrderInput | Prisma.SortOrder;
-  deliveryDistrict?: Prisma.SortOrderInput | Prisma.SortOrder;
-  policeStation?: Prisma.SortOrderInput | Prisma.SortOrder;
-  deliveryArea?: Prisma.SortOrderInput | Prisma.SortOrder;
+  secondaryPhone?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientCityId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrderInput | Prisma.SortOrder;
   deliveryAddress?: Prisma.SortOrderInput | Prisma.SortOrder;
   deliveryLocation?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
+  specialInstructions?: Prisma.SortOrderInput | Prisma.SortOrder;
   userId?: Prisma.SortOrderInput | Prisma.SortOrder;
   storeId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -633,17 +579,7 @@ export type OrderOrderByWithAggregationInput = {
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
-  isVoiceConfirmed?: Prisma.SortOrder;
-  voiceConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-  voiceConfirmedBy?: Prisma.SortOrderInput | Prisma.SortOrder;
-  isEditedByVendor?: Prisma.SortOrder;
-  editedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-  editNotes?: Prisma.SortOrderInput | Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrderInput | Prisma.SortOrder;
-  pathaoConsignmentId?: Prisma.SortOrderInput | Prisma.SortOrder;
-  pathaoStatus?: Prisma.SortOrderInput | Prisma.SortOrder;
-  estimatedDeliveryDate?: Prisma.SortOrderInput | Prisma.SortOrder;
-  actualDeliveryDate?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.OrderCountOrderByAggregateInput;
@@ -672,17 +608,21 @@ export type OrderScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<"Order">
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.StringNullableWithAggregatesFilter<"Order">
     | string
     | null;
-  policeStation?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
+  recipientCityId?:
+    | Prisma.IntNullableWithAggregatesFilter<"Order">
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
+  recipientZoneId?:
+    | Prisma.IntNullableWithAggregatesFilter<"Order">
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.IntNullableWithAggregatesFilter<"Order">
+    | number
     | null;
   deliveryAddress?:
     | Prisma.StringNullableWithAggregatesFilter<"Order">
@@ -697,6 +637,10 @@ export type OrderScalarWhereWithAggregatesInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.StringNullableWithAggregatesFilter<"Order">
+    | string
+    | null;
   userId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null;
   storeId?: Prisma.StringWithAggregatesFilter<"Order"> | string;
   status?:
@@ -723,46 +667,8 @@ export type OrderScalarWhereWithAggregatesInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean;
-  voiceConfirmedAt?:
-    | Prisma.DateTimeNullableWithAggregatesFilter<"Order">
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolWithAggregatesFilter<"Order"> | boolean;
-  editedAt?:
-    | Prisma.DateTimeNullableWithAggregatesFilter<"Order">
-    | Date
-    | string
-    | null;
-  editNotes?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
-    | null;
   assignedBranchId?:
     | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.StringNullableWithAggregatesFilter<"Order">
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.DateTimeNullableWithAggregatesFilter<"Order">
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.DateTimeNullableWithAggregatesFilter<"Order">
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string;
@@ -775,33 +681,26 @@ export type OrderCreateInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
   store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
   assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
 };
 
 export type OrderUncheckedCreateInput = {
@@ -810,12 +709,14 @@ export type OrderUncheckedCreateInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
@@ -823,20 +724,11 @@ export type OrderUncheckedCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
 };
 
 export type OrderUpdateInput = {
@@ -851,15 +743,7 @@ export type OrderUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -876,6 +760,10 @@ export type OrderUpdateInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -900,47 +788,16 @@ export type OrderUpdateInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
   store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
   assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
 };
 
 export type OrderUncheckedUpdateInput = {
@@ -955,17 +812,21 @@ export type OrderUncheckedUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -980,6 +841,10 @@ export type OrderUncheckedUpdateInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -1006,48 +871,14 @@ export type OrderUncheckedUpdateInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
 };
 
 export type OrderCreateManyInput = {
@@ -1056,12 +887,14 @@ export type OrderCreateManyInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
@@ -1069,17 +902,7 @@ export type OrderCreateManyInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -1096,15 +919,7 @@ export type OrderUpdateManyMutationInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -1121,6 +936,10 @@ export type OrderUpdateManyMutationInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -1145,41 +964,6 @@ export type OrderUpdateManyMutationInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1196,17 +980,21 @@ export type OrderUncheckedUpdateManyInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -1221,6 +1009,10 @@ export type OrderUncheckedUpdateManyInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -1247,43 +1039,8 @@ export type OrderUncheckedUpdateManyInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -1306,12 +1063,14 @@ export type OrderCountOrderByAggregateInput = {
   customerPhone?: Prisma.SortOrder;
   customerName?: Prisma.SortOrder;
   customerEmail?: Prisma.SortOrder;
-  deliveryDistrict?: Prisma.SortOrder;
-  policeStation?: Prisma.SortOrder;
-  deliveryArea?: Prisma.SortOrder;
+  secondaryPhone?: Prisma.SortOrder;
+  recipientCityId?: Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrder;
   deliveryAddress?: Prisma.SortOrder;
   deliveryLocation?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
+  specialInstructions?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   storeId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -1319,22 +1078,15 @@ export type OrderCountOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
-  isVoiceConfirmed?: Prisma.SortOrder;
-  voiceConfirmedAt?: Prisma.SortOrder;
-  voiceConfirmedBy?: Prisma.SortOrder;
-  isEditedByVendor?: Prisma.SortOrder;
-  editedAt?: Prisma.SortOrder;
-  editNotes?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
-  pathaoConsignmentId?: Prisma.SortOrder;
-  pathaoStatus?: Prisma.SortOrder;
-  estimatedDeliveryDate?: Prisma.SortOrder;
-  actualDeliveryDate?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
 
 export type OrderAvgOrderByAggregateInput = {
+  recipientCityId?: Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
@@ -1347,12 +1099,14 @@ export type OrderMaxOrderByAggregateInput = {
   customerPhone?: Prisma.SortOrder;
   customerName?: Prisma.SortOrder;
   customerEmail?: Prisma.SortOrder;
-  deliveryDistrict?: Prisma.SortOrder;
-  policeStation?: Prisma.SortOrder;
-  deliveryArea?: Prisma.SortOrder;
+  secondaryPhone?: Prisma.SortOrder;
+  recipientCityId?: Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrder;
   deliveryAddress?: Prisma.SortOrder;
   deliveryLocation?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
+  specialInstructions?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   storeId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -1360,17 +1114,7 @@ export type OrderMaxOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
-  isVoiceConfirmed?: Prisma.SortOrder;
-  voiceConfirmedAt?: Prisma.SortOrder;
-  voiceConfirmedBy?: Prisma.SortOrder;
-  isEditedByVendor?: Prisma.SortOrder;
-  editedAt?: Prisma.SortOrder;
-  editNotes?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
-  pathaoConsignmentId?: Prisma.SortOrder;
-  pathaoStatus?: Prisma.SortOrder;
-  estimatedDeliveryDate?: Prisma.SortOrder;
-  actualDeliveryDate?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1381,12 +1125,14 @@ export type OrderMinOrderByAggregateInput = {
   customerPhone?: Prisma.SortOrder;
   customerName?: Prisma.SortOrder;
   customerEmail?: Prisma.SortOrder;
-  deliveryDistrict?: Prisma.SortOrder;
-  policeStation?: Prisma.SortOrder;
-  deliveryArea?: Prisma.SortOrder;
+  secondaryPhone?: Prisma.SortOrder;
+  recipientCityId?: Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrder;
   deliveryAddress?: Prisma.SortOrder;
   deliveryLocation?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
+  specialInstructions?: Prisma.SortOrder;
   userId?: Prisma.SortOrder;
   storeId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
@@ -1394,22 +1140,15 @@ export type OrderMinOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
-  isVoiceConfirmed?: Prisma.SortOrder;
-  voiceConfirmedAt?: Prisma.SortOrder;
-  voiceConfirmedBy?: Prisma.SortOrder;
-  isEditedByVendor?: Prisma.SortOrder;
-  editedAt?: Prisma.SortOrder;
-  editNotes?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
-  pathaoConsignmentId?: Prisma.SortOrder;
-  pathaoStatus?: Prisma.SortOrder;
-  estimatedDeliveryDate?: Prisma.SortOrder;
-  actualDeliveryDate?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
 
 export type OrderSumOrderByAggregateInput = {
+  recipientCityId?: Prisma.SortOrder;
+  recipientZoneId?: Prisma.SortOrder;
+  recipientAreaId?: Prisma.SortOrder;
   deliveryCharge?: Prisma.SortOrder;
   subtotal?: Prisma.SortOrder;
   totalDiscount?: Prisma.SortOrder;
@@ -1691,6 +1430,14 @@ export type EnumPaymentMethodFieldUpdateOperationsInput = {
   set?: $Enums.PaymentMethod;
 };
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null;
+  increment?: number;
+  decrement?: number;
+  multiply?: number;
+  divide?: number;
+};
+
 export type OrderCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<
     Prisma.OrderCreateWithoutItemsInput,
@@ -1717,38 +1464,315 @@ export type OrderUpdateOneRequiredWithoutItemsNestedInput = {
   >;
 };
 
+export type OrderCreateNestedOneWithoutPathaoDeliveryInput = {
+  create?: Prisma.XOR<
+    Prisma.OrderCreateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedCreateWithoutPathaoDeliveryInput
+  >;
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutPathaoDeliveryInput;
+  connect?: Prisma.OrderWhereUniqueInput;
+};
+
+export type OrderUpdateOneRequiredWithoutPathaoDeliveryNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.OrderCreateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedCreateWithoutPathaoDeliveryInput
+  >;
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutPathaoDeliveryInput;
+  upsert?: Prisma.OrderUpsertWithoutPathaoDeliveryInput;
+  connect?: Prisma.OrderWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.OrderUpdateToOneWithWhereWithoutPathaoDeliveryInput,
+      Prisma.OrderUpdateWithoutPathaoDeliveryInput
+    >,
+    Prisma.OrderUncheckedUpdateWithoutPathaoDeliveryInput
+  >;
+};
+
+export type OrderCreateNestedManyWithoutRecipientCityInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientCityInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+      >
+    | Prisma.OrderCreateWithoutRecipientCityInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientCityInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput[];
+  createMany?: Prisma.OrderCreateManyRecipientCityInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUncheckedCreateNestedManyWithoutRecipientCityInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientCityInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+      >
+    | Prisma.OrderCreateWithoutRecipientCityInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientCityInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput[];
+  createMany?: Prisma.OrderCreateManyRecipientCityInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUpdateManyWithoutRecipientCityNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientCityInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+      >
+    | Prisma.OrderCreateWithoutRecipientCityInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientCityInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientCityInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientCityInput[];
+  createMany?: Prisma.OrderCreateManyRecipientCityInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientCityInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientCityInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientCityInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientCityInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientCityNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientCityInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+      >
+    | Prisma.OrderCreateWithoutRecipientCityInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientCityInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientCityInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientCityInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientCityInput[];
+  createMany?: Prisma.OrderCreateManyRecipientCityInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientCityInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientCityInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientCityInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientCityInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderCreateNestedManyWithoutRecipientZoneInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientZoneInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+      >
+    | Prisma.OrderCreateWithoutRecipientZoneInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientZoneInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput[];
+  createMany?: Prisma.OrderCreateManyRecipientZoneInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUncheckedCreateNestedManyWithoutRecipientZoneInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientZoneInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+      >
+    | Prisma.OrderCreateWithoutRecipientZoneInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientZoneInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput[];
+  createMany?: Prisma.OrderCreateManyRecipientZoneInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUpdateManyWithoutRecipientZoneNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientZoneInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+      >
+    | Prisma.OrderCreateWithoutRecipientZoneInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientZoneInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientZoneInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientZoneInput[];
+  createMany?: Prisma.OrderCreateManyRecipientZoneInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientZoneInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientZoneInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientZoneInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientZoneInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientZoneNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientZoneInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+      >
+    | Prisma.OrderCreateWithoutRecipientZoneInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientZoneInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientZoneInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientZoneInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientZoneInput[];
+  createMany?: Prisma.OrderCreateManyRecipientZoneInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientZoneInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientZoneInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientZoneInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientZoneInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderCreateNestedManyWithoutRecipientAreaInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientAreaInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+      >
+    | Prisma.OrderCreateWithoutRecipientAreaInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientAreaInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput[];
+  createMany?: Prisma.OrderCreateManyRecipientAreaInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUncheckedCreateNestedManyWithoutRecipientAreaInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientAreaInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+      >
+    | Prisma.OrderCreateWithoutRecipientAreaInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientAreaInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput[];
+  createMany?: Prisma.OrderCreateManyRecipientAreaInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUpdateManyWithoutRecipientAreaNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientAreaInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+      >
+    | Prisma.OrderCreateWithoutRecipientAreaInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientAreaInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientAreaInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientAreaInput[];
+  createMany?: Prisma.OrderCreateManyRecipientAreaInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientAreaInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientAreaInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientAreaInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientAreaInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientAreaNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutRecipientAreaInput,
+        Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+      >
+    | Prisma.OrderCreateWithoutRecipientAreaInput[]
+    | Prisma.OrderUncheckedCreateWithoutRecipientAreaInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput
+    | Prisma.OrderCreateOrConnectWithoutRecipientAreaInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientAreaInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutRecipientAreaInput[];
+  createMany?: Prisma.OrderCreateManyRecipientAreaInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientAreaInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutRecipientAreaInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientAreaInput
+    | Prisma.OrderUpdateManyWithWhereWithoutRecipientAreaInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
 export type OrderCreateWithoutUserInput = {
   id?: string;
   orderNumber: string;
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
   assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
 };
 
 export type OrderUncheckedCreateWithoutUserInput = {
@@ -1757,32 +1781,25 @@ export type OrderUncheckedCreateWithoutUserInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutUserInput = {
@@ -1835,9 +1852,10 @@ export type OrderScalarWhereInput = {
   customerPhone?: Prisma.StringFilter<"Order"> | string;
   customerName?: Prisma.StringNullableFilter<"Order"> | string | null;
   customerEmail?: Prisma.StringNullableFilter<"Order"> | string | null;
-  deliveryDistrict?: Prisma.StringNullableFilter<"Order"> | string | null;
-  policeStation?: Prisma.StringNullableFilter<"Order"> | string | null;
-  deliveryArea?: Prisma.StringNullableFilter<"Order"> | string | null;
+  secondaryPhone?: Prisma.StringNullableFilter<"Order"> | string | null;
+  recipientCityId?: Prisma.IntNullableFilter<"Order"> | number | null;
+  recipientZoneId?: Prisma.IntNullableFilter<"Order"> | number | null;
+  recipientAreaId?: Prisma.IntNullableFilter<"Order"> | number | null;
   deliveryAddress?: Prisma.StringNullableFilter<"Order"> | string | null;
   deliveryLocation?:
     | Prisma.EnumDeliveryLocationFilter<"Order">
@@ -1848,6 +1866,7 @@ export type OrderScalarWhereInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?: Prisma.StringNullableFilter<"Order"> | string | null;
   userId?: Prisma.StringNullableFilter<"Order"> | string | null;
   storeId?: Prisma.StringFilter<"Order"> | string;
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus;
@@ -1872,29 +1891,7 @@ export type OrderScalarWhereInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFilter<"Order"> | boolean;
-  voiceConfirmedAt?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?: Prisma.StringNullableFilter<"Order"> | string | null;
-  isEditedByVendor?: Prisma.BoolFilter<"Order"> | boolean;
-  editedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
-  editNotes?: Prisma.StringNullableFilter<"Order"> | string | null;
   assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
-  pathaoConsignmentId?: Prisma.StringNullableFilter<"Order"> | string | null;
-  pathaoStatus?: Prisma.StringNullableFilter<"Order"> | string | null;
-  estimatedDeliveryDate?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.DateTimeNullableFilter<"Order">
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
 };
@@ -1905,32 +1902,25 @@ export type OrderCreateWithoutStoreInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
   assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
 };
 
 export type OrderUncheckedCreateWithoutStoreInput = {
@@ -1939,32 +1929,25 @@ export type OrderUncheckedCreateWithoutStoreInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutStoreInput = {
@@ -2014,32 +1997,25 @@ export type OrderCreateWithoutAssignedBranchInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
   store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
   items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
 };
 
 export type OrderUncheckedCreateWithoutAssignedBranchInput = {
@@ -2048,12 +2024,14 @@ export type OrderUncheckedCreateWithoutAssignedBranchInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
@@ -2061,19 +2039,10 @@ export type OrderUncheckedCreateWithoutAssignedBranchInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutAssignedBranchInput = {
@@ -2125,32 +2094,25 @@ export type OrderCreateWithoutItemsInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
   store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
   assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
 };
 
 export type OrderUncheckedCreateWithoutItemsInput = {
@@ -2159,12 +2121,14 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
@@ -2172,19 +2136,10 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutItemsInput = {
@@ -2227,15 +2182,7 @@ export type OrderUpdateWithoutItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -2252,6 +2199,10 @@ export type OrderUpdateWithoutItemsInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -2276,46 +2227,15 @@ export type OrderUpdateWithoutItemsInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
   store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
   assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -2330,17 +2250,21 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -2355,6 +2279,10 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -2381,47 +2309,534 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  pathaoConsignmentId?:
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+};
+
+export type OrderCreateWithoutPathaoDeliveryInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+};
+
+export type OrderUncheckedCreateWithoutPathaoDeliveryInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutPathaoDeliveryInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedCreateWithoutPathaoDeliveryInput
+  >;
+};
+
+export type OrderUpsertWithoutPathaoDeliveryInput = {
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedUpdateWithoutPathaoDeliveryInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedCreateWithoutPathaoDeliveryInput
+  >;
+  where?: Prisma.OrderWhereInput;
+};
+
+export type OrderUpdateToOneWithWhereWithoutPathaoDeliveryInput = {
+  where?: Prisma.OrderWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutPathaoDeliveryInput,
+    Prisma.OrderUncheckedUpdateWithoutPathaoDeliveryInput
+  >;
+};
+
+export type OrderUpdateWithoutPathaoDeliveryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  pathaoStatus?:
+  customerEmail?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutPathaoDeliveryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+};
+
+export type OrderCreateWithoutRecipientCityInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+};
+
+export type OrderUncheckedCreateWithoutRecipientCityInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutRecipientCityInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientCityInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+  >;
+};
+
+export type OrderCreateManyRecipientCityInputEnvelope = {
+  data:
+    | Prisma.OrderCreateManyRecipientCityInput
+    | Prisma.OrderCreateManyRecipientCityInput[];
+  skipDuplicates?: boolean;
+};
+
+export type OrderUpsertWithWhereUniqueWithoutRecipientCityInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientCityInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientCityInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientCityInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientCityInput
+  >;
+};
+
+export type OrderUpdateWithWhereUniqueWithoutRecipientCityInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientCityInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientCityInput
+  >;
+};
+
+export type OrderUpdateManyWithWhereWithoutRecipientCityInput = {
+  where: Prisma.OrderScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateManyMutationInput,
+    Prisma.OrderUncheckedUpdateManyWithoutRecipientCityInput
+  >;
+};
+
+export type OrderCreateWithoutRecipientZoneInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+};
+
+export type OrderUncheckedCreateWithoutRecipientZoneInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutRecipientZoneInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientZoneInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+  >;
+};
+
+export type OrderCreateManyRecipientZoneInputEnvelope = {
+  data:
+    | Prisma.OrderCreateManyRecipientZoneInput
+    | Prisma.OrderCreateManyRecipientZoneInput[];
+  skipDuplicates?: boolean;
+};
+
+export type OrderUpsertWithWhereUniqueWithoutRecipientZoneInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientZoneInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientZoneInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientZoneInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientZoneInput
+  >;
+};
+
+export type OrderUpdateWithWhereUniqueWithoutRecipientZoneInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientZoneInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientZoneInput
+  >;
+};
+
+export type OrderUpdateManyWithWhereWithoutRecipientZoneInput = {
+  where: Prisma.OrderScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateManyMutationInput,
+    Prisma.OrderUncheckedUpdateManyWithoutRecipientZoneInput
+  >;
+};
+
+export type OrderCreateWithoutRecipientAreaInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+};
+
+export type OrderUncheckedCreateWithoutRecipientAreaInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutRecipientAreaInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientAreaInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+  >;
+};
+
+export type OrderCreateManyRecipientAreaInputEnvelope = {
+  data:
+    | Prisma.OrderCreateManyRecipientAreaInput
+    | Prisma.OrderCreateManyRecipientAreaInput[];
+  skipDuplicates?: boolean;
+};
+
+export type OrderUpsertWithWhereUniqueWithoutRecipientAreaInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientAreaInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientAreaInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutRecipientAreaInput,
+    Prisma.OrderUncheckedCreateWithoutRecipientAreaInput
+  >;
+};
+
+export type OrderUpdateWithWhereUniqueWithoutRecipientAreaInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutRecipientAreaInput,
+    Prisma.OrderUncheckedUpdateWithoutRecipientAreaInput
+  >;
+};
+
+export type OrderUpdateManyWithWhereWithoutRecipientAreaInput = {
+  where: Prisma.OrderScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateManyMutationInput,
+    Prisma.OrderUncheckedUpdateManyWithoutRecipientAreaInput
+  >;
 };
 
 export type OrderCreateManyUserInput = {
@@ -2430,29 +2845,21 @@ export type OrderCreateManyUserInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -2469,15 +2876,7 @@ export type OrderUpdateWithoutUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -2494,6 +2893,10 @@ export type OrderUpdateWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -2518,46 +2921,15 @@ export type OrderUpdateWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
   assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutUserInput = {
@@ -2572,17 +2944,21 @@ export type OrderUncheckedUpdateWithoutUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -2597,6 +2973,10 @@ export type OrderUncheckedUpdateWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
@@ -2622,48 +3002,14 @@ export type OrderUncheckedUpdateWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutUserInput = {
@@ -2678,17 +3024,21 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -2703,6 +3053,10 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
@@ -2728,43 +3082,8 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -2777,29 +3096,21 @@ export type OrderCreateManyStoreInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   status?: $Enums.OrderStatus;
   paymentMethod?: $Enums.PaymentMethod;
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
   assignedBranchId?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -2816,15 +3127,7 @@ export type OrderUpdateWithoutStoreInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -2841,6 +3144,10 @@ export type OrderUpdateWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -2865,46 +3172,15 @@ export type OrderUpdateWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
   assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutStoreInput = {
@@ -2919,17 +3195,21 @@ export type OrderUncheckedUpdateWithoutStoreInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -2944,6 +3224,10 @@ export type OrderUncheckedUpdateWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
@@ -2969,48 +3253,14 @@ export type OrderUncheckedUpdateWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutStoreInput = {
@@ -3025,17 +3275,21 @@ export type OrderUncheckedUpdateManyWithoutStoreInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -3050,6 +3304,10 @@ export type OrderUncheckedUpdateManyWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
@@ -3075,43 +3333,8 @@ export type OrderUncheckedUpdateManyWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   assignedBranchId?:
     | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -3124,12 +3347,14 @@ export type OrderCreateManyAssignedBranchInput = {
   customerPhone: string;
   customerName?: string | null;
   customerEmail?: string | null;
-  deliveryDistrict?: string | null;
-  policeStation?: string | null;
-  deliveryArea?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
   deliveryAddress?: string | null;
   deliveryLocation: $Enums.DeliveryLocation;
   deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
   userId?: string | null;
   storeId: string;
   status?: $Enums.OrderStatus;
@@ -3137,16 +3362,6 @@ export type OrderCreateManyAssignedBranchInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: Date | string | null;
-  voiceConfirmedBy?: string | null;
-  isEditedByVendor?: boolean;
-  editedAt?: Date | string | null;
-  editNotes?: string | null;
-  pathaoConsignmentId?: string | null;
-  pathaoStatus?: string | null;
-  estimatedDeliveryDate?: Date | string | null;
-  actualDeliveryDate?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -3163,15 +3378,7 @@ export type OrderUpdateWithoutAssignedBranchInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  deliveryArea?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
@@ -3188,6 +3395,10 @@ export type OrderUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   status?:
     | Prisma.EnumOrderStatusFieldUpdateOperationsInput
     | $Enums.OrderStatus;
@@ -3212,46 +3423,15 @@ export type OrderUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
   store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
   items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
@@ -3266,17 +3446,21 @@ export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -3291,6 +3475,10 @@ export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -3317,44 +3505,10 @@ export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  pathaoStatus?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
-    | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
@@ -3369,17 +3523,21 @@ export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  deliveryDistrict?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  policeStation?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
-  deliveryArea?:
-    | Prisma.NullableStringFieldUpdateOperationsInput
-    | string
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
     | null;
   deliveryAddress?:
     | Prisma.NullableStringFieldUpdateOperationsInput
@@ -3394,6 +3552,10 @@ export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   storeId?: Prisma.StringFieldUpdateOperationsInput | string;
   status?:
@@ -3420,39 +3582,739 @@ export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
-  isVoiceConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  voiceConfirmedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  voiceConfirmedBy?:
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type OrderCreateManyRecipientCityInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type OrderUpdateWithoutRecipientCityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  isEditedByVendor?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  editedAt?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  editNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  pathaoConsignmentId?:
+  customerEmail?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  pathaoStatus?:
+  secondaryPhone?:
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  estimatedDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
-  actualDeliveryDate?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutRecipientCityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientCityInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type OrderCreateManyRecipientZoneInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type OrderUpdateWithoutRecipientZoneInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutRecipientZoneInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientZoneInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type OrderCreateManyRecipientAreaInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type OrderUpdateWithoutRecipientAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutRecipientAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+};
+
+export type OrderUncheckedUpdateManyWithoutRecipientAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -3507,12 +4369,14 @@ export type OrderSelect<
     customerPhone?: boolean;
     customerName?: boolean;
     customerEmail?: boolean;
-    deliveryDistrict?: boolean;
-    policeStation?: boolean;
-    deliveryArea?: boolean;
+    secondaryPhone?: boolean;
+    recipientCityId?: boolean;
+    recipientZoneId?: boolean;
+    recipientAreaId?: boolean;
     deliveryAddress?: boolean;
     deliveryLocation?: boolean;
     deliveryCharge?: boolean;
+    specialInstructions?: boolean;
     userId?: boolean;
     storeId?: boolean;
     status?: boolean;
@@ -3520,23 +4384,17 @@ export type OrderSelect<
     subtotal?: boolean;
     totalDiscount?: boolean;
     totalAmount?: boolean;
-    isVoiceConfirmed?: boolean;
-    voiceConfirmedAt?: boolean;
-    voiceConfirmedBy?: boolean;
-    isEditedByVendor?: boolean;
-    editedAt?: boolean;
-    editNotes?: boolean;
     assignedBranchId?: boolean;
-    pathaoConsignmentId?: boolean;
-    pathaoStatus?: boolean;
-    estimatedDeliveryDate?: boolean;
-    actualDeliveryDate?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
     store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
     assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
     items?: boolean | Prisma.Order$itemsArgs<ExtArgs>;
+    pathaoDelivery?: boolean | Prisma.Order$pathaoDeliveryArgs<ExtArgs>;
+    recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+    recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+    recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
     _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
@@ -3552,12 +4410,14 @@ export type OrderSelectCreateManyAndReturn<
     customerPhone?: boolean;
     customerName?: boolean;
     customerEmail?: boolean;
-    deliveryDistrict?: boolean;
-    policeStation?: boolean;
-    deliveryArea?: boolean;
+    secondaryPhone?: boolean;
+    recipientCityId?: boolean;
+    recipientZoneId?: boolean;
+    recipientAreaId?: boolean;
     deliveryAddress?: boolean;
     deliveryLocation?: boolean;
     deliveryCharge?: boolean;
+    specialInstructions?: boolean;
     userId?: boolean;
     storeId?: boolean;
     status?: boolean;
@@ -3565,22 +4425,15 @@ export type OrderSelectCreateManyAndReturn<
     subtotal?: boolean;
     totalDiscount?: boolean;
     totalAmount?: boolean;
-    isVoiceConfirmed?: boolean;
-    voiceConfirmedAt?: boolean;
-    voiceConfirmedBy?: boolean;
-    isEditedByVendor?: boolean;
-    editedAt?: boolean;
-    editNotes?: boolean;
     assignedBranchId?: boolean;
-    pathaoConsignmentId?: boolean;
-    pathaoStatus?: boolean;
-    estimatedDeliveryDate?: boolean;
-    actualDeliveryDate?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
     store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
     assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
+    recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+    recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+    recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
 >;
@@ -3595,12 +4448,14 @@ export type OrderSelectUpdateManyAndReturn<
     customerPhone?: boolean;
     customerName?: boolean;
     customerEmail?: boolean;
-    deliveryDistrict?: boolean;
-    policeStation?: boolean;
-    deliveryArea?: boolean;
+    secondaryPhone?: boolean;
+    recipientCityId?: boolean;
+    recipientZoneId?: boolean;
+    recipientAreaId?: boolean;
     deliveryAddress?: boolean;
     deliveryLocation?: boolean;
     deliveryCharge?: boolean;
+    specialInstructions?: boolean;
     userId?: boolean;
     storeId?: boolean;
     status?: boolean;
@@ -3608,22 +4463,15 @@ export type OrderSelectUpdateManyAndReturn<
     subtotal?: boolean;
     totalDiscount?: boolean;
     totalAmount?: boolean;
-    isVoiceConfirmed?: boolean;
-    voiceConfirmedAt?: boolean;
-    voiceConfirmedBy?: boolean;
-    isEditedByVendor?: boolean;
-    editedAt?: boolean;
-    editNotes?: boolean;
     assignedBranchId?: boolean;
-    pathaoConsignmentId?: boolean;
-    pathaoStatus?: boolean;
-    estimatedDeliveryDate?: boolean;
-    actualDeliveryDate?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
     store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
     assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
+    recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+    recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+    recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
 >;
@@ -3634,12 +4482,14 @@ export type OrderSelectScalar = {
   customerPhone?: boolean;
   customerName?: boolean;
   customerEmail?: boolean;
-  deliveryDistrict?: boolean;
-  policeStation?: boolean;
-  deliveryArea?: boolean;
+  secondaryPhone?: boolean;
+  recipientCityId?: boolean;
+  recipientZoneId?: boolean;
+  recipientAreaId?: boolean;
   deliveryAddress?: boolean;
   deliveryLocation?: boolean;
   deliveryCharge?: boolean;
+  specialInstructions?: boolean;
   userId?: boolean;
   storeId?: boolean;
   status?: boolean;
@@ -3647,17 +4497,7 @@ export type OrderSelectScalar = {
   subtotal?: boolean;
   totalDiscount?: boolean;
   totalAmount?: boolean;
-  isVoiceConfirmed?: boolean;
-  voiceConfirmedAt?: boolean;
-  voiceConfirmedBy?: boolean;
-  isEditedByVendor?: boolean;
-  editedAt?: boolean;
-  editNotes?: boolean;
   assignedBranchId?: boolean;
-  pathaoConsignmentId?: boolean;
-  pathaoStatus?: boolean;
-  estimatedDeliveryDate?: boolean;
-  actualDeliveryDate?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -3671,12 +4511,14 @@ export type OrderOmit<
   | "customerPhone"
   | "customerName"
   | "customerEmail"
-  | "deliveryDistrict"
-  | "policeStation"
-  | "deliveryArea"
+  | "secondaryPhone"
+  | "recipientCityId"
+  | "recipientZoneId"
+  | "recipientAreaId"
   | "deliveryAddress"
   | "deliveryLocation"
   | "deliveryCharge"
+  | "specialInstructions"
   | "userId"
   | "storeId"
   | "status"
@@ -3684,17 +4526,7 @@ export type OrderOmit<
   | "subtotal"
   | "totalDiscount"
   | "totalAmount"
-  | "isVoiceConfirmed"
-  | "voiceConfirmedAt"
-  | "voiceConfirmedBy"
-  | "isEditedByVendor"
-  | "editedAt"
-  | "editNotes"
   | "assignedBranchId"
-  | "pathaoConsignmentId"
-  | "pathaoStatus"
-  | "estimatedDeliveryDate"
-  | "actualDeliveryDate"
   | "createdAt"
   | "updatedAt",
   ExtArgs["result"]["order"]
@@ -3707,6 +4539,10 @@ export type OrderInclude<
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
   assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>;
+  pathaoDelivery?: boolean | Prisma.Order$pathaoDeliveryArgs<ExtArgs>;
+  recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+  recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+  recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type OrderIncludeCreateManyAndReturn<
@@ -3716,6 +4552,9 @@ export type OrderIncludeCreateManyAndReturn<
   user?: boolean | Prisma.Order$userArgs<ExtArgs>;
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
   assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
+  recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+  recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+  recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
 };
 export type OrderIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -3724,6 +4563,9 @@ export type OrderIncludeUpdateManyAndReturn<
   user?: boolean | Prisma.Order$userArgs<ExtArgs>;
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>;
   assignedBranch?: boolean | Prisma.Order$assignedBranchArgs<ExtArgs>;
+  recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
+  recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
+  recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
 };
 
 export type $OrderPayload<
@@ -3736,6 +4578,10 @@ export type $OrderPayload<
     store: Prisma.$StorePayload<ExtArgs>;
     assignedBranch: Prisma.$BranchPayload<ExtArgs> | null;
     items: Prisma.$OrderItemPayload<ExtArgs>[];
+    pathaoDelivery: Prisma.$PathaoDeliveryPayload<ExtArgs> | null;
+    recipientCity: Prisma.$PathaoCityPayload<ExtArgs> | null;
+    recipientZone: Prisma.$PathaoZonePayload<ExtArgs> | null;
+    recipientArea: Prisma.$PathaoAreaPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -3744,12 +4590,14 @@ export type $OrderPayload<
       customerPhone: string;
       customerName: string | null;
       customerEmail: string | null;
-      deliveryDistrict: string | null;
-      policeStation: string | null;
-      deliveryArea: string | null;
+      secondaryPhone: string | null;
+      recipientCityId: number | null;
+      recipientZoneId: number | null;
+      recipientAreaId: number | null;
       deliveryAddress: string | null;
       deliveryLocation: $Enums.DeliveryLocation;
       deliveryCharge: runtime.Decimal;
+      specialInstructions: string | null;
       userId: string | null;
       storeId: string;
       status: $Enums.OrderStatus;
@@ -3757,17 +4605,7 @@ export type $OrderPayload<
       subtotal: runtime.Decimal;
       totalDiscount: runtime.Decimal;
       totalAmount: runtime.Decimal;
-      isVoiceConfirmed: boolean;
-      voiceConfirmedAt: Date | null;
-      voiceConfirmedBy: string | null;
-      isEditedByVendor: boolean;
-      editedAt: Date | null;
-      editNotes: string | null;
       assignedBranchId: string | null;
-      pathaoConsignmentId: string | null;
-      pathaoStatus: string | null;
-      estimatedDeliveryDate: Date | null;
-      actualDeliveryDate: Date | null;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -4371,6 +5209,58 @@ export interface Prisma__OrderClient<
       >
     | Null
   >;
+  pathaoDelivery<T extends Prisma.Order$pathaoDeliveryArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$pathaoDeliveryArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoDeliveryClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoDeliveryPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  recipientCity<T extends Prisma.Order$recipientCityArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$recipientCityArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoCityClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoCityPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  recipientZone<T extends Prisma.Order$recipientZoneArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$recipientZoneArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoZoneClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoZonePayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
+  recipientArea<T extends Prisma.Order$recipientAreaArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$recipientAreaArgs<ExtArgs>>
+  ): Prisma.Prisma__PathaoAreaClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$PathaoAreaPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4418,12 +5308,14 @@ export interface OrderFieldRefs {
   readonly customerPhone: Prisma.FieldRef<"Order", "String">;
   readonly customerName: Prisma.FieldRef<"Order", "String">;
   readonly customerEmail: Prisma.FieldRef<"Order", "String">;
-  readonly deliveryDistrict: Prisma.FieldRef<"Order", "String">;
-  readonly policeStation: Prisma.FieldRef<"Order", "String">;
-  readonly deliveryArea: Prisma.FieldRef<"Order", "String">;
+  readonly secondaryPhone: Prisma.FieldRef<"Order", "String">;
+  readonly recipientCityId: Prisma.FieldRef<"Order", "Int">;
+  readonly recipientZoneId: Prisma.FieldRef<"Order", "Int">;
+  readonly recipientAreaId: Prisma.FieldRef<"Order", "Int">;
   readonly deliveryAddress: Prisma.FieldRef<"Order", "String">;
   readonly deliveryLocation: Prisma.FieldRef<"Order", "DeliveryLocation">;
   readonly deliveryCharge: Prisma.FieldRef<"Order", "Decimal">;
+  readonly specialInstructions: Prisma.FieldRef<"Order", "String">;
   readonly userId: Prisma.FieldRef<"Order", "String">;
   readonly storeId: Prisma.FieldRef<"Order", "String">;
   readonly status: Prisma.FieldRef<"Order", "OrderStatus">;
@@ -4431,17 +5323,7 @@ export interface OrderFieldRefs {
   readonly subtotal: Prisma.FieldRef<"Order", "Decimal">;
   readonly totalDiscount: Prisma.FieldRef<"Order", "Decimal">;
   readonly totalAmount: Prisma.FieldRef<"Order", "Decimal">;
-  readonly isVoiceConfirmed: Prisma.FieldRef<"Order", "Boolean">;
-  readonly voiceConfirmedAt: Prisma.FieldRef<"Order", "DateTime">;
-  readonly voiceConfirmedBy: Prisma.FieldRef<"Order", "String">;
-  readonly isEditedByVendor: Prisma.FieldRef<"Order", "Boolean">;
-  readonly editedAt: Prisma.FieldRef<"Order", "DateTime">;
-  readonly editNotes: Prisma.FieldRef<"Order", "String">;
   readonly assignedBranchId: Prisma.FieldRef<"Order", "String">;
-  readonly pathaoConsignmentId: Prisma.FieldRef<"Order", "String">;
-  readonly pathaoStatus: Prisma.FieldRef<"Order", "String">;
-  readonly estimatedDeliveryDate: Prisma.FieldRef<"Order", "DateTime">;
-  readonly actualDeliveryDate: Prisma.FieldRef<"Order", "DateTime">;
   readonly createdAt: Prisma.FieldRef<"Order", "DateTime">;
   readonly updatedAt: Prisma.FieldRef<"Order", "DateTime">;
 }
@@ -4965,6 +5847,94 @@ export type Order$itemsArgs<
   distinct?:
     | Prisma.OrderItemScalarFieldEnum
     | Prisma.OrderItemScalarFieldEnum[];
+};
+
+/**
+ * Order.pathaoDelivery
+ */
+export type Order$pathaoDeliveryArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoDelivery
+   */
+  select?: Prisma.PathaoDeliverySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoDelivery
+   */
+  omit?: Prisma.PathaoDeliveryOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoDeliveryInclude<ExtArgs> | null;
+  where?: Prisma.PathaoDeliveryWhereInput;
+};
+
+/**
+ * Order.recipientCity
+ */
+export type Order$recipientCityArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoCity
+   */
+  select?: Prisma.PathaoCitySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoCity
+   */
+  omit?: Prisma.PathaoCityOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoCityInclude<ExtArgs> | null;
+  where?: Prisma.PathaoCityWhereInput;
+};
+
+/**
+ * Order.recipientZone
+ */
+export type Order$recipientZoneArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoZone
+   */
+  select?: Prisma.PathaoZoneSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoZone
+   */
+  omit?: Prisma.PathaoZoneOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoZoneInclude<ExtArgs> | null;
+  where?: Prisma.PathaoZoneWhereInput;
+};
+
+/**
+ * Order.recipientArea
+ */
+export type Order$recipientAreaArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the PathaoArea
+   */
+  select?: Prisma.PathaoAreaSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the PathaoArea
+   */
+  omit?: Prisma.PathaoAreaOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PathaoAreaInclude<ExtArgs> | null;
+  where?: Prisma.PathaoAreaWhereInput;
 };
 
 /**

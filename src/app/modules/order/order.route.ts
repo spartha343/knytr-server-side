@@ -28,6 +28,16 @@ router.post(
   OrderController.createOrder
 );
 
+// Create manual order (Vendor only) <-- NEW ROUTE
+router.post(
+  "/manual",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("VENDOR"),
+  validateRequest(OrderValidation.createManualOrderZodSchema),
+  OrderController.createManualOrder
+);
+
 // GET ALL ORDERS (Admin only)
 router.get(
   "/admin/all",
@@ -61,6 +71,14 @@ router.get(
   verifyFirebaseAuth,
   checkDBUser,
   OrderController.getOrderById
+);
+
+// Generate invoice PDF
+router.get(
+  "/:id/invoice",
+  verifyFirebaseAuth,
+  checkDBUser,
+  OrderController.generateInvoice
 );
 
 // UPDATE ORDER (Vendor only - before voice confirmation)

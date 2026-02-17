@@ -123,11 +123,13 @@ model Branch {
   updatedAt DateTime @updatedAt
 
   // Relations
-  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  address     Address?
-  inventories Inventory[]
-  orderItems  OrderItem[]
-  orders      Order[]
+  store             Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  address           Address?
+  inventories       Inventory[]
+  orderItems        OrderItem[]
+  orders            Order[]
+  pathaoStore       PathaoStore?
+  pathaoCredentials PathaoCredential?
 
   @@index([storeId])
   @@index([isDeleted])
@@ -501,17 +503,19 @@ model Order {
   orderNumber String @unique // AUTO: ORD-{store-slug}-YYYYMMDD-0000001
 
   // Customer Info (Phone is REQUIRED, rest optional)
-  customerPhone String // REQUIRED - for voice confirmation
-  customerName  String?
-  customerEmail String?
+  customerPhone  String // REQUIRED - for voice confirmation
+  customerName   String?
+  customerEmail  String?
+  secondaryPhone String? // Alternate contact number
 
   // Delivery Info
-  deliveryDistrict String?
-  policeStation    String?
-  deliveryArea     String?
-  deliveryAddress  String?
-  deliveryLocation DeliveryLocation // INSIDE_DHAKA or OUTSIDE_DHAKA
-  deliveryCharge   Decimal          @db.Decimal(10, 2) // 70 or 120 BDT based on location (configurable)
+  recipientCityId     Int?             @map("recipient_city_id")
+  recipientZoneId     Int?             @map("recipient_zone_id")
+  recipientAreaId     Int?             @map("recipient_area_id")
+  deliveryAddress     String?
+  deliveryLocation    DeliveryLocation // INSIDE_DHAKA or OUTSIDE_DHAKA
+  deliveryCharge      Decimal          @db.Decimal(10, 2) // 70 or 120 BDT based on location (configurable)
+  specialInstructions String?          @db.Text // "Call before delivery", "Leave at gate", etc.
 
   // Order Details
   userId        String? // null for guest orders
@@ -524,34 +528,22 @@ model Order {
   totalDiscount Decimal @db.Decimal(10, 2) // Total savings
   totalAmount   Decimal @db.Decimal(10, 2) // subtotal - totalDiscount + deliveryCharge
 
-  // Voice Confirmation
-  isVoiceConfirmed Boolean   @default(false)
-  voiceConfirmedAt DateTime?
-  voiceConfirmedBy String? // Vendor user ID
-
-  // Vendor Editing
-  isEditedByVendor Boolean   @default(false)
-  editedAt         DateTime?
-  editNotes        String?   @db.Text
-
   // Branch Assignment
   assignedBranchId String? // Which branch fulfills this order
-
-  // Pathao Integration
-  pathaoConsignmentId   String? // Pathao tracking number
-  pathaoStatus          String? // Delivery status from Pathao
-  estimatedDeliveryDate DateTime?
-  actualDeliveryDate    DateTime?
 
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  user           User?       @relation(fields: [userId], references: [id])
-  store          Store       @relation(fields: [storeId], references: [id])
-  assignedBranch Branch?     @relation(fields: [assignedBranchId], references: [id])
+  user           User?           @relation(fields: [userId], references: [id])
+  store          Store           @relation(fields: [storeId], references: [id])
+  assignedBranch Branch?         @relation(fields: [assignedBranchId], references: [id])
   items          OrderItem[]
+  pathaoDelivery PathaoDelivery?
+  recipientCity  PathaoCity?     @relation("OrderRecipientCity", fields: [recipientCityId], references: [cityId], onDelete: SetNull)
+  recipientZone  PathaoZone?     @relation("OrderRecipientZone", fields: [recipientZoneId], references: [zoneId], onDelete: SetNull)
+  recipientArea  PathaoArea?     @relation("OrderRecipientArea", fields: [recipientAreaId], references: [areaId], onDelete: SetNull)
 
   @@index([userId])
   @@index([storeId])
@@ -563,6 +555,9 @@ model Order {
   @@index([storeId, createdAt])
   @@index([createdAt])
   @@index([assignedBranchId])
+  @@index([recipientCityId])
+  @@index([recipientZoneId])
+  @@index([recipientAreaId])
   @@map("orders")
 }
 
@@ -596,6 +591,256 @@ model OrderItem {
   @@index([productId])
   @@index([branchId])
   @@map("order_items")
+}
+
+// ============================================
+// PATHAO COURIER INTEGRATION MODELS
+// ============================================
+
+model PathaoCredential {
+  id String @id @default(uuid())
+
+  // Link to branch (each branch has its own Pathao credentials)
+  branchId String @map("branch_id")
+  branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  clientId     String @map("client_id")
+  clientSecret String @map("client_secret")
+  username     String
+  password     String
+
+  // Token management
+  accessToken  String?   @map("access_token") @db.Text
+  refreshToken String?   @map("refresh_token") @db.Text
+  tokenExpiry  DateTime? @map("token_expiry")
+
+  // Webhook security
+  webhookSecret String? @map("webhook_secret")
+
+  environment String    @default("sandbox") // 'sandbox' or 'production'
+  isActive    Boolean   @default(true) @map("is_active")
+  lastUsedAt  DateTime? @map("last_used_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([branchId]) // One credential set per branch
+  @@map("pathao_credentials")
+}
+
+model PathaoStore {
+  id String @id @default(uuid())
+
+  branchId String @unique @map("branch_id")
+  branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  pathaoStoreId    Int     @map("pathao_store_id")
+  name             String
+  contactName      String  @map("contact_name")
+  contactNumber    String  @map("contact_number")
+  secondaryContact String? @map("secondary_contact")
+  address          String
+
+  // Use Pathao IDs (not our UUID references)
+  cityId Int @map("city_id")
+  zoneId Int @map("zone_id")
+  areaId Int @map("area_id")
+
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations to master data
+  city PathaoCity @relation(fields: [cityId], references: [cityId], onDelete: Restrict)
+  zone PathaoZone @relation(fields: [zoneId], references: [zoneId], onDelete: Restrict)
+  area PathaoArea @relation(fields: [areaId], references: [areaId], onDelete: Restrict)
+
+  deliveries PathaoDelivery[]
+
+  @@index([branchId])
+  @@index([pathaoStoreId])
+  @@index([cityId])
+  @@index([zoneId])
+  @@index([areaId])
+  @@map("pathao_stores")
+}
+
+model PathaoDelivery {
+  id      String @id @default(uuid())
+  orderId String @unique
+
+  // Pathao tracking info
+  consignmentId String? @unique @map("consignment_id")
+  invoiceId     String? @map("invoice_id")
+
+  pathaoStoreId String      @map("pathao_store_id")
+  pathaoStore   PathaoStore @relation(fields: [pathaoStoreId], references: [id], onDelete: Restrict)
+
+  // Delivery details
+  itemWeight      Float   @map("item_weight") // Changed from Decimal to Float
+  itemQuantity    Int     @map("item_quantity")
+  amountToCollect Decimal @map("amount_to_collect") @db.Decimal(10, 2)
+
+  // Pricing from Pathao API
+  deliveryFee   Decimal? @map("delivery_fee") @db.Decimal(10, 2)
+  codCharge     Decimal? @map("cod_charge") @db.Decimal(10, 2)
+  promoDiscount Decimal? @map("promo_discount") @db.Decimal(10, 2)
+  discount      Decimal? @db.Decimal(10, 2)
+
+  // Location - use Pathao IDs (not our UUID references)
+  recipientCityId Int @map("recipient_city_id")
+  recipientZoneId Int @map("recipient_zone_id")
+  recipientAreaId Int @map("recipient_area_id")
+
+  // Recipient details
+  recipientName           String  @map("recipient_name")
+  recipientPhone          String  @map("recipient_phone")
+  recipientSecondaryPhone String? @map("recipient_secondary_phone")
+  recipientAddress        String  @map("recipient_address") @db.Text
+
+  deliveryType Int @default(48) @map("delivery_type") // 48=Normal, 12=Express
+  itemType     Int @default(2) @map("item_type") // 1=Document, 2=Parcel
+
+  specialInstruction String? @map("special_instruction") @db.Text
+  itemDescription    String? @map("item_description") @db.Text
+
+  // Status tracking
+  status String @default("PENDING")
+
+  // Error handling
+  errorMessage String?   @map("error_message") @db.Text
+  retryCount   Int       @default(0) @map("retry_count")
+  lastRetryAt  DateTime? @map("last_retry_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  order         Order                         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  city          PathaoCity                    @relation("DeliveryRecipientCity", fields: [recipientCityId], references: [cityId], onDelete: Restrict)
+  zone          PathaoZone                    @relation("DeliveryRecipientZone", fields: [recipientZoneId], references: [zoneId], onDelete: Restrict)
+  area          PathaoArea                    @relation("DeliveryRecipientArea", fields: [recipientAreaId], references: [areaId], onDelete: Restrict)
+  statusHistory PathaoDeliveryStatusHistory[]
+
+  @@index([orderId])
+  @@index([consignmentId])
+  @@index([status])
+  @@index([retryCount])
+  @@index([recipientCityId])
+  @@index([recipientZoneId])
+  @@index([recipientAreaId])
+  @@map("pathao_deliveries")
+}
+
+model PathaoDeliveryStatusHistory {
+  id               String @id @default(uuid())
+  pathaoDeliveryId String
+
+  status       String
+  pathaoStatus String?
+  remarks      String? @db.Text
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  pathaoDelivery PathaoDelivery @relation(fields: [pathaoDeliveryId], references: [id], onDelete: Cascade)
+
+  @@index([pathaoDeliveryId])
+  @@index([createdAt])
+  @@map("pathao_delivery_status_history")
+}
+
+model PathaoWebhookLog {
+  id String @id @default(uuid())
+
+  consignmentId   String?
+  merchantOrderId String?
+
+  payload Json
+  headers Json?
+
+  processed   Boolean   @default(false)
+  processedAt DateTime?
+  error       String?   @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([consignmentId])
+  @@index([merchantOrderId])
+  @@index([processed])
+  @@index([createdAt])
+  @@map("pathao_webhook_logs")
+}
+
+// ============================================
+// PATHAO LOCATION MASTER DATA
+// ============================================
+
+model PathaoCity {
+  id       String  @id @default(uuid())
+  cityId   Int     @unique @map("city_id")
+  name     String  @map("city_name")
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  zones             PathaoZone[]
+  stores            PathaoStore[]
+  deliveries        PathaoDelivery[] @relation("DeliveryRecipientCity")
+  ordersAsRecipient Order[]          @relation("OrderRecipientCity")
+
+  @@index([cityId])
+  @@index([isActive])
+  @@map("pathao_cities")
+}
+
+model PathaoZone {
+  id       String  @id @default(uuid())
+  zoneId   Int     @unique @map("zone_id")
+  name     String  @map("zone_name")
+  cityId   Int     @map("city_id")
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  city              PathaoCity       @relation(fields: [cityId], references: [cityId], onDelete: Cascade)
+  areas             PathaoArea[]
+  stores            PathaoStore[]
+  deliveries        PathaoDelivery[] @relation("DeliveryRecipientZone")
+  ordersAsRecipient Order[]          @relation("OrderRecipientZone")
+
+  @@index([cityId])
+  @@index([zoneId])
+  @@index([isActive])
+  @@map("pathao_zones")
+}
+
+model PathaoArea {
+  id                    String  @id @default(uuid())
+  areaId                Int     @unique @map("area_id")
+  name                  String  @map("area_name")
+  zoneId                Int     @map("zone_id")
+  homeDeliveryAvailable Boolean @default(true) @map("home_delivery_available")
+  pickupAvailable       Boolean @default(true) @map("pickup_available")
+  isActive              Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  zone              PathaoZone       @relation(fields: [zoneId], references: [zoneId], onDelete: Cascade)
+  stores            PathaoStore[]
+  deliveries        PathaoDelivery[] @relation("DeliveryRecipientArea")
+  ordersAsRecipient Order[]          @relation("OrderRecipientArea")
+
+  @@index([zoneId])
+  @@index([areaId])
+  @@index([isActive])
+  @@map("pathao_areas")
 }
 
 enum OrderStatus {

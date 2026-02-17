@@ -435,7 +435,15 @@ export const ModelName = {
   Cart: "Cart",
   CartItem: "CartItem",
   Order: "Order",
-  OrderItem: "OrderItem"
+  OrderItem: "OrderItem",
+  PathaoCredential: "PathaoCredential",
+  PathaoStore: "PathaoStore",
+  PathaoDelivery: "PathaoDelivery",
+  PathaoDeliveryStatusHistory: "PathaoDeliveryStatusHistory",
+  PathaoWebhookLog: "PathaoWebhookLog",
+  PathaoCity: "PathaoCity",
+  PathaoZone: "PathaoZone",
+  PathaoArea: "PathaoArea"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -481,7 +489,15 @@ export type TypeMap<
       | "cart"
       | "cartItem"
       | "order"
-      | "orderItem";
+      | "orderItem"
+      | "pathaoCredential"
+      | "pathaoStore"
+      | "pathaoDelivery"
+      | "pathaoDeliveryStatusHistory"
+      | "pathaoWebhookLog"
+      | "pathaoCity"
+      | "pathaoZone"
+      | "pathaoArea";
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -2309,6 +2325,614 @@ export type TypeMap<
         };
       };
     };
+    PathaoCredential: {
+      payload: Prisma.$PathaoCredentialPayload<ExtArgs>;
+      fields: Prisma.PathaoCredentialFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoCredentialFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoCredentialFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoCredentialFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoCredentialFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoCredentialFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoCredentialCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoCredentialCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoCredentialCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoCredentialDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        update: {
+          args: Prisma.PathaoCredentialUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoCredentialDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoCredentialUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoCredentialUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoCredentialUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCredentialPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoCredentialAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoCredential>;
+        };
+        groupBy: {
+          args: Prisma.PathaoCredentialGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoCredentialGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoCredentialCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoCredentialCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoStore: {
+      payload: Prisma.$PathaoStorePayload<ExtArgs>;
+      fields: Prisma.PathaoStoreFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoStoreFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoStoreFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoStoreFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoStoreFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoStoreFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>[];
+        };
+        create: {
+          args: Prisma.PathaoStoreCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoStoreCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoStoreCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoStoreDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        update: {
+          args: Prisma.PathaoStoreUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoStoreDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoStoreUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoStoreUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoStoreUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoStorePayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoStoreAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoStore>;
+        };
+        groupBy: {
+          args: Prisma.PathaoStoreGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoStoreGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoStoreCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoStoreCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoDelivery: {
+      payload: Prisma.$PathaoDeliveryPayload<ExtArgs>;
+      fields: Prisma.PathaoDeliveryFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoDeliveryFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoDeliveryFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoDeliveryFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoDeliveryFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoDeliveryFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoDeliveryCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoDeliveryCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoDeliveryCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoDeliveryDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        update: {
+          args: Prisma.PathaoDeliveryUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoDeliveryDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoDeliveryUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoDeliveryUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoDeliveryUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoDeliveryAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoDelivery>;
+        };
+        groupBy: {
+          args: Prisma.PathaoDeliveryGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoDeliveryGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoDeliveryCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoDeliveryCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoDeliveryStatusHistory: {
+      payload: Prisma.$PathaoDeliveryStatusHistoryPayload<ExtArgs>;
+      fields: Prisma.PathaoDeliveryStatusHistoryFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoDeliveryStatusHistoryFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoDeliveryStatusHistoryFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoDeliveryStatusHistoryFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoDeliveryStatusHistoryFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoDeliveryStatusHistoryFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoDeliveryStatusHistoryCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoDeliveryStatusHistoryCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoDeliveryStatusHistoryCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoDeliveryStatusHistoryDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        update: {
+          args: Prisma.PathaoDeliveryStatusHistoryUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoDeliveryStatusHistoryDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoDeliveryStatusHistoryUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoDeliveryStatusHistoryUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoDeliveryStatusHistoryUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoDeliveryStatusHistoryPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoDeliveryStatusHistoryAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoDeliveryStatusHistory>;
+        };
+        groupBy: {
+          args: Prisma.PathaoDeliveryStatusHistoryGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoDeliveryStatusHistoryGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoDeliveryStatusHistoryCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoDeliveryStatusHistoryCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoWebhookLog: {
+      payload: Prisma.$PathaoWebhookLogPayload<ExtArgs>;
+      fields: Prisma.PathaoWebhookLogFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoWebhookLogFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoWebhookLogFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoWebhookLogFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoWebhookLogFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoWebhookLogFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoWebhookLogCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoWebhookLogCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoWebhookLogCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoWebhookLogDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        update: {
+          args: Prisma.PathaoWebhookLogUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoWebhookLogDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoWebhookLogUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoWebhookLogUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoWebhookLogUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoWebhookLogPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoWebhookLogAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoWebhookLog>;
+        };
+        groupBy: {
+          args: Prisma.PathaoWebhookLogGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoWebhookLogGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoWebhookLogCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoWebhookLogCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoCity: {
+      payload: Prisma.$PathaoCityPayload<ExtArgs>;
+      fields: Prisma.PathaoCityFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoCityFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoCityFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoCityFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoCityFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoCityFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoCityCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoCityCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoCityCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoCityDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        update: {
+          args: Prisma.PathaoCityUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoCityDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoCityUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoCityUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoCityUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoCityPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoCityAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoCity>;
+        };
+        groupBy: {
+          args: Prisma.PathaoCityGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoCityGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoCityCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoCityCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoZone: {
+      payload: Prisma.$PathaoZonePayload<ExtArgs>;
+      fields: Prisma.PathaoZoneFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoZoneFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoZoneFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoZoneFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoZoneFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoZoneFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>[];
+        };
+        create: {
+          args: Prisma.PathaoZoneCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoZoneCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoZoneCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoZoneDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        update: {
+          args: Prisma.PathaoZoneUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoZoneDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoZoneUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoZoneUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoZoneUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoZonePayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoZoneAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoZone>;
+        };
+        groupBy: {
+          args: Prisma.PathaoZoneGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoZoneGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoZoneCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoZoneCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    PathaoArea: {
+      payload: Prisma.$PathaoAreaPayload<ExtArgs>;
+      fields: Prisma.PathaoAreaFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.PathaoAreaFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.PathaoAreaFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        findFirst: {
+          args: Prisma.PathaoAreaFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.PathaoAreaFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        findMany: {
+          args: Prisma.PathaoAreaFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>[];
+        };
+        create: {
+          args: Prisma.PathaoAreaCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        createMany: {
+          args: Prisma.PathaoAreaCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.PathaoAreaCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>[];
+        };
+        delete: {
+          args: Prisma.PathaoAreaDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        update: {
+          args: Prisma.PathaoAreaUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        deleteMany: {
+          args: Prisma.PathaoAreaDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.PathaoAreaUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.PathaoAreaUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>[];
+        };
+        upsert: {
+          args: Prisma.PathaoAreaUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PathaoAreaPayload>;
+        };
+        aggregate: {
+          args: Prisma.PathaoAreaAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePathaoArea>;
+        };
+        groupBy: {
+          args: Prisma.PathaoAreaGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.PathaoAreaGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.PathaoAreaCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.PathaoAreaCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -2673,12 +3297,14 @@ export const OrderScalarFieldEnum = {
   customerPhone: "customerPhone",
   customerName: "customerName",
   customerEmail: "customerEmail",
-  deliveryDistrict: "deliveryDistrict",
-  policeStation: "policeStation",
-  deliveryArea: "deliveryArea",
+  secondaryPhone: "secondaryPhone",
+  recipientCityId: "recipientCityId",
+  recipientZoneId: "recipientZoneId",
+  recipientAreaId: "recipientAreaId",
   deliveryAddress: "deliveryAddress",
   deliveryLocation: "deliveryLocation",
   deliveryCharge: "deliveryCharge",
+  specialInstructions: "specialInstructions",
   userId: "userId",
   storeId: "storeId",
   status: "status",
@@ -2686,17 +3312,7 @@ export const OrderScalarFieldEnum = {
   subtotal: "subtotal",
   totalDiscount: "totalDiscount",
   totalAmount: "totalAmount",
-  isVoiceConfirmed: "isVoiceConfirmed",
-  voiceConfirmedAt: "voiceConfirmedAt",
-  voiceConfirmedBy: "voiceConfirmedBy",
-  isEditedByVendor: "isEditedByVendor",
-  editedAt: "editedAt",
-  editNotes: "editNotes",
   assignedBranchId: "assignedBranchId",
-  pathaoConsignmentId: "pathaoConsignmentId",
-  pathaoStatus: "pathaoStatus",
-  estimatedDeliveryDate: "estimatedDeliveryDate",
-  actualDeliveryDate: "actualDeliveryDate",
   createdAt: "createdAt",
   updatedAt: "updatedAt"
 } as const;
@@ -2724,6 +3340,150 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum =
   (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum];
 
+export const PathaoCredentialScalarFieldEnum = {
+  id: "id",
+  branchId: "branchId",
+  clientId: "clientId",
+  clientSecret: "clientSecret",
+  username: "username",
+  password: "password",
+  accessToken: "accessToken",
+  refreshToken: "refreshToken",
+  tokenExpiry: "tokenExpiry",
+  webhookSecret: "webhookSecret",
+  environment: "environment",
+  isActive: "isActive",
+  lastUsedAt: "lastUsedAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoCredentialScalarFieldEnum =
+  (typeof PathaoCredentialScalarFieldEnum)[keyof typeof PathaoCredentialScalarFieldEnum];
+
+export const PathaoStoreScalarFieldEnum = {
+  id: "id",
+  branchId: "branchId",
+  pathaoStoreId: "pathaoStoreId",
+  name: "name",
+  contactName: "contactName",
+  contactNumber: "contactNumber",
+  secondaryContact: "secondaryContact",
+  address: "address",
+  cityId: "cityId",
+  zoneId: "zoneId",
+  areaId: "areaId",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoStoreScalarFieldEnum =
+  (typeof PathaoStoreScalarFieldEnum)[keyof typeof PathaoStoreScalarFieldEnum];
+
+export const PathaoDeliveryScalarFieldEnum = {
+  id: "id",
+  orderId: "orderId",
+  consignmentId: "consignmentId",
+  invoiceId: "invoiceId",
+  pathaoStoreId: "pathaoStoreId",
+  itemWeight: "itemWeight",
+  itemQuantity: "itemQuantity",
+  amountToCollect: "amountToCollect",
+  deliveryFee: "deliveryFee",
+  codCharge: "codCharge",
+  promoDiscount: "promoDiscount",
+  discount: "discount",
+  recipientCityId: "recipientCityId",
+  recipientZoneId: "recipientZoneId",
+  recipientAreaId: "recipientAreaId",
+  recipientName: "recipientName",
+  recipientPhone: "recipientPhone",
+  recipientSecondaryPhone: "recipientSecondaryPhone",
+  recipientAddress: "recipientAddress",
+  deliveryType: "deliveryType",
+  itemType: "itemType",
+  specialInstruction: "specialInstruction",
+  itemDescription: "itemDescription",
+  status: "status",
+  errorMessage: "errorMessage",
+  retryCount: "retryCount",
+  lastRetryAt: "lastRetryAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoDeliveryScalarFieldEnum =
+  (typeof PathaoDeliveryScalarFieldEnum)[keyof typeof PathaoDeliveryScalarFieldEnum];
+
+export const PathaoDeliveryStatusHistoryScalarFieldEnum = {
+  id: "id",
+  pathaoDeliveryId: "pathaoDeliveryId",
+  status: "status",
+  pathaoStatus: "pathaoStatus",
+  remarks: "remarks",
+  metadata: "metadata",
+  createdAt: "createdAt"
+} as const;
+
+export type PathaoDeliveryStatusHistoryScalarFieldEnum =
+  (typeof PathaoDeliveryStatusHistoryScalarFieldEnum)[keyof typeof PathaoDeliveryStatusHistoryScalarFieldEnum];
+
+export const PathaoWebhookLogScalarFieldEnum = {
+  id: "id",
+  consignmentId: "consignmentId",
+  merchantOrderId: "merchantOrderId",
+  payload: "payload",
+  headers: "headers",
+  processed: "processed",
+  processedAt: "processedAt",
+  error: "error",
+  createdAt: "createdAt"
+} as const;
+
+export type PathaoWebhookLogScalarFieldEnum =
+  (typeof PathaoWebhookLogScalarFieldEnum)[keyof typeof PathaoWebhookLogScalarFieldEnum];
+
+export const PathaoCityScalarFieldEnum = {
+  id: "id",
+  cityId: "cityId",
+  name: "name",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoCityScalarFieldEnum =
+  (typeof PathaoCityScalarFieldEnum)[keyof typeof PathaoCityScalarFieldEnum];
+
+export const PathaoZoneScalarFieldEnum = {
+  id: "id",
+  zoneId: "zoneId",
+  name: "name",
+  cityId: "cityId",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoZoneScalarFieldEnum =
+  (typeof PathaoZoneScalarFieldEnum)[keyof typeof PathaoZoneScalarFieldEnum];
+
+export const PathaoAreaScalarFieldEnum = {
+  id: "id",
+  areaId: "areaId",
+  name: "name",
+  zoneId: "zoneId",
+  homeDeliveryAvailable: "homeDeliveryAvailable",
+  pickupAvailable: "pickupAvailable",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoAreaScalarFieldEnum =
+  (typeof PathaoAreaScalarFieldEnum)[keyof typeof PathaoAreaScalarFieldEnum];
+
 export const SortOrder = {
   asc: "asc",
   desc: "desc"
@@ -2738,6 +3498,13 @@ export const NullableJsonNullValueInput = {
 
 export type NullableJsonNullValueInput =
   (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const;
+
+export type JsonNullValueInput =
+  (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 
 export const QueryMode = {
   default: "default",
@@ -3097,6 +3864,14 @@ export type GlobalOmitConfig = {
   cartItem?: Prisma.CartItemOmit;
   order?: Prisma.OrderOmit;
   orderItem?: Prisma.OrderItemOmit;
+  pathaoCredential?: Prisma.PathaoCredentialOmit;
+  pathaoStore?: Prisma.PathaoStoreOmit;
+  pathaoDelivery?: Prisma.PathaoDeliveryOmit;
+  pathaoDeliveryStatusHistory?: Prisma.PathaoDeliveryStatusHistoryOmit;
+  pathaoWebhookLog?: Prisma.PathaoWebhookLogOmit;
+  pathaoCity?: Prisma.PathaoCityOmit;
+  pathaoZone?: Prisma.PathaoZoneOmit;
+  pathaoArea?: Prisma.PathaoAreaOmit;
 };
 
 /* Types for Logging */

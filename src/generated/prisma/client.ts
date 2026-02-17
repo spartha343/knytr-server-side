@@ -164,3 +164,44 @@ export type Order = Prisma.OrderModel;
  *
  */
 export type OrderItem = Prisma.OrderItemModel;
+/**
+ * Model PathaoCredential
+ *
+ */
+export type PathaoCredential = Prisma.PathaoCredentialModel;
+/**
+ * Model PathaoStore
+ *
+ */
+export type PathaoStore = Prisma.PathaoStoreModel;
+/**
+ * Model PathaoDelivery
+ *
+ */
+export type PathaoDelivery = Prisma.PathaoDeliveryModel;
+/**
+ * Model PathaoDeliveryStatusHistory
+ *
+ */
+export type PathaoDeliveryStatusHistory =
+  Prisma.PathaoDeliveryStatusHistoryModel;
+/**
+ * Model PathaoWebhookLog
+ *
+ */
+export type PathaoWebhookLog = Prisma.PathaoWebhookLogModel;
+/**
+ * Model PathaoCity
+ *
+ */
+export type PathaoCity = Prisma.PathaoCityModel;
+/**
+ * Model PathaoZone
+ *
+ */
+export type PathaoZone = Prisma.PathaoZoneModel;
+/**
+ * Model PathaoArea
+ *
+ */
+export type PathaoArea = Prisma.PathaoAreaModel;

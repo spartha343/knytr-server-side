@@ -15,7 +15,13 @@ import type {
   IUpdateOrderStatusRequest,
   IAssignBranchToItemRequest
 } from "./order.interface";
-import type { Prisma, Order } from "../../../generated/prisma/client";
+import {
+  type Prisma,
+  type Order,
+  type DeliveryLocation,
+  type PaymentMethod,
+  OrderStatus
+} from "../../../generated/prisma/client";
 import type { IPaginationOptions } from "../../../interfaces/pagination";
 import type { IGenericResponse } from "../../../interfaces/common";
 
@@ -214,9 +220,6 @@ const createOrder = async (
       customerPhone: payload.customerPhone,
       customerName: payload.customerName ?? null,
       customerEmail: payload.customerEmail ?? null,
-      policeStation: payload.policeStation ?? null,
-      deliveryDistrict: payload.deliveryDistrict ?? null,
-      deliveryArea: payload.deliveryArea ?? null,
       deliveryAddress: payload.deliveryAddress ?? null,
       deliveryLocation: payload.deliveryLocation,
       deliveryCharge,
@@ -293,22 +296,12 @@ const getAllOrders = async (
   // Filter functionality
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filterData).map((key) => {
-        // Handle boolean fields
-        if (key === "isVoiceConfirmed") {
-          return {
-            [key]:
-              filterData[key as keyof typeof filterData] === "true" ||
-              filterData[key as keyof typeof filterData] === true
-          };
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          equals: (filterData as any)[key]
         }
-        return {
-          [key]: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            equals: (filterData as any)[key]
-          }
-        };
-      })
+      }))
     });
   }
 
@@ -387,21 +380,12 @@ const getVendorOrders = async (
   // Filter functionality
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filterData).map((key) => {
-        if (key === "isVoiceConfirmed") {
-          return {
-            [key]:
-              filterData[key as keyof typeof filterData] === "true" ||
-              filterData[key as keyof typeof filterData] === true
-          };
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          equals: (filterData as any)[key]
         }
-        return {
-          [key]: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            equals: (filterData as any)[key]
-          }
-        };
-      })
+      }))
     });
   }
 
@@ -470,7 +454,7 @@ const getOrderById = async (id: string): Promise<Order | null> => {
   return result;
 };
 
-// UPDATE ORDER (vendor can edit before voice confirmation)
+// UPDATE ORDER (vendor can edit before confirmation)
 const updateOrder = async (
   id: string,
   vendorId: string,
@@ -478,7 +462,15 @@ const updateOrder = async (
 ): Promise<Order> => {
   const existingOrder = await prisma.order.findUnique({
     where: { id },
-    include: { store: true }
+    include: {
+      store: true,
+      items: {
+        include: {
+          product: true,
+          variant: true
+        }
+      }
+    }
   });
 
   if (!existingOrder) {
@@ -493,53 +485,244 @@ const updateOrder = async (
     );
   }
 
-  // Can only edit if not yet voice confirmed
-  if (existingOrder.isVoiceConfirmed) {
+  // Can only edit if status is PENDING
+  if (existingOrder.status !== OrderStatus.PENDING) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      "Cannot edit order after voice confirmation"
+      "Cannot edit order after it has been confirmed. Only PENDING orders can be edited."
     );
   }
 
   // Build update data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateData: any = {
-    isEditedByVendor: true,
-    editedAt: new Date()
-  };
+  const updateData: any = {};
 
+  // Update customer info
   if (payload.customerPhone !== undefined)
     updateData.customerPhone = payload.customerPhone;
   if (payload.customerName !== undefined)
     updateData.customerName = payload.customerName;
   if (payload.customerEmail !== undefined)
     updateData.customerEmail = payload.customerEmail;
-  if (payload.policeStation !== undefined)
-    updateData.policeStation = payload.policeStation;
-  if (payload.deliveryDistrict !== undefined)
-    updateData.deliveryDistrict = payload.deliveryDistrict;
-  if (payload.deliveryArea !== undefined)
-    updateData.deliveryArea = payload.deliveryArea;
+  if (payload.secondaryPhone !== undefined)
+    updateData.secondaryPhone = payload.secondaryPhone;
+  if (payload.specialInstructions !== undefined)
+    updateData.specialInstructions = payload.specialInstructions;
+
+  // Update delivery info
   if (payload.deliveryAddress !== undefined)
     updateData.deliveryAddress = payload.deliveryAddress;
-  if (payload.editNotes !== undefined) updateData.editNotes = payload.editNotes;
-
-  // If delivery location changes, update delivery charge
-  if (payload.deliveryLocation !== undefined) {
+  if (payload.deliveryLocation !== undefined)
     updateData.deliveryLocation = payload.deliveryLocation;
-    const newDeliveryCharge = DELIVERY_CHARGES[payload.deliveryLocation];
-    if (newDeliveryCharge === undefined) {
+  if (payload.recipientCityId !== undefined)
+    updateData.recipientCityId = payload.recipientCityId;
+  if (payload.recipientZoneId !== undefined)
+    updateData.recipientZoneId = payload.recipientZoneId;
+  if (payload.recipientAreaId !== undefined)
+    updateData.recipientAreaId = payload.recipientAreaId;
+
+  // Handle items update if provided
+  if (payload.items && payload.items.length > 0) {
+    // STEP 1: Fetch all products and variants
+    const productIds = payload.items.map((item) => item.productId);
+    const products = await prisma.product.findMany({
+      where: {
+        id: { in: productIds },
+        storeId: existingOrder.storeId, // Must belong to same store
+        isDeleted: false
+      },
+      include: {
+        media: {
+          where: { isPrimary: true },
+          take: 1
+        }
+      }
+    });
+
+    const variantIds = payload.items
+      .map((item) => item.variantId)
+      .filter((id): id is string => !!id);
+
+    const variants =
+      variantIds.length > 0
+        ? await prisma.productVariant.findMany({
+            where: {
+              id: { in: variantIds }
+            },
+            include: {
+              variantAttributes: {
+                include: {
+                  attributeValue: {
+                    include: {
+                      attribute: true
+                    }
+                  }
+                }
+              }
+            }
+          })
+        : [];
+
+    // Create maps for O(1) lookup
+    const productMap = new Map(products.map((p) => [p.id, p]));
+    const variantMap = new Map(variants.map((v) => [v.id, v]));
+
+    // STEP 2: Calculate new totals
+    let newSubtotal = 0;
+    let newTotalDiscount = 0;
+
+    const newOrderItemsData: {
+      productId: string;
+      variantId?: string;
+      quantity: number;
+      price: number;
+      discount: number;
+      total: number;
+      productName: string;
+      variantName: string | null;
+      productImage: string | null;
+    }[] = [];
+
+    for (const item of payload.items) {
+      // Validate product exists and belongs to store
+      const product = productMap.get(item.productId);
+      if (!product) {
+        throw new ApiError(
+          httpStatus.NOT_FOUND,
+          `Product with ID ${item.productId} not found or does not belong to this store`
+        );
+      }
+
+      let price = Number(product.basePrice);
+      let comparePrice = Number(product.comparePrice || product.basePrice);
+      let discount = 0;
+      let variantName = null;
+      let productImage = product.media[0]?.mediaUrl || null;
+
+      // If variant is specified
+      if (item.variantId) {
+        const variant = variantMap.get(item.variantId);
+        if (!variant) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            `Variant with ID ${item.variantId} not found`
+          );
+        }
+
+        if (variant.productId !== item.productId) {
+          throw new ApiError(
+            httpStatus.BAD_REQUEST,
+            "Variant does not belong to this product"
+          );
+        }
+
+        price = Number(variant.price);
+        comparePrice = Number(variant.comparePrice || variant.price);
+
+        // Build variant name
+        variantName = variant.variantAttributes
+          .map((va) => va.attributeValue.value)
+          .join(" / ");
+
+        // Use variant image if available
+        if (variant.imageUrl) {
+          productImage = variant.imageUrl;
+        }
+      }
+
+      // Apply price override if vendor provided one
+      if (item.priceOverride !== undefined && item.priceOverride !== null) {
+        price = item.priceOverride;
+        // Recalculate discount based on new price
+        discount = Math.max(0, comparePrice - price);
+      } else {
+        // Use default discount calculation
+        discount = Math.max(0, comparePrice - price);
+      }
+
+      const itemTotal = price * item.quantity;
+      newSubtotal += itemTotal;
+      newTotalDiscount += discount * item.quantity;
+
+      const orderItem: (typeof newOrderItemsData)[number] = {
+        productId: item.productId,
+        quantity: item.quantity,
+        price,
+        discount,
+        total: itemTotal,
+        productName: product.name,
+        variantName,
+        productImage
+      };
+
+      if (item.variantId) {
+        orderItem.variantId = item.variantId;
+      }
+
+      newOrderItemsData.push(orderItem);
+    }
+
+    // STEP 3: Calculate delivery charge
+    let deliveryCharge = Number(existingOrder.deliveryCharge);
+
+    // If delivery location changed, recalculate delivery charge
+    if (payload.deliveryLocation !== undefined) {
+      const chargeValue = DELIVERY_CHARGES[payload.deliveryLocation];
+      if (chargeValue === undefined) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "Invalid delivery location");
+      }
+      deliveryCharge = chargeValue;
+    }
+
+    // Apply delivery charge override if provided
+    if (
+      payload.deliveryChargeOverride !== undefined &&
+      payload.deliveryChargeOverride !== null
+    ) {
+      deliveryCharge = Number(payload.deliveryChargeOverride);
+    }
+
+    // STEP 4: Calculate new total
+    const newTotalAmount = newSubtotal + deliveryCharge;
+
+    // STEP 5: Update order with new items
+    updateData.subtotal = newSubtotal;
+    updateData.totalDiscount = newTotalDiscount;
+    updateData.deliveryCharge = deliveryCharge;
+    updateData.totalAmount = newTotalAmount;
+
+    // Delete old items and create new ones
+    updateData.items = {
+      deleteMany: {}, // Delete all existing items
+      create: newOrderItemsData // Create new items
+    };
+  } else if (payload.deliveryChargeOverride !== undefined) {
+    // If only delivery charge is being overridden (no item changes)
+    const newDeliveryCharge = Number(payload.deliveryChargeOverride);
+    const newTotalAmount = Number(existingOrder.subtotal) + newDeliveryCharge;
+
+    updateData.deliveryCharge = newDeliveryCharge;
+    updateData.totalAmount = newTotalAmount;
+  } else if (payload.deliveryLocation !== undefined) {
+    // If only delivery location changed
+    const chargeValue = DELIVERY_CHARGES[payload.deliveryLocation];
+    if (chargeValue === undefined) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Invalid delivery location");
     }
+
+    const newDeliveryCharge = Number(chargeValue);
+    const newTotalAmount = Number(existingOrder.subtotal) + newDeliveryCharge;
+
     updateData.deliveryCharge = newDeliveryCharge;
-    updateData.deliveryCharge = newDeliveryCharge;
-    // Recalculate total
-    updateData.totalAmount =
-      Number(existingOrder.subtotal) -
-      Number(existingOrder.totalDiscount) +
-      newDeliveryCharge;
+    updateData.totalAmount = newTotalAmount;
   }
 
+  // Add edit notes if provided
+  if (payload.editNotes) {
+    updateData.editNotes = payload.editNotes;
+  }
+
+  // Update the order
   const result = await prisma.order.update({
     where: { id },
     data: updateData,
@@ -586,17 +769,6 @@ const updateOrderStatus = async (
   const updateData: any = {
     status: payload.status
   };
-
-  if (payload.editNotes) {
-    updateData.editNotes = payload.editNotes;
-  }
-
-  // If transitioning to CONFIRMED, set voice confirmation fields
-  if (payload.status === "CONFIRMED") {
-    updateData.isVoiceConfirmed = true;
-    updateData.voiceConfirmedAt = new Date();
-    updateData.voiceConfirmedBy = vendorId;
-  }
 
   const result = await prisma.order.update({
     where: { id },
@@ -664,6 +836,190 @@ const assignBranchToItem = async (
   return result!;
 };
 
+// GET ORDER FOR INVOICE (with all required data)
+const getOrderForInvoice = async (orderId: string) => {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: {
+      items: {
+        include: {
+          product: {
+            select: {
+              name: true
+            }
+          },
+          variant: {
+            select: {
+              sku: true,
+              variantAttributes: {
+                include: {
+                  attributeValue: {
+                    include: {
+                      attribute: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      store: {
+        select: {
+          name: true,
+          logo: true,
+          contactPhone: true
+        }
+      },
+      assignedBranch: {
+        select: {
+          name: true,
+          address: {
+            select: {
+              addressLine1: true,
+              city: true,
+              state: true,
+              postalCode: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return order;
+};
+// CREATE MANUAL ORDER (Vendor creates order on behalf of customer via phone)
+const createManualOrder = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload: any,
+  vendorId: string
+) => {
+  const {
+    storeId,
+    customerName,
+    customerPhone,
+    customerEmail,
+    deliveryLocation,
+    deliveryAddress,
+    items,
+    paymentMethod,
+    deliveryCharge = 0,
+    totalDiscount = 0
+  } = payload;
+
+  // 1. Verify vendor owns this store
+  const store = await prisma.store.findUnique({
+    where: { id: storeId }
+  });
+
+  if (!store) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Store not found");
+  }
+
+  if (store.vendorId !== vendorId) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      "You can only create orders for your own store"
+    );
+  }
+
+  // 2. Validate products and calculate totals
+  let subtotal = 0;
+  const validatedItems = [];
+
+  for (const item of items) {
+    const product = await prisma.product.findUnique({
+      where: { id: item.productId },
+      include: {
+        media: {
+          where: { isPrimary: true },
+          take: 1
+        },
+        variants: item.variantId
+          ? {
+              where: { id: item.variantId }
+            }
+          : false
+      }
+    });
+
+    if (!product || product.storeId !== storeId) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        `Product ${item.productId} not found or doesn't belong to this store`
+      );
+    }
+
+    const variant = item.variantId ? product.variants[0] : null;
+    const itemTotal = item.unitPrice * item.quantity;
+    subtotal += itemTotal;
+
+    validatedItems.push({
+      productId: item.productId,
+      variantId: item.variantId || null,
+      quantity: item.quantity,
+      price: item.unitPrice,
+      discount: 0,
+      total: itemTotal,
+      productName: product.name,
+      variantName: variant?.sku || null,
+      productImage: product.media[0]?.mediaUrl || null
+    });
+  }
+
+  // 3. Calculate final total
+  const totalAmount = subtotal - totalDiscount + deliveryCharge;
+
+  // 4. Generate order number
+  const orderCount = await prisma.order.count({
+    where: {
+      storeId,
+      createdAt: {
+        gte: new Date(new Date().setHours(0, 0, 0, 0))
+      }
+    }
+  });
+
+  const orderNumber = `ORD-${store.slug}-${new Date()
+    .toISOString()
+    .slice(0, 10)
+    .replace(/-/g, "")}-${String(orderCount + 1).padStart(6, "0")}`;
+
+  // 5. Create order with items
+  const order = await prisma.order.create({
+    data: {
+      orderNumber,
+      customerPhone,
+      customerName,
+      customerEmail: customerEmail || null,
+      deliveryLocation: deliveryLocation as DeliveryLocation,
+
+      deliveryAddress: deliveryAddress || null,
+      storeId,
+      paymentMethod: paymentMethod as PaymentMethod,
+      subtotal,
+      totalDiscount,
+      deliveryCharge,
+      totalAmount,
+      status: "CONFIRMED",
+      items: {
+        create: validatedItems
+      }
+    },
+    include: {
+      items: {
+        include: {
+          product: true,
+          variant: true
+        }
+      },
+      store: true
+    }
+  });
+
+  return order;
+};
 export const OrderService = {
   createOrder,
   getAllOrders,
@@ -672,5 +1028,7 @@ export const OrderService = {
   getOrderById,
   updateOrder,
   updateOrderStatus,
-  assignBranchToItem
+  assignBranchToItem,
+  getOrderForInvoice,
+  createManualOrder
 };

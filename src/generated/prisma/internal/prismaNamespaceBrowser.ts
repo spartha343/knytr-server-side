@@ -77,7 +77,15 @@ export const ModelName = {
   Cart: "Cart",
   CartItem: "CartItem",
   Order: "Order",
-  OrderItem: "OrderItem"
+  OrderItem: "OrderItem",
+  PathaoCredential: "PathaoCredential",
+  PathaoStore: "PathaoStore",
+  PathaoDelivery: "PathaoDelivery",
+  PathaoDeliveryStatusHistory: "PathaoDeliveryStatusHistory",
+  PathaoWebhookLog: "PathaoWebhookLog",
+  PathaoCity: "PathaoCity",
+  PathaoZone: "PathaoZone",
+  PathaoArea: "PathaoArea"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -421,12 +429,14 @@ export const OrderScalarFieldEnum = {
   customerPhone: "customerPhone",
   customerName: "customerName",
   customerEmail: "customerEmail",
-  deliveryDistrict: "deliveryDistrict",
-  policeStation: "policeStation",
-  deliveryArea: "deliveryArea",
+  secondaryPhone: "secondaryPhone",
+  recipientCityId: "recipientCityId",
+  recipientZoneId: "recipientZoneId",
+  recipientAreaId: "recipientAreaId",
   deliveryAddress: "deliveryAddress",
   deliveryLocation: "deliveryLocation",
   deliveryCharge: "deliveryCharge",
+  specialInstructions: "specialInstructions",
   userId: "userId",
   storeId: "storeId",
   status: "status",
@@ -434,17 +444,7 @@ export const OrderScalarFieldEnum = {
   subtotal: "subtotal",
   totalDiscount: "totalDiscount",
   totalAmount: "totalAmount",
-  isVoiceConfirmed: "isVoiceConfirmed",
-  voiceConfirmedAt: "voiceConfirmedAt",
-  voiceConfirmedBy: "voiceConfirmedBy",
-  isEditedByVendor: "isEditedByVendor",
-  editedAt: "editedAt",
-  editNotes: "editNotes",
   assignedBranchId: "assignedBranchId",
-  pathaoConsignmentId: "pathaoConsignmentId",
-  pathaoStatus: "pathaoStatus",
-  estimatedDeliveryDate: "estimatedDeliveryDate",
-  actualDeliveryDate: "actualDeliveryDate",
   createdAt: "createdAt",
   updatedAt: "updatedAt"
 } as const;
@@ -472,6 +472,150 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum =
   (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum];
 
+export const PathaoCredentialScalarFieldEnum = {
+  id: "id",
+  branchId: "branchId",
+  clientId: "clientId",
+  clientSecret: "clientSecret",
+  username: "username",
+  password: "password",
+  accessToken: "accessToken",
+  refreshToken: "refreshToken",
+  tokenExpiry: "tokenExpiry",
+  webhookSecret: "webhookSecret",
+  environment: "environment",
+  isActive: "isActive",
+  lastUsedAt: "lastUsedAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoCredentialScalarFieldEnum =
+  (typeof PathaoCredentialScalarFieldEnum)[keyof typeof PathaoCredentialScalarFieldEnum];
+
+export const PathaoStoreScalarFieldEnum = {
+  id: "id",
+  branchId: "branchId",
+  pathaoStoreId: "pathaoStoreId",
+  name: "name",
+  contactName: "contactName",
+  contactNumber: "contactNumber",
+  secondaryContact: "secondaryContact",
+  address: "address",
+  cityId: "cityId",
+  zoneId: "zoneId",
+  areaId: "areaId",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoStoreScalarFieldEnum =
+  (typeof PathaoStoreScalarFieldEnum)[keyof typeof PathaoStoreScalarFieldEnum];
+
+export const PathaoDeliveryScalarFieldEnum = {
+  id: "id",
+  orderId: "orderId",
+  consignmentId: "consignmentId",
+  invoiceId: "invoiceId",
+  pathaoStoreId: "pathaoStoreId",
+  itemWeight: "itemWeight",
+  itemQuantity: "itemQuantity",
+  amountToCollect: "amountToCollect",
+  deliveryFee: "deliveryFee",
+  codCharge: "codCharge",
+  promoDiscount: "promoDiscount",
+  discount: "discount",
+  recipientCityId: "recipientCityId",
+  recipientZoneId: "recipientZoneId",
+  recipientAreaId: "recipientAreaId",
+  recipientName: "recipientName",
+  recipientPhone: "recipientPhone",
+  recipientSecondaryPhone: "recipientSecondaryPhone",
+  recipientAddress: "recipientAddress",
+  deliveryType: "deliveryType",
+  itemType: "itemType",
+  specialInstruction: "specialInstruction",
+  itemDescription: "itemDescription",
+  status: "status",
+  errorMessage: "errorMessage",
+  retryCount: "retryCount",
+  lastRetryAt: "lastRetryAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoDeliveryScalarFieldEnum =
+  (typeof PathaoDeliveryScalarFieldEnum)[keyof typeof PathaoDeliveryScalarFieldEnum];
+
+export const PathaoDeliveryStatusHistoryScalarFieldEnum = {
+  id: "id",
+  pathaoDeliveryId: "pathaoDeliveryId",
+  status: "status",
+  pathaoStatus: "pathaoStatus",
+  remarks: "remarks",
+  metadata: "metadata",
+  createdAt: "createdAt"
+} as const;
+
+export type PathaoDeliveryStatusHistoryScalarFieldEnum =
+  (typeof PathaoDeliveryStatusHistoryScalarFieldEnum)[keyof typeof PathaoDeliveryStatusHistoryScalarFieldEnum];
+
+export const PathaoWebhookLogScalarFieldEnum = {
+  id: "id",
+  consignmentId: "consignmentId",
+  merchantOrderId: "merchantOrderId",
+  payload: "payload",
+  headers: "headers",
+  processed: "processed",
+  processedAt: "processedAt",
+  error: "error",
+  createdAt: "createdAt"
+} as const;
+
+export type PathaoWebhookLogScalarFieldEnum =
+  (typeof PathaoWebhookLogScalarFieldEnum)[keyof typeof PathaoWebhookLogScalarFieldEnum];
+
+export const PathaoCityScalarFieldEnum = {
+  id: "id",
+  cityId: "cityId",
+  name: "name",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoCityScalarFieldEnum =
+  (typeof PathaoCityScalarFieldEnum)[keyof typeof PathaoCityScalarFieldEnum];
+
+export const PathaoZoneScalarFieldEnum = {
+  id: "id",
+  zoneId: "zoneId",
+  name: "name",
+  cityId: "cityId",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoZoneScalarFieldEnum =
+  (typeof PathaoZoneScalarFieldEnum)[keyof typeof PathaoZoneScalarFieldEnum];
+
+export const PathaoAreaScalarFieldEnum = {
+  id: "id",
+  areaId: "areaId",
+  name: "name",
+  zoneId: "zoneId",
+  homeDeliveryAvailable: "homeDeliveryAvailable",
+  pickupAvailable: "pickupAvailable",
+  isActive: "isActive",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type PathaoAreaScalarFieldEnum =
+  (typeof PathaoAreaScalarFieldEnum)[keyof typeof PathaoAreaScalarFieldEnum];
+
 export const SortOrder = {
   asc: "asc",
   desc: "desc"
@@ -486,6 +630,13 @@ export const NullableJsonNullValueInput = {
 
 export type NullableJsonNullValueInput =
   (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
+
+export const JsonNullValueInput = {
+  JsonNull: "JsonNull"
+} as const;
+
+export type JsonNullValueInput =
+  (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 
 export const QueryMode = {
   default: "default",
