@@ -19,6 +19,9 @@ export interface ICreateOrderRequest {
   // Delivery Info
   deliveryAddress?: string;
   deliveryLocation: DeliveryLocation;
+  recipientCityId?: number;
+  recipientZoneId?: number;
+  recipientAreaId?: number;
 
   // Order Details
   storeId: string;
@@ -76,4 +79,17 @@ export interface IOrderFilterRequest {
   userId?: string;
   paymentMethod?: PaymentMethod;
   deliveryLocation?: DeliveryLocation;
+}
+
+export interface ICancelOrderRequest {
+  reason?: string;
+}
+
+export interface IOrderActivity {
+  id: string;
+  orderId: string;
+  userId?: string;
+  action: string;
+  description?: string;
+  createdAt: Date;
 }

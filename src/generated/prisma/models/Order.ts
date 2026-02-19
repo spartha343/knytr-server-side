@@ -68,6 +68,9 @@ export type OrderMinAggregateOutputType = {
   totalDiscount: runtime.Decimal | null;
   totalAmount: runtime.Decimal | null;
   assignedBranchId: string | null;
+  cancellationReason: string | null;
+  cancelledBy: string | null;
+  cancelledAt: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -94,6 +97,9 @@ export type OrderMaxAggregateOutputType = {
   totalDiscount: runtime.Decimal | null;
   totalAmount: runtime.Decimal | null;
   assignedBranchId: string | null;
+  cancellationReason: string | null;
+  cancelledBy: string | null;
+  cancelledAt: Date | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -120,6 +126,9 @@ export type OrderCountAggregateOutputType = {
   totalDiscount: number;
   totalAmount: number;
   assignedBranchId: number;
+  cancellationReason: number;
+  cancelledBy: number;
+  cancelledAt: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -167,6 +176,9 @@ export type OrderMinAggregateInputType = {
   totalDiscount?: true;
   totalAmount?: true;
   assignedBranchId?: true;
+  cancellationReason?: true;
+  cancelledBy?: true;
+  cancelledAt?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -193,6 +205,9 @@ export type OrderMaxAggregateInputType = {
   totalDiscount?: true;
   totalAmount?: true;
   assignedBranchId?: true;
+  cancellationReason?: true;
+  cancelledBy?: true;
+  cancelledAt?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -219,6 +234,9 @@ export type OrderCountAggregateInputType = {
   totalDiscount?: true;
   totalAmount?: true;
   assignedBranchId?: true;
+  cancellationReason?: true;
+  cancelledBy?: true;
+  cancelledAt?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -339,6 +357,9 @@ export type OrderGroupByOutputType = {
   totalDiscount: runtime.Decimal;
   totalAmount: runtime.Decimal;
   assignedBranchId: string | null;
+  cancellationReason: string | null;
+  cancelledBy: string | null;
+  cancelledAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
   _count: OrderCountAggregateOutputType | null;
@@ -409,6 +430,9 @@ export type OrderWhereInput = {
     | number
     | string;
   assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancellationReason?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancelledBy?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   user?: Prisma.XOR<
@@ -437,6 +461,11 @@ export type OrderWhereInput = {
     Prisma.PathaoAreaNullableScalarRelationFilter,
     Prisma.PathaoAreaWhereInput
   > | null;
+  activities?: Prisma.OrderActivityListRelationFilter;
+  cancelledByUser?: Prisma.XOR<
+    Prisma.UserNullableScalarRelationFilter,
+    Prisma.UserWhereInput
+  > | null;
 };
 
 export type OrderOrderByWithRelationInput = {
@@ -461,6 +490,9 @@ export type OrderOrderByWithRelationInput = {
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancellationReason?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   user?: Prisma.UserOrderByWithRelationInput;
@@ -471,6 +503,8 @@ export type OrderOrderByWithRelationInput = {
   recipientCity?: Prisma.PathaoCityOrderByWithRelationInput;
   recipientZone?: Prisma.PathaoZoneOrderByWithRelationInput;
   recipientArea?: Prisma.PathaoAreaOrderByWithRelationInput;
+  activities?: Prisma.OrderActivityOrderByRelationAggregateInput;
+  cancelledByUser?: Prisma.UserOrderByWithRelationInput;
 };
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<
@@ -523,6 +557,9 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
       | number
       | string;
     assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
+    cancellationReason?: Prisma.StringNullableFilter<"Order"> | string | null;
+    cancelledBy?: Prisma.StringNullableFilter<"Order"> | string | null;
+    cancelledAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
     user?: Prisma.XOR<
@@ -554,6 +591,11 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<
       Prisma.PathaoAreaNullableScalarRelationFilter,
       Prisma.PathaoAreaWhereInput
     > | null;
+    activities?: Prisma.OrderActivityListRelationFilter;
+    cancelledByUser?: Prisma.XOR<
+      Prisma.UserNullableScalarRelationFilter,
+      Prisma.UserWhereInput
+    > | null;
   },
   "id" | "orderNumber"
 >;
@@ -580,6 +622,9 @@ export type OrderOrderByWithAggregationInput = {
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancellationReason?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancelledBy?: Prisma.SortOrderInput | Prisma.SortOrder;
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.OrderCountOrderByAggregateInput;
@@ -671,6 +716,19 @@ export type OrderScalarWhereWithAggregatesInput = {
     | Prisma.StringNullableWithAggregatesFilter<"Order">
     | string
     | null;
+  cancellationReason?:
+    | Prisma.StringNullableWithAggregatesFilter<"Order">
+    | string
+    | null;
+  cancelledBy?:
+    | Prisma.StringNullableWithAggregatesFilter<"Order">
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.DateTimeNullableWithAggregatesFilter<"Order">
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string;
 };
@@ -691,6 +749,8 @@ export type OrderCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -701,6 +761,8 @@ export type OrderCreateInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateInput = {
@@ -725,10 +787,14 @@ export type OrderUncheckedCreateInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderUpdateInput = {
@@ -788,6 +854,15 @@ export type OrderUpdateInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -798,6 +873,8 @@ export type OrderUpdateInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateInput = {
@@ -875,10 +952,21 @@ export type OrderUncheckedUpdateInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderCreateManyInput = {
@@ -903,6 +991,9 @@ export type OrderCreateManyInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -964,6 +1055,15 @@ export type OrderUpdateManyMutationInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1043,6 +1143,16 @@ export type OrderUncheckedUpdateManyInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -1079,6 +1189,9 @@ export type OrderCountOrderByAggregateInput = {
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
+  cancellationReason?: Prisma.SortOrder;
+  cancelledBy?: Prisma.SortOrder;
+  cancelledAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1115,6 +1228,9 @@ export type OrderMaxOrderByAggregateInput = {
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
+  cancellationReason?: Prisma.SortOrder;
+  cancelledBy?: Prisma.SortOrder;
+  cancelledAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1141,6 +1257,9 @@ export type OrderMinOrderByAggregateInput = {
   totalDiscount?: Prisma.SortOrder;
   totalAmount?: Prisma.SortOrder;
   assignedBranchId?: Prisma.SortOrder;
+  cancellationReason?: Prisma.SortOrder;
+  cancelledBy?: Prisma.SortOrder;
+  cancelledAt?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -1175,6 +1294,21 @@ export type OrderCreateNestedManyWithoutUserInput = {
   connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
 };
 
+export type OrderCreateNestedManyWithoutCancelledByUserInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutCancelledByUserInput,
+        Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+      >
+    | Prisma.OrderCreateWithoutCancelledByUserInput[]
+    | Prisma.OrderUncheckedCreateWithoutCancelledByUserInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput[];
+  createMany?: Prisma.OrderCreateManyCancelledByUserInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
 export type OrderUncheckedCreateNestedManyWithoutUserInput = {
   create?:
     | Prisma.XOR<
@@ -1187,6 +1321,21 @@ export type OrderUncheckedCreateNestedManyWithoutUserInput = {
     | Prisma.OrderCreateOrConnectWithoutUserInput
     | Prisma.OrderCreateOrConnectWithoutUserInput[];
   createMany?: Prisma.OrderCreateManyUserInputEnvelope;
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+};
+
+export type OrderUncheckedCreateNestedManyWithoutCancelledByUserInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutCancelledByUserInput,
+        Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+      >
+    | Prisma.OrderCreateWithoutCancelledByUserInput[]
+    | Prisma.OrderUncheckedCreateWithoutCancelledByUserInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput[];
+  createMany?: Prisma.OrderCreateManyCancelledByUserInputEnvelope;
   connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
 };
 
@@ -1218,6 +1367,34 @@ export type OrderUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
 };
 
+export type OrderUpdateManyWithoutCancelledByUserNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutCancelledByUserInput,
+        Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+      >
+    | Prisma.OrderCreateWithoutCancelledByUserInput[]
+    | Prisma.OrderUncheckedCreateWithoutCancelledByUserInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutCancelledByUserInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutCancelledByUserInput[];
+  createMany?: Prisma.OrderCreateManyCancelledByUserInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutCancelledByUserInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutCancelledByUserInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutCancelledByUserInput
+    | Prisma.OrderUpdateManyWithWhereWithoutCancelledByUserInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
 export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
   create?:
     | Prisma.XOR<
@@ -1243,6 +1420,34 @@ export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
   updateMany?:
     | Prisma.OrderUpdateManyWithWhereWithoutUserInput
     | Prisma.OrderUpdateManyWithWhereWithoutUserInput[];
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
+};
+
+export type OrderUncheckedUpdateManyWithoutCancelledByUserNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.OrderCreateWithoutCancelledByUserInput,
+        Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+      >
+    | Prisma.OrderCreateWithoutCancelledByUserInput[]
+    | Prisma.OrderUncheckedCreateWithoutCancelledByUserInput[];
+  connectOrCreate?:
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput
+    | Prisma.OrderCreateOrConnectWithoutCancelledByUserInput[];
+  upsert?:
+    | Prisma.OrderUpsertWithWhereUniqueWithoutCancelledByUserInput
+    | Prisma.OrderUpsertWithWhereUniqueWithoutCancelledByUserInput[];
+  createMany?: Prisma.OrderCreateManyCancelledByUserInputEnvelope;
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[];
+  update?:
+    | Prisma.OrderUpdateWithWhereUniqueWithoutCancelledByUserInput
+    | Prisma.OrderUpdateWithWhereUniqueWithoutCancelledByUserInput[];
+  updateMany?:
+    | Prisma.OrderUpdateManyWithWhereWithoutCancelledByUserInput
+    | Prisma.OrderUpdateManyWithWhereWithoutCancelledByUserInput[];
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
 };
 
@@ -1748,6 +1953,32 @@ export type OrderUncheckedUpdateManyWithoutRecipientAreaNestedInput = {
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[];
 };
 
+export type OrderCreateNestedOneWithoutActivitiesInput = {
+  create?: Prisma.XOR<
+    Prisma.OrderCreateWithoutActivitiesInput,
+    Prisma.OrderUncheckedCreateWithoutActivitiesInput
+  >;
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutActivitiesInput;
+  connect?: Prisma.OrderWhereUniqueInput;
+};
+
+export type OrderUpdateOneRequiredWithoutActivitiesNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.OrderCreateWithoutActivitiesInput,
+    Prisma.OrderUncheckedCreateWithoutActivitiesInput
+  >;
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutActivitiesInput;
+  upsert?: Prisma.OrderUpsertWithoutActivitiesInput;
+  connect?: Prisma.OrderWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.OrderUpdateToOneWithWhereWithoutActivitiesInput,
+      Prisma.OrderUpdateWithoutActivitiesInput
+    >,
+    Prisma.OrderUncheckedUpdateWithoutActivitiesInput
+  >;
+};
+
 export type OrderCreateWithoutUserInput = {
   id?: string;
   orderNumber: string;
@@ -1764,6 +1995,8 @@ export type OrderCreateWithoutUserInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
@@ -1773,6 +2006,8 @@ export type OrderCreateWithoutUserInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutUserInput = {
@@ -1796,10 +2031,14 @@ export type OrderUncheckedCreateWithoutUserInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutUserInput = {
@@ -1812,6 +2051,83 @@ export type OrderCreateOrConnectWithoutUserInput = {
 
 export type OrderCreateManyUserInputEnvelope = {
   data: Prisma.OrderCreateManyUserInput | Prisma.OrderCreateManyUserInput[];
+  skipDuplicates?: boolean;
+};
+
+export type OrderCreateWithoutCancelledByUserInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+};
+
+export type OrderUncheckedCreateWithoutCancelledByUserInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutCancelledByUserInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutCancelledByUserInput,
+    Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+  >;
+};
+
+export type OrderCreateManyCancelledByUserInputEnvelope = {
+  data:
+    | Prisma.OrderCreateManyCancelledByUserInput
+    | Prisma.OrderCreateManyCancelledByUserInput[];
   skipDuplicates?: boolean;
 };
 
@@ -1892,8 +2208,39 @@ export type OrderScalarWhereInput = {
     | number
     | string;
   assignedBranchId?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancellationReason?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancelledBy?: Prisma.StringNullableFilter<"Order"> | string | null;
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null;
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string;
+};
+
+export type OrderUpsertWithWhereUniqueWithoutCancelledByUserInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutCancelledByUserInput,
+    Prisma.OrderUncheckedUpdateWithoutCancelledByUserInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutCancelledByUserInput,
+    Prisma.OrderUncheckedCreateWithoutCancelledByUserInput
+  >;
+};
+
+export type OrderUpdateWithWhereUniqueWithoutCancelledByUserInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutCancelledByUserInput,
+    Prisma.OrderUncheckedUpdateWithoutCancelledByUserInput
+  >;
+};
+
+export type OrderUpdateManyWithWhereWithoutCancelledByUserInput = {
+  where: Prisma.OrderScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateManyMutationInput,
+    Prisma.OrderUncheckedUpdateManyWithoutCancelledByUserInput
+  >;
 };
 
 export type OrderCreateWithoutStoreInput = {
@@ -1912,6 +2259,8 @@ export type OrderCreateWithoutStoreInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -1921,6 +2270,8 @@ export type OrderCreateWithoutStoreInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutStoreInput = {
@@ -1944,10 +2295,14 @@ export type OrderUncheckedCreateWithoutStoreInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutStoreInput = {
@@ -2007,6 +2362,8 @@ export type OrderCreateWithoutAssignedBranchInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2016,6 +2373,8 @@ export type OrderCreateWithoutAssignedBranchInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutAssignedBranchInput = {
@@ -2039,10 +2398,14 @@ export type OrderUncheckedCreateWithoutAssignedBranchInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutAssignedBranchInput = {
@@ -2104,6 +2467,8 @@ export type OrderCreateWithoutItemsInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2113,6 +2478,8 @@ export type OrderCreateWithoutItemsInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutItemsInput = {
@@ -2137,9 +2504,13 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutItemsInput = {
@@ -2227,6 +2598,15 @@ export type OrderUpdateWithoutItemsInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -2236,6 +2616,8 @@ export type OrderUpdateWithoutItemsInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -2313,9 +2695,20 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderCreateWithoutPathaoDeliveryInput = {
@@ -2334,6 +2727,8 @@ export type OrderCreateWithoutPathaoDeliveryInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2343,6 +2738,8 @@ export type OrderCreateWithoutPathaoDeliveryInput = {
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutPathaoDeliveryInput = {
@@ -2367,9 +2764,13 @@ export type OrderUncheckedCreateWithoutPathaoDeliveryInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutPathaoDeliveryInput = {
@@ -2457,6 +2858,15 @@ export type OrderUpdateWithoutPathaoDeliveryInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -2466,6 +2876,8 @@ export type OrderUpdateWithoutPathaoDeliveryInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutPathaoDeliveryInput = {
@@ -2543,9 +2955,20 @@ export type OrderUncheckedUpdateWithoutPathaoDeliveryInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderCreateWithoutRecipientCityInput = {
@@ -2564,6 +2987,8 @@ export type OrderCreateWithoutRecipientCityInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2573,6 +2998,8 @@ export type OrderCreateWithoutRecipientCityInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutRecipientCityInput = {
@@ -2596,10 +3023,14 @@ export type OrderUncheckedCreateWithoutRecipientCityInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutRecipientCityInput = {
@@ -2661,6 +3092,8 @@ export type OrderCreateWithoutRecipientZoneInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2670,6 +3103,8 @@ export type OrderCreateWithoutRecipientZoneInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutRecipientZoneInput = {
@@ -2693,10 +3128,14 @@ export type OrderUncheckedCreateWithoutRecipientZoneInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutRecipientZoneInput = {
@@ -2758,6 +3197,8 @@ export type OrderCreateWithoutRecipientAreaInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
@@ -2767,6 +3208,8 @@ export type OrderCreateWithoutRecipientAreaInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
   recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
   recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  activities?: Prisma.OrderActivityCreateNestedManyWithoutOrderInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
 };
 
 export type OrderUncheckedCreateWithoutRecipientAreaInput = {
@@ -2790,10 +3233,14 @@ export type OrderUncheckedCreateWithoutRecipientAreaInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+  activities?: Prisma.OrderActivityUncheckedCreateNestedManyWithoutOrderInput;
 };
 
 export type OrderCreateOrConnectWithoutRecipientAreaInput = {
@@ -2839,6 +3286,266 @@ export type OrderUpdateManyWithWhereWithoutRecipientAreaInput = {
   >;
 };
 
+export type OrderCreateWithoutActivitiesInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  user?: Prisma.UserCreateNestedOneWithoutOrdersInput;
+  store: Prisma.StoreCreateNestedOneWithoutOrdersInput;
+  assignedBranch?: Prisma.BranchCreateNestedOneWithoutOrdersInput;
+  items?: Prisma.OrderItemCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryCreateNestedOneWithoutOrderInput;
+  recipientCity?: Prisma.PathaoCityCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientZone?: Prisma.PathaoZoneCreateNestedOneWithoutOrdersAsRecipientInput;
+  recipientArea?: Prisma.PathaoAreaCreateNestedOneWithoutOrdersAsRecipientInput;
+  cancelledByUser?: Prisma.UserCreateNestedOneWithoutCancelledOrdersInput;
+};
+
+export type OrderUncheckedCreateWithoutActivitiesInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  items?: Prisma.OrderItemUncheckedCreateNestedManyWithoutOrderInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedCreateNestedOneWithoutOrderInput;
+};
+
+export type OrderCreateOrConnectWithoutActivitiesInput = {
+  where: Prisma.OrderWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutActivitiesInput,
+    Prisma.OrderUncheckedCreateWithoutActivitiesInput
+  >;
+};
+
+export type OrderUpsertWithoutActivitiesInput = {
+  update: Prisma.XOR<
+    Prisma.OrderUpdateWithoutActivitiesInput,
+    Prisma.OrderUncheckedUpdateWithoutActivitiesInput
+  >;
+  create: Prisma.XOR<
+    Prisma.OrderCreateWithoutActivitiesInput,
+    Prisma.OrderUncheckedCreateWithoutActivitiesInput
+  >;
+  where?: Prisma.OrderWhereInput;
+};
+
+export type OrderUpdateToOneWithWhereWithoutActivitiesInput = {
+  where?: Prisma.OrderWhereInput;
+  data: Prisma.XOR<
+    Prisma.OrderUpdateWithoutActivitiesInput,
+    Prisma.OrderUncheckedUpdateWithoutActivitiesInput
+  >;
+};
+
+export type OrderUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+};
+
 export type OrderCreateManyUserInput = {
   id?: string;
   orderNumber: string;
@@ -2860,6 +3567,37 @@ export type OrderCreateManyUserInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
+
+export type OrderCreateManyCancelledByUserInput = {
+  id?: string;
+  orderNumber: string;
+  customerPhone: string;
+  customerName?: string | null;
+  customerEmail?: string | null;
+  secondaryPhone?: string | null;
+  recipientCityId?: number | null;
+  recipientZoneId?: number | null;
+  recipientAreaId?: number | null;
+  deliveryAddress?: string | null;
+  deliveryLocation: $Enums.DeliveryLocation;
+  deliveryCharge: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  specialInstructions?: string | null;
+  userId?: string | null;
+  storeId: string;
+  status?: $Enums.OrderStatus;
+  paymentMethod?: $Enums.PaymentMethod;
+  subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -2921,6 +3659,15 @@ export type OrderUpdateWithoutUserInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
@@ -2930,6 +3677,8 @@ export type OrderUpdateWithoutUserInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutUserInput = {
@@ -3006,10 +3755,21 @@ export type OrderUncheckedUpdateWithoutUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutUserInput = {
@@ -3086,6 +3846,274 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type OrderUpdateWithoutCancelledByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
+  store?: Prisma.StoreUpdateOneRequiredWithoutOrdersNestedInput;
+  assignedBranch?: Prisma.BranchUpdateOneWithoutOrdersNestedInput;
+  items?: Prisma.OrderItemUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
+  recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+};
+
+export type OrderUncheckedUpdateWithoutCancelledByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
+  pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
+};
+
+export type OrderUncheckedUpdateManyWithoutCancelledByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  orderNumber?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerPhone?: Prisma.StringFieldUpdateOperationsInput | string;
+  customerName?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  customerEmail?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  secondaryPhone?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  recipientCityId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientZoneId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  recipientAreaId?:
+    | Prisma.NullableIntFieldUpdateOperationsInput
+    | number
+    | null;
+  deliveryAddress?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  deliveryLocation?:
+    | Prisma.EnumDeliveryLocationFieldUpdateOperationsInput
+    | $Enums.DeliveryLocation;
+  deliveryCharge?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  specialInstructions?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?:
+    | Prisma.EnumOrderStatusFieldUpdateOperationsInput
+    | $Enums.OrderStatus;
+  paymentMethod?:
+    | Prisma.EnumPaymentMethodFieldUpdateOperationsInput
+    | $Enums.PaymentMethod;
+  subtotal?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalDiscount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  totalAmount?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
+  assignedBranchId?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -3111,6 +4139,9 @@ export type OrderCreateManyStoreInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -3172,6 +4203,15 @@ export type OrderUpdateWithoutStoreInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -3181,6 +4221,8 @@ export type OrderUpdateWithoutStoreInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutStoreInput = {
@@ -3257,10 +4299,21 @@ export type OrderUncheckedUpdateWithoutStoreInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutStoreInput = {
@@ -3337,6 +4390,16 @@ export type OrderUncheckedUpdateManyWithoutStoreInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -3362,6 +4425,9 @@ export type OrderCreateManyAssignedBranchInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -3423,6 +4489,15 @@ export type OrderUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -3432,6 +4507,8 @@ export type OrderUpdateWithoutAssignedBranchInput = {
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
@@ -3505,10 +4582,21 @@ export type OrderUncheckedUpdateWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
@@ -3582,6 +4670,16 @@ export type OrderUncheckedUpdateManyWithoutAssignedBranchInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -3607,6 +4705,9 @@ export type OrderCreateManyRecipientCityInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -3668,6 +4769,15 @@ export type OrderUpdateWithoutRecipientCityInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -3677,6 +4787,8 @@ export type OrderUpdateWithoutRecipientCityInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutRecipientCityInput = {
@@ -3750,10 +4862,21 @@ export type OrderUncheckedUpdateWithoutRecipientCityInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutRecipientCityInput = {
@@ -3827,6 +4950,16 @@ export type OrderUncheckedUpdateManyWithoutRecipientCityInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -3852,6 +4985,9 @@ export type OrderCreateManyRecipientZoneInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -3913,6 +5049,15 @@ export type OrderUpdateWithoutRecipientZoneInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -3922,6 +5067,8 @@ export type OrderUpdateWithoutRecipientZoneInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientArea?: Prisma.PathaoAreaUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutRecipientZoneInput = {
@@ -3995,10 +5142,21 @@ export type OrderUncheckedUpdateWithoutRecipientZoneInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutRecipientZoneInput = {
@@ -4072,6 +5230,16 @@ export type OrderUncheckedUpdateManyWithoutRecipientZoneInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -4097,6 +5265,9 @@ export type OrderCreateManyRecipientAreaInput = {
   totalDiscount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
   assignedBranchId?: string | null;
+  cancellationReason?: string | null;
+  cancelledBy?: string | null;
+  cancelledAt?: Date | string | null;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -4158,6 +5329,15 @@ export type OrderUpdateWithoutRecipientAreaInput = {
     | runtime.DecimalJsLike
     | number
     | string;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   user?: Prisma.UserUpdateOneWithoutOrdersNestedInput;
@@ -4167,6 +5347,8 @@ export type OrderUpdateWithoutRecipientAreaInput = {
   pathaoDelivery?: Prisma.PathaoDeliveryUpdateOneWithoutOrderNestedInput;
   recipientCity?: Prisma.PathaoCityUpdateOneWithoutOrdersAsRecipientNestedInput;
   recipientZone?: Prisma.PathaoZoneUpdateOneWithoutOrdersAsRecipientNestedInput;
+  activities?: Prisma.OrderActivityUpdateManyWithoutOrderNestedInput;
+  cancelledByUser?: Prisma.UserUpdateOneWithoutCancelledOrdersNestedInput;
 };
 
 export type OrderUncheckedUpdateWithoutRecipientAreaInput = {
@@ -4240,10 +5422,21 @@ export type OrderUncheckedUpdateWithoutRecipientAreaInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   items?: Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
   pathaoDelivery?: Prisma.PathaoDeliveryUncheckedUpdateOneWithoutOrderNestedInput;
+  activities?: Prisma.OrderActivityUncheckedUpdateManyWithoutOrderNestedInput;
 };
 
 export type OrderUncheckedUpdateManyWithoutRecipientAreaInput = {
@@ -4317,6 +5510,16 @@ export type OrderUncheckedUpdateManyWithoutRecipientAreaInput = {
     | Prisma.NullableStringFieldUpdateOperationsInput
     | string
     | null;
+  cancellationReason?:
+    | Prisma.NullableStringFieldUpdateOperationsInput
+    | string
+    | null;
+  cancelledBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  cancelledAt?:
+    | Prisma.NullableDateTimeFieldUpdateOperationsInput
+    | Date
+    | string
+    | null;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -4327,6 +5530,7 @@ export type OrderUncheckedUpdateManyWithoutRecipientAreaInput = {
 
 export type OrderCountOutputType = {
   items: number;
+  activities: number;
 };
 
 export type OrderCountOutputTypeSelect<
@@ -4334,6 +5538,7 @@ export type OrderCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs
 > = {
   items?: boolean | OrderCountOutputTypeCountItemsArgs;
+  activities?: boolean | OrderCountOutputTypeCountActivitiesArgs;
 };
 
 /**
@@ -4357,6 +5562,16 @@ export type OrderCountOutputTypeCountItemsArgs<
     runtime.Types.Extensions.DefaultArgs
 > = {
   where?: Prisma.OrderItemWhereInput;
+};
+
+/**
+ * OrderCountOutputType without action
+ */
+export type OrderCountOutputTypeCountActivitiesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  where?: Prisma.OrderActivityWhereInput;
 };
 
 export type OrderSelect<
@@ -4385,6 +5600,9 @@ export type OrderSelect<
     totalDiscount?: boolean;
     totalAmount?: boolean;
     assignedBranchId?: boolean;
+    cancellationReason?: boolean;
+    cancelledBy?: boolean;
+    cancelledAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
@@ -4395,6 +5613,8 @@ export type OrderSelect<
     recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
     recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
     recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+    activities?: boolean | Prisma.Order$activitiesArgs<ExtArgs>;
+    cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
     _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
@@ -4426,6 +5646,9 @@ export type OrderSelectCreateManyAndReturn<
     totalDiscount?: boolean;
     totalAmount?: boolean;
     assignedBranchId?: boolean;
+    cancellationReason?: boolean;
+    cancelledBy?: boolean;
+    cancelledAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
@@ -4434,6 +5657,7 @@ export type OrderSelectCreateManyAndReturn<
     recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
     recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
     recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+    cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
 >;
@@ -4464,6 +5688,9 @@ export type OrderSelectUpdateManyAndReturn<
     totalDiscount?: boolean;
     totalAmount?: boolean;
     assignedBranchId?: boolean;
+    cancellationReason?: boolean;
+    cancelledBy?: boolean;
+    cancelledAt?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.Order$userArgs<ExtArgs>;
@@ -4472,6 +5699,7 @@ export type OrderSelectUpdateManyAndReturn<
     recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
     recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
     recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+    cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
   },
   ExtArgs["result"]["order"]
 >;
@@ -4498,6 +5726,9 @@ export type OrderSelectScalar = {
   totalDiscount?: boolean;
   totalAmount?: boolean;
   assignedBranchId?: boolean;
+  cancellationReason?: boolean;
+  cancelledBy?: boolean;
+  cancelledAt?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -4527,6 +5758,9 @@ export type OrderOmit<
   | "totalDiscount"
   | "totalAmount"
   | "assignedBranchId"
+  | "cancellationReason"
+  | "cancelledBy"
+  | "cancelledAt"
   | "createdAt"
   | "updatedAt",
   ExtArgs["result"]["order"]
@@ -4543,6 +5777,8 @@ export type OrderInclude<
   recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
   recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
   recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+  activities?: boolean | Prisma.Order$activitiesArgs<ExtArgs>;
+  cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type OrderIncludeCreateManyAndReturn<
@@ -4555,6 +5791,7 @@ export type OrderIncludeCreateManyAndReturn<
   recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
   recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
   recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+  cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
 };
 export type OrderIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -4566,6 +5803,7 @@ export type OrderIncludeUpdateManyAndReturn<
   recipientCity?: boolean | Prisma.Order$recipientCityArgs<ExtArgs>;
   recipientZone?: boolean | Prisma.Order$recipientZoneArgs<ExtArgs>;
   recipientArea?: boolean | Prisma.Order$recipientAreaArgs<ExtArgs>;
+  cancelledByUser?: boolean | Prisma.Order$cancelledByUserArgs<ExtArgs>;
 };
 
 export type $OrderPayload<
@@ -4582,6 +5820,8 @@ export type $OrderPayload<
     recipientCity: Prisma.$PathaoCityPayload<ExtArgs> | null;
     recipientZone: Prisma.$PathaoZonePayload<ExtArgs> | null;
     recipientArea: Prisma.$PathaoAreaPayload<ExtArgs> | null;
+    activities: Prisma.$OrderActivityPayload<ExtArgs>[];
+    cancelledByUser: Prisma.$UserPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -4606,6 +5846,9 @@ export type $OrderPayload<
       totalDiscount: runtime.Decimal;
       totalAmount: runtime.Decimal;
       assignedBranchId: string | null;
+      cancellationReason: string | null;
+      cancelledBy: string | null;
+      cancelledAt: Date | null;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -5261,6 +6504,30 @@ export interface Prisma__OrderClient<
     ExtArgs,
     GlobalOmitOptions
   >;
+  activities<T extends Prisma.Order$activitiesArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$activitiesArgs<ExtArgs>>
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$OrderActivityPayload<ExtArgs>,
+        T,
+        "findMany",
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  cancelledByUser<T extends Prisma.Order$cancelledByUserArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Order$cancelledByUserArgs<ExtArgs>>
+  ): Prisma.Prisma__UserClient<
+    runtime.Types.Result.GetResult<
+      Prisma.$UserPayload<ExtArgs>,
+      T,
+      "findUniqueOrThrow",
+      GlobalOmitOptions
+    > | null,
+    null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5324,6 +6591,9 @@ export interface OrderFieldRefs {
   readonly totalDiscount: Prisma.FieldRef<"Order", "Decimal">;
   readonly totalAmount: Prisma.FieldRef<"Order", "Decimal">;
   readonly assignedBranchId: Prisma.FieldRef<"Order", "String">;
+  readonly cancellationReason: Prisma.FieldRef<"Order", "String">;
+  readonly cancelledBy: Prisma.FieldRef<"Order", "String">;
+  readonly cancelledAt: Prisma.FieldRef<"Order", "DateTime">;
   readonly createdAt: Prisma.FieldRef<"Order", "DateTime">;
   readonly updatedAt: Prisma.FieldRef<"Order", "DateTime">;
 }
@@ -5935,6 +7205,59 @@ export type Order$recipientAreaArgs<
    */
   include?: Prisma.PathaoAreaInclude<ExtArgs> | null;
   where?: Prisma.PathaoAreaWhereInput;
+};
+
+/**
+ * Order.activities
+ */
+export type Order$activitiesArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the OrderActivity
+   */
+  select?: Prisma.OrderActivitySelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the OrderActivity
+   */
+  omit?: Prisma.OrderActivityOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderActivityInclude<ExtArgs> | null;
+  where?: Prisma.OrderActivityWhereInput;
+  orderBy?:
+    | Prisma.OrderActivityOrderByWithRelationInput
+    | Prisma.OrderActivityOrderByWithRelationInput[];
+  cursor?: Prisma.OrderActivityWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    | Prisma.OrderActivityScalarFieldEnum
+    | Prisma.OrderActivityScalarFieldEnum[];
+};
+
+/**
+ * Order.cancelledByUser
+ */
+export type Order$cancelledByUserArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs
+> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null;
+  where?: Prisma.UserWhereInput;
 };
 
 /**

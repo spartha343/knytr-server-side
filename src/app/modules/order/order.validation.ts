@@ -163,10 +163,17 @@ const createManualOrderZodSchema = z.object({
   })
 });
 
+const cancelOrderZodSchema = z.object({
+  body: z.object({
+    reason: z.string().optional()
+  })
+});
+
 export const OrderValidation = {
   createOrderZodSchema,
   updateOrderZodSchema,
   updateOrderStatusZodSchema,
   assignBranchToItemZodSchema,
-  createManualOrderZodSchema
+  createManualOrderZodSchema,
+  cancelOrderZodSchema
 };

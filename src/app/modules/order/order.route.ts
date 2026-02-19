@@ -111,4 +111,14 @@ router.patch(
   OrderController.assignBranchToItem
 );
 
+// CANCEL ORDER (Customer can cancel PENDING, Vendor can cancel PENDING/CONFIRMED/PROCESSING/READY_FOR_PICKUP)
+router.patch(
+  "/:id/cancel",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("CUSTOMER", "VENDOR", "ADMIN", "SUPER_ADMIN"),
+  validateRequest(OrderValidation.cancelOrderZodSchema),
+  OrderController.cancelOrder
+);
+
 export const OrderRoutes = router;

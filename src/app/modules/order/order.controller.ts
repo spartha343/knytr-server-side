@@ -7,6 +7,8 @@ import pick from "../../../shared/pick";
 import { orderFilterableFields } from "./order.constants";
 import ApiError from "../../../errors/ApiError";
 import invoiceService from "./invoice.service";
+import { type Order } from "../../../generated/prisma/client";
+import { prisma } from "../../../shared/prisma";
 
 // CREATE ORDER
 const createOrder = catchAsync(async (req: Request, res: Response) => {
@@ -273,6 +275,62 @@ const createManualOrder = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// CANCEL ORDER
+const cancelOrder = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = req.dbUser?.id;
+
+  if (!userId || !id) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated");
+  }
+
+  // Fetch the order to determine context
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: {
+      store: true
+    }
+  });
+
+  if (!order) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
+  }
+
+  // Determine user role based on context
+  const userRoles = req.dbUser?.userRoles || [];
+  let userRole = "CUSTOMER"; // Default
+
+  // Check if user is admin
+  const hasAdminRole = userRoles.some(
+    (ur: { role: { name: string } }) =>
+      ur.role.name === "SUPER_ADMIN" || ur.role.name === "ADMIN"
+  );
+
+  // Check if user is vendor AND owns this specific store
+  const hasVendorRole = userRoles.some(
+    (ur: { role: { name: string } }) => ur.role.name === "VENDOR"
+  );
+
+  const ownsStore = order.store.vendorId === userId;
+
+  if (hasAdminRole) {
+    userRole = "ADMIN";
+  } else if (hasVendorRole && ownsStore) {
+    userRole = "VENDOR";
+  } else {
+    userRole = "CUSTOMER";
+  }
+
+  const result = await OrderService.cancelOrder(id, userId, userRole, req.body);
+
+  sendResponse<Order>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Order cancelled successfully",
+    data: result
+  });
+});
+
 export const OrderController = {
   createOrder,
   getAllOrders,
@@ -281,6 +339,7 @@ export const OrderController = {
   getOrderById,
   updateOrder,
   updateOrderStatus,
+  cancelOrder,
   assignBranchToItem,
   generateInvoice,
   createManualOrder

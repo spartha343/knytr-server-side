@@ -443,7 +443,9 @@ export const ModelName = {
   PathaoWebhookLog: "PathaoWebhookLog",
   PathaoCity: "PathaoCity",
   PathaoZone: "PathaoZone",
-  PathaoArea: "PathaoArea"
+  PathaoArea: "PathaoArea",
+  OrderActivity: "OrderActivity",
+  OrderSequence: "OrderSequence"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -497,7 +499,9 @@ export type TypeMap<
       | "pathaoWebhookLog"
       | "pathaoCity"
       | "pathaoZone"
-      | "pathaoArea";
+      | "pathaoArea"
+      | "orderActivity"
+      | "orderSequence";
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -2933,6 +2937,158 @@ export type TypeMap<
         };
       };
     };
+    OrderActivity: {
+      payload: Prisma.$OrderActivityPayload<ExtArgs>;
+      fields: Prisma.OrderActivityFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.OrderActivityFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.OrderActivityFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        findFirst: {
+          args: Prisma.OrderActivityFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.OrderActivityFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        findMany: {
+          args: Prisma.OrderActivityFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>[];
+        };
+        create: {
+          args: Prisma.OrderActivityCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        createMany: {
+          args: Prisma.OrderActivityCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.OrderActivityCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>[];
+        };
+        delete: {
+          args: Prisma.OrderActivityDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        update: {
+          args: Prisma.OrderActivityUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        deleteMany: {
+          args: Prisma.OrderActivityDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.OrderActivityUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.OrderActivityUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>[];
+        };
+        upsert: {
+          args: Prisma.OrderActivityUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderActivityPayload>;
+        };
+        aggregate: {
+          args: Prisma.OrderActivityAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderActivity>;
+        };
+        groupBy: {
+          args: Prisma.OrderActivityGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.OrderActivityGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.OrderActivityCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.OrderActivityCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    OrderSequence: {
+      payload: Prisma.$OrderSequencePayload<ExtArgs>;
+      fields: Prisma.OrderSequenceFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.OrderSequenceFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.OrderSequenceFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        findFirst: {
+          args: Prisma.OrderSequenceFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.OrderSequenceFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        findMany: {
+          args: Prisma.OrderSequenceFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>[];
+        };
+        create: {
+          args: Prisma.OrderSequenceCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        createMany: {
+          args: Prisma.OrderSequenceCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.OrderSequenceCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>[];
+        };
+        delete: {
+          args: Prisma.OrderSequenceDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        update: {
+          args: Prisma.OrderSequenceUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        deleteMany: {
+          args: Prisma.OrderSequenceDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.OrderSequenceUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.OrderSequenceUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>[];
+        };
+        upsert: {
+          args: Prisma.OrderSequenceUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderSequencePayload>;
+        };
+        aggregate: {
+          args: Prisma.OrderSequenceAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderSequence>;
+        };
+        groupBy: {
+          args: Prisma.OrderSequenceGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.OrderSequenceGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.OrderSequenceCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.OrderSequenceCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -3313,6 +3469,9 @@ export const OrderScalarFieldEnum = {
   totalDiscount: "totalDiscount",
   totalAmount: "totalAmount",
   assignedBranchId: "assignedBranchId",
+  cancellationReason: "cancellationReason",
+  cancelledBy: "cancelledBy",
+  cancelledAt: "cancelledAt",
   createdAt: "createdAt",
   updatedAt: "updatedAt"
 } as const;
@@ -3483,6 +3642,30 @@ export const PathaoAreaScalarFieldEnum = {
 
 export type PathaoAreaScalarFieldEnum =
   (typeof PathaoAreaScalarFieldEnum)[keyof typeof PathaoAreaScalarFieldEnum];
+
+export const OrderActivityScalarFieldEnum = {
+  id: "id",
+  orderId: "orderId",
+  userId: "userId",
+  action: "action",
+  description: "description",
+  metadata: "metadata",
+  createdAt: "createdAt"
+} as const;
+
+export type OrderActivityScalarFieldEnum =
+  (typeof OrderActivityScalarFieldEnum)[keyof typeof OrderActivityScalarFieldEnum];
+
+export const OrderSequenceScalarFieldEnum = {
+  id: "id",
+  date: "date",
+  sequence: "sequence",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type OrderSequenceScalarFieldEnum =
+  (typeof OrderSequenceScalarFieldEnum)[keyof typeof OrderSequenceScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",
@@ -3872,6 +4055,8 @@ export type GlobalOmitConfig = {
   pathaoCity?: Prisma.PathaoCityOmit;
   pathaoZone?: Prisma.PathaoZoneOmit;
   pathaoArea?: Prisma.PathaoAreaOmit;
+  orderActivity?: Prisma.OrderActivityOmit;
+  orderSequence?: Prisma.OrderSequenceOmit;
 };
 
 /* Types for Logging */

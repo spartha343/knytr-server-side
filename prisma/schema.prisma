@@ -27,6 +27,8 @@ model User {
   reviewedCategoryRequests CategoryRequest[] @relation("ReviewedRequests")
   cart                     Cart?
   orders                   Order[]
+  orderActivities          OrderActivity[]
+  cancelledOrders          Order[]           @relation("CancelledOrders")
 
   @@map("users")
 }
@@ -529,21 +531,26 @@ model Order {
   totalAmount   Decimal @db.Decimal(10, 2) // subtotal - totalDiscount + deliveryCharge
 
   // Branch Assignment
-  assignedBranchId String? // Which branch fulfills this order
+  assignedBranchId   String? // Which branch fulfills this order
+  cancellationReason String?   @db.Text
+  cancelledBy        String?
+  cancelledAt        DateTime?
 
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  user           User?           @relation(fields: [userId], references: [id])
-  store          Store           @relation(fields: [storeId], references: [id])
-  assignedBranch Branch?         @relation(fields: [assignedBranchId], references: [id])
-  items          OrderItem[]
-  pathaoDelivery PathaoDelivery?
-  recipientCity  PathaoCity?     @relation("OrderRecipientCity", fields: [recipientCityId], references: [cityId], onDelete: SetNull)
-  recipientZone  PathaoZone?     @relation("OrderRecipientZone", fields: [recipientZoneId], references: [zoneId], onDelete: SetNull)
-  recipientArea  PathaoArea?     @relation("OrderRecipientArea", fields: [recipientAreaId], references: [areaId], onDelete: SetNull)
+  user            User?           @relation(fields: [userId], references: [id])
+  store           Store           @relation(fields: [storeId], references: [id])
+  assignedBranch  Branch?         @relation(fields: [assignedBranchId], references: [id])
+  items           OrderItem[]
+  pathaoDelivery  PathaoDelivery?
+  recipientCity   PathaoCity?     @relation("OrderRecipientCity", fields: [recipientCityId], references: [cityId], onDelete: SetNull)
+  recipientZone   PathaoZone?     @relation("OrderRecipientZone", fields: [recipientZoneId], references: [zoneId], onDelete: SetNull)
+  recipientArea   PathaoArea?     @relation("OrderRecipientArea", fields: [recipientAreaId], references: [areaId], onDelete: SetNull)
+  activities      OrderActivity[]
+  cancelledByUser User?           @relation("CancelledOrders", fields: [cancelledBy], references: [id])
 
   @@index([userId])
   @@index([storeId])
@@ -841,6 +848,37 @@ model PathaoArea {
   @@index([areaId])
   @@index([isActive])
   @@map("pathao_areas")
+}
+
+model OrderActivity {
+  id          String  @id @default(uuid())
+  orderId     String
+  userId      String?
+  action      String // "CREATED", "STATUS_CHANGED", "CANCELLED", etc.
+  description String? @db.Text
+  metadata    Json? // Additional data (old status, new status, etc.)
+
+  createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  user  User? @relation(fields: [userId], references: [id])
+
+  @@index([orderId])
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("order_activities")
+}
+
+// NEW MODEL: Sequential Order Number Generator
+model OrderSequence {
+  id        String   @id @default(uuid())
+  date      String   @unique // Format: YYYYMMDD (e.g., "20260220")
+  sequence  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_sequences")
 }
 
 enum OrderStatus {

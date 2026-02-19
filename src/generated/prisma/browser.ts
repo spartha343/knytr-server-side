@@ -177,3 +177,13 @@ export type PathaoZone = Prisma.PathaoZoneModel;
  *
  */
 export type PathaoArea = Prisma.PathaoAreaModel;
+/**
+ * Model OrderActivity
+ *
+ */
+export type OrderActivity = Prisma.OrderActivityModel;
+/**
+ * Model OrderSequence
+ *
+ */
+export type OrderSequence = Prisma.OrderSequenceModel;

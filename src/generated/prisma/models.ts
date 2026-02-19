@@ -39,4 +39,6 @@ export type * from "./models/PathaoWebhookLog.ts";
 export type * from "./models/PathaoCity.ts";
 export type * from "./models/PathaoZone.ts";
 export type * from "./models/PathaoArea.ts";
+export type * from "./models/OrderActivity.ts";
+export type * from "./models/OrderSequence.ts";
 export type * from "./commonInputTypes.ts";

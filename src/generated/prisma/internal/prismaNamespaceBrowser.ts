@@ -85,7 +85,9 @@ export const ModelName = {
   PathaoWebhookLog: "PathaoWebhookLog",
   PathaoCity: "PathaoCity",
   PathaoZone: "PathaoZone",
-  PathaoArea: "PathaoArea"
+  PathaoArea: "PathaoArea",
+  OrderActivity: "OrderActivity",
+  OrderSequence: "OrderSequence"
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -445,6 +447,9 @@ export const OrderScalarFieldEnum = {
   totalDiscount: "totalDiscount",
   totalAmount: "totalAmount",
   assignedBranchId: "assignedBranchId",
+  cancellationReason: "cancellationReason",
+  cancelledBy: "cancelledBy",
+  cancelledAt: "cancelledAt",
   createdAt: "createdAt",
   updatedAt: "updatedAt"
 } as const;
@@ -615,6 +620,30 @@ export const PathaoAreaScalarFieldEnum = {
 
 export type PathaoAreaScalarFieldEnum =
   (typeof PathaoAreaScalarFieldEnum)[keyof typeof PathaoAreaScalarFieldEnum];
+
+export const OrderActivityScalarFieldEnum = {
+  id: "id",
+  orderId: "orderId",
+  userId: "userId",
+  action: "action",
+  description: "description",
+  metadata: "metadata",
+  createdAt: "createdAt"
+} as const;
+
+export type OrderActivityScalarFieldEnum =
+  (typeof OrderActivityScalarFieldEnum)[keyof typeof OrderActivityScalarFieldEnum];
+
+export const OrderSequenceScalarFieldEnum = {
+  id: "id",
+  date: "date",
+  sequence: "sequence",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt"
+} as const;
+
+export type OrderSequenceScalarFieldEnum =
+  (typeof OrderSequenceScalarFieldEnum)[keyof typeof OrderSequenceScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",
