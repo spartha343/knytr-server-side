@@ -77,10 +77,30 @@ const syncCart = catchAsync(async (req: Request, res: Response) => {
   const userId = req.dbUser!.id; // Use database user ID
   const result = await CartService.syncCart(userId, req.body);
 
+  // Build dynamic message based on adjustments/skips
+  let message = "Cart synced successfully";
+  const warnings: string[] = [];
+
+  if (result.adjustments.length > 0) {
+    warnings.push(
+      `${result.adjustments.length} item(s) had quantity adjusted due to stock limitations`
+    );
+  }
+
+  if (result.skipped.length > 0) {
+    warnings.push(
+      `${result.skipped.length} item(s) could not be added (out of stock or not found)`
+    );
+  }
+
+  if (warnings.length > 0) {
+    message = `${message}. ${warnings.join(". ")}`;
+  }
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Cart synced successfully",
+    message,
     data: result
   });
 });

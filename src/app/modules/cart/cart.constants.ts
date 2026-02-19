@@ -11,6 +11,13 @@ export const cartRelations = {
             basePrice: true,
             comparePrice: true,
             isDeleted: true,
+            store: {
+              select: {
+                id: true,
+                name: true,
+                slug: true
+              }
+            },
             media: {
               where: {
                 isPrimary: true
@@ -33,6 +40,19 @@ export const cartRelations = {
                 attributeValue: {
                   include: {
                     attribute: true
+                  }
+                }
+              }
+            },
+            inventories: {
+              select: {
+                id: true,
+                quantity: true,
+                reservedQty: true,
+                branch: {
+                  select: {
+                    id: true,
+                    name: true
                   }
                 }
               }
