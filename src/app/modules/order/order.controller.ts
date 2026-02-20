@@ -186,25 +186,39 @@ const generateInvoice = catchAsync(async (req: Request, res: Response) => {
 
   // Transform order data to match InvoiceData interface
   const invoiceData = {
+    orderId: order.id,
     orderNumber: order.orderNumber,
     createdAt: order.createdAt,
     customerName: order.customerName || "Guest Customer",
     customerPhone: order.customerPhone,
     customerEmail: order.customerEmail,
-    deliveryAddress: order.deliveryAddress || "",
+    deliveryAddress: [
+      order.deliveryAddress || "",
+      order.recipientArea?.name || "",
+      order.recipientZone?.name || "",
+      order.recipientCity?.name || ""
+    ]
+      .filter(Boolean)
+      .join(", "),
     orderStatus: order.status,
     paymentMethod: order.paymentMethod,
-    paymentStatus: order.status === "DELIVERED" ? "PAID" : "PENDING",
+    paymentStatus:
+      order.status === "DELIVERED"
+        ? "PAID (Cash on Delivery)"
+        : "PENDING (Cash on Delivery)",
     subtotal: Number(order.subtotal),
+    totalDiscount: Number(order.totalDiscount || 0),
     deliveryFee: Number(order.deliveryCharge),
     totalAmount: Number(order.totalAmount),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     orderItems: order.items.map((item: any) => ({
       quantity: item.quantity,
-      unitPrice: Number(item.unitPrice),
-      totalPrice: Number(item.totalPrice),
+      unitPrice: Number(item.price),
+      discount: Number(item.discount || 0),
+      totalPrice: Number(item.total),
       product: {
-        name: item.product.name
+        name: item.product.name,
+        weight: item.product.weight ? Number(item.product.weight) : null
       },
       variant: item.variant
         ? {

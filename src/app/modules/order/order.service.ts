@@ -1065,7 +1065,8 @@ const getOrderForInvoice = async (orderId: string) => {
         include: {
           product: {
             select: {
-              name: true
+              name: true,
+              weight: true
             }
           },
           variant: {
@@ -1102,6 +1103,21 @@ const getOrderForInvoice = async (orderId: string) => {
               postalCode: true
             }
           }
+        }
+      },
+      recipientCity: {
+        select: {
+          name: true
+        }
+      },
+      recipientZone: {
+        select: {
+          name: true
+        }
+      },
+      recipientArea: {
+        select: {
+          name: true
         }
       }
     }
