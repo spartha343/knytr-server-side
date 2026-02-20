@@ -1125,6 +1125,14 @@ const getOrderForInvoice = async (orderId: string) => {
 
   return order;
 };
+
+interface ManualOrderItemPayload {
+  productId: string;
+  variantId: string;
+  quantity: number;
+  unitPrice: number;
+}
+
 // CREATE MANUAL ORDER (Vendor creates order on behalf of customer via phone)
 const createManualOrder = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1136,12 +1144,16 @@ const createManualOrder = async (
     customerName,
     customerPhone,
     customerEmail,
+    secondaryPhone,
+    specialInstructions,
     deliveryLocation,
     deliveryAddress,
     items,
     paymentMethod,
-    deliveryCharge = 0,
-    totalDiscount = 0
+    deliveryCharge: payloadDeliveryCharge,
+    recipientCityId,
+    recipientZoneId,
+    recipientAreaId
   } = payload;
 
   // 1. Verify vendor owns this store
@@ -1160,103 +1172,214 @@ const createManualOrder = async (
     );
   }
 
-  // 2. Validate products and calculate totals
-  let subtotal = 0;
-  const validatedItems = [];
-
+  // 2. Validate all items have variantId
   for (const item of items) {
-    const product = await prisma.product.findUnique({
-      where: { id: item.productId },
-      include: {
-        media: {
-          where: { isPrimary: true },
-          take: 1
-        },
-        variants: item.variantId
-          ? {
-              where: { id: item.variantId }
-            }
-          : false
-      }
-    });
-
-    if (!product || product.storeId !== storeId) {
+    if (!item.variantId) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        `Product ${item.productId} not found or doesn't belong to this store`
+        `Product ${item.productId} must have a variant selected`
       );
     }
-
-    const variant = item.variantId ? product.variants[0] : null;
-    const itemTotal = item.unitPrice * item.quantity;
-    subtotal += itemTotal;
-
-    validatedItems.push({
-      productId: item.productId,
-      variantId: item.variantId || null,
-      quantity: item.quantity,
-      price: item.unitPrice,
-      discount: 0,
-      total: itemTotal,
-      productName: product.name,
-      variantName: variant?.sku || null,
-      productImage: product.media[0]?.mediaUrl || null
-    });
   }
 
-  // 3. Calculate final total
-  const totalAmount = subtotal - totalDiscount + deliveryCharge;
+  // 3. Use branch assignment algorithm (same as regular createOrder)
+  const cartItems = items.map((item: ManualOrderItemPayload) => ({
+    productId: item.productId,
+    variantId: item.variantId,
+    quantity: item.quantity,
+    storeId
+  }));
 
-  // 4. Generate order number
-  const orderCount = await prisma.order.count({
-    where: {
-      storeId,
-      createdAt: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0))
-      }
-    }
-  });
+  const storeAndBranchGroups = await groupCartItemsByStoreAndBranch(cartItems);
+  const branchAssignments = storeAndBranchGroups.get(storeId);
 
-  const orderNumber = `ORD-${store.slug}-${new Date()
-    .toISOString()
-    .slice(0, 10)
-    .replace(/-/g, "")}-${String(orderCount + 1).padStart(6, "0")}`;
+  if (!branchAssignments || branchAssignments.length === 0) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "No branches have sufficient stock for the requested items"
+    );
+  }
 
-  // 5. Create order with items
-  const order = await prisma.order.create({
-    data: {
-      orderNumber,
-      customerPhone,
-      customerName,
-      customerEmail: customerEmail || null,
-      deliveryLocation: deliveryLocation as DeliveryLocation,
-      deliveryAddress: deliveryAddress || null,
-      recipientCityId: payload.recipientCityId ?? null,
-      recipientZoneId: payload.recipientZoneId ?? null,
-      recipientAreaId: payload.recipientAreaId ?? null,
-      storeId,
-      paymentMethod: paymentMethod as PaymentMethod,
-      subtotal,
-      totalDiscount,
-      deliveryCharge,
-      totalAmount,
-      status: "CONFIRMED",
-      items: {
-        create: validatedItems
-      }
-    },
+  // 4. Fetch all products and variants in batch (O(1) lookup)
+  const productIds = items.map(
+    (item: ManualOrderItemPayload) => item.productId
+  );
+  const variantIds = items
+    .map((item: ManualOrderItemPayload) => item.variantId)
+    .filter(Boolean);
+
+  const products = await prisma.product.findMany({
+    where: { id: { in: productIds }, storeId, isDeleted: false },
     include: {
-      items: {
-        include: {
-          product: true,
-          variant: true
-        }
-      },
-      store: true
+      media: { where: { isPrimary: true }, take: 1 }
     }
   });
 
-  return order;
+  const variants = await prisma.productVariant.findMany({
+    where: { id: { in: variantIds } },
+    include: {
+      variantAttributes: {
+        include: {
+          attributeValue: {
+            include: { attribute: true }
+          }
+        }
+      }
+    }
+  });
+
+  const productMap = new Map(products.map((p) => [p.id, p]));
+  const variantMap = new Map(variants.map((v) => [v.id, v]));
+
+  // 5. Use vendor-provided delivery charge or fall back to default
+  const deliveryCharge =
+    payloadDeliveryCharge !== undefined && payloadDeliveryCharge !== null
+      ? Number(payloadDeliveryCharge)
+      : (DELIVERY_CHARGES[deliveryLocation as DeliveryLocation] ?? 0);
+
+  // 6. Create orders in a transaction (one per branch)
+  const createdOrders = await prisma.$transaction(async (tx) => {
+    const orders = [];
+
+    for (const branchGroup of branchAssignments) {
+      const { branchId, items: branchItems } = branchGroup;
+
+      let subtotal = 0;
+      let totalDiscount = 0;
+      const validatedItems = [];
+
+      for (const branchItem of branchItems) {
+        // Find the matching payload item to get unitPrice
+        const payloadItem = items.find(
+          (i: ManualOrderItemPayload) =>
+            i.productId === branchItem.productId &&
+            i.variantId === branchItem.variantId
+        );
+
+        const product = productMap.get(branchItem.productId);
+        if (!product) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            `Product ${branchItem.productId} not found`
+          );
+        }
+
+        const variant = branchItem.variantId
+          ? variantMap.get(branchItem.variantId)
+          : null;
+
+        if (!variant) {
+          throw new ApiError(
+            httpStatus.NOT_FOUND,
+            `Variant ${branchItem.variantId} not found`
+          );
+        }
+
+        // Get comparePrice for discount calculation
+        const comparePrice = Number(variant.comparePrice || variant.price);
+
+        // Use vendor's unitPrice if provided, else fall back to variant price
+        const unitPrice =
+          payloadItem?.unitPrice !== undefined
+            ? Number(payloadItem.unitPrice)
+            : Number(variant.price);
+
+        const discount = Math.max(0, comparePrice - unitPrice);
+        const itemTotal = unitPrice * branchItem.quantity;
+
+        subtotal += itemTotal;
+        totalDiscount += discount * branchItem.quantity;
+
+        // Build variant display name
+        const variantName = variant.variantAttributes
+          .map((va) => va.attributeValue.value)
+          .join(" / ");
+
+        validatedItems.push({
+          productId: branchItem.productId,
+          variantId: branchItem.variantId,
+          branchId,
+          quantity: branchItem.quantity,
+          price: unitPrice,
+          discount,
+          total: itemTotal,
+          productName: product.name,
+          variantName: variantName || variant.sku || null,
+          productImage: variant.imageUrl || product.media[0]?.mediaUrl || null
+        });
+      }
+
+      const totalAmount = subtotal + deliveryCharge;
+
+      // Generate order number (atomic, race-condition safe)
+      const orderNumber = await generateOrderNumber(tx);
+
+      // Reserve inventory
+      const itemsToReserve = branchItems
+        .filter((item) => item.variantId)
+        .map((item) => ({
+          variantId: item.variantId!,
+          branchId,
+          quantity: item.quantity
+        }));
+
+      if (itemsToReserve.length > 0) {
+        await reserveInventoryBulk(itemsToReserve, tx);
+      }
+
+      // Create the order
+      const order = await tx.order.create({
+        data: {
+          orderNumber,
+          customerPhone,
+          customerName: customerName ?? null,
+          customerEmail: customerEmail ?? null,
+          secondaryPhone: secondaryPhone ?? null,
+          specialInstructions: specialInstructions ?? null,
+          deliveryLocation: deliveryLocation as DeliveryLocation,
+          deliveryAddress: deliveryAddress ?? null,
+          recipientCityId: recipientCityId ?? null,
+          recipientZoneId: recipientZoneId ?? null,
+          recipientAreaId: recipientAreaId ?? null,
+          storeId,
+          assignedBranchId: branchId,
+          paymentMethod: paymentMethod as PaymentMethod,
+          subtotal,
+          totalDiscount,
+          deliveryCharge,
+          totalAmount,
+          status: "CONFIRMED",
+          items: {
+            create: validatedItems
+          }
+        },
+        include: {
+          items: {
+            include: {
+              product: true,
+              variant: true
+            }
+          },
+          store: true
+        }
+      });
+
+      // Log order creation activity
+      await logOrderActivity(
+        tx,
+        order.id,
+        vendorId,
+        "ORDER_CREATED",
+        `Manual order created with ${branchItems.length} item(s). Branch: ${branchId}. Total: ৳${totalAmount}`
+      );
+
+      orders.push(order);
+    }
+
+    return orders;
+  });
+
+  return createdOrders;
 };
 
 // CANCEL ORDER
