@@ -1,12 +1,12 @@
 export const pathaoConstants = {
   // Base URLs
   SANDBOX_BASE_URL: "https://courier-api-sandbox.pathao.com",
-  PRODUCTION_BASE_URL: "https://courier-api.pathao.com",
+  PRODUCTION_BASE_URL: "https://api-hermes.pathao.com",
 
   // API Endpoints
   ENDPOINTS: {
     AUTH: "/aladdin/api/v1/issue-token",
-    CITIES: "/aladdin/api/v1/countries/1/city-list",
+    CITIES: "/aladdin/api/v1/city-list",
     ZONES: "/aladdin/api/v1/cities/:cityId/zone-list",
     AREAS: "/aladdin/api/v1/zones/:zoneId/area-list",
     STORES: "/aladdin/api/v1/stores",

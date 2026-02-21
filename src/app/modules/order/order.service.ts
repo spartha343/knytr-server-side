@@ -1315,7 +1315,9 @@ const createManualOrder = async (
       const orderNumber = await generateOrderNumber(tx);
 
       // Reserve inventory
-      const itemsToReserve = branchItems
+      // Deduct inventory immediately (manual orders are created as CONFIRMED, not PENDING)
+      // So we deduct actual quantity directly — no reservation needed
+      const itemsToDeduct = branchItems
         .filter((item) => item.variantId)
         .map((item) => ({
           variantId: item.variantId!,
@@ -1323,8 +1325,45 @@ const createManualOrder = async (
           quantity: item.quantity
         }));
 
-      if (itemsToReserve.length > 0) {
-        await reserveInventoryBulk(itemsToReserve, tx);
+      if (itemsToDeduct.length > 0) {
+        for (const item of itemsToDeduct) {
+          const inventory = await tx.inventory.findUnique({
+            where: {
+              variantId_branchId: {
+                variantId: item.variantId,
+                branchId: item.branchId
+              }
+            }
+          });
+
+          if (!inventory) {
+            throw new ApiError(
+              httpStatus.NOT_FOUND,
+              `Inventory not found for variant ${item.variantId} in branch ${item.branchId}`
+            );
+          }
+
+          const availableQty = inventory.quantity - inventory.reservedQty;
+          if (availableQty < item.quantity) {
+            throw new ApiError(
+              httpStatus.BAD_REQUEST,
+              `Insufficient stock for variant ${item.variantId}. Requested: ${item.quantity}, Available: ${availableQty}`
+            );
+          }
+
+          // Deduct from actual quantity directly (order is already CONFIRMED)
+          await tx.inventory.update({
+            where: {
+              variantId_branchId: {
+                variantId: item.variantId,
+                branchId: item.branchId
+              }
+            },
+            data: {
+              quantity: { decrement: item.quantity }
+            }
+          });
+        }
       }
 
       // Create the order

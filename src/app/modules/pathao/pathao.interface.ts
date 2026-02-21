@@ -121,6 +121,7 @@ export interface IPathaoOrderCreateRequest {
   merchant_order_id: string;
   recipient_name: string;
   recipient_phone: string;
+  recipient_secondary_phone?: string;
   recipient_address: string;
   recipient_city: number;
   recipient_zone: number;

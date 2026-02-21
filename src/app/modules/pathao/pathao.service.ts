@@ -39,8 +39,7 @@ import { pathaoErrorMessages } from "./pathao.constants";
 // Some types are imported for future use and type safety
 
 class PathaoService {
-  private accessToken: string | null = null;
-  private tokenExpiryTime: number | null = null;
+  private tokenCache = new Map<string, { token: string; expiryTime: number }>();
   private axiosInstance: AxiosInstance;
 
   constructor() {
@@ -76,6 +75,15 @@ class PathaoService {
   // ============================================
 
   private async authenticate(branchId: string): Promise<string> {
+    // Check in-memory cache first (skip DB query if still valid)
+    const cached = this.tokenCache.get(branchId);
+    if (cached) {
+      const bufferTime = 5 * 60 * 1000; // 5 min buffer
+      if (Date.now() < cached.expiryTime - bufferTime) {
+        return cached.token;
+      }
+    }
+
     const credentials = await this.getCredentialsByBranch(branchId);
     if (!credentials) {
       throw new ApiError(
@@ -84,21 +92,23 @@ class PathaoService {
       );
     }
 
-    // Check if we have a valid token in database
+    // Check DB token
     if (credentials.accessToken && credentials.tokenExpiry) {
       const now = new Date();
       const expiryBuffer = new Date(
         credentials.tokenExpiry.getTime() - 5 * 60 * 1000
-      ); // 5 min buffer
+      );
 
       if (now < expiryBuffer) {
-        // Token is still valid
-        this.accessToken = credentials.accessToken;
-        this.tokenExpiryTime = credentials.tokenExpiry.getTime();
-        return this.accessToken;
+        // Token still valid — update in-memory cache and return
+        this.tokenCache.set(branchId, {
+          token: credentials.accessToken,
+          expiryTime: credentials.tokenExpiry.getTime()
+        });
+        return credentials.accessToken;
       }
 
-      // Token expired, try refresh token first
+      // Token expired — try refresh token first
       if (credentials.refreshToken) {
         try {
           return await this.refreshAccessToken(credentials);
@@ -146,8 +156,10 @@ class PathaoService {
       });
 
       // Cache in memory
-      this.accessToken = access_token;
-      this.tokenExpiryTime = tokenExpiry.getTime();
+      this.tokenCache.set(credentials.branchId, {
+        token: access_token,
+        expiryTime: tokenExpiry.getTime()
+      });
 
       return access_token;
     } catch (error: unknown) {
@@ -196,8 +208,10 @@ class PathaoService {
       });
 
       // Cache in memory
-      this.accessToken = access_token;
-      this.tokenExpiryTime = tokenExpiry.getTime();
+      this.tokenCache.set(credentials.branchId, {
+        token: access_token,
+        expiryTime: tokenExpiry.getTime()
+      });
 
       return access_token;
     } catch (error: unknown) {
@@ -503,13 +517,9 @@ ${storeData.name}`
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: {
-        store: {
+        assignedBranch: {
           include: {
-            branches: {
-              include: {
-                pathaoStore: true
-              }
-            }
+            pathaoStore: true
           }
         },
         items: {
@@ -529,23 +539,26 @@ ${storeData.name}`
     }
 
     // Get branch with Pathao store
-    const orderBranch = order.store.branches.find((b) => b.pathaoStore);
-    if (!orderBranch || !orderBranch.pathaoStore) {
+    if (!order.assignedBranch || !order.assignedBranch.pathaoStore) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        pathaoErrorMessages.STORE_NOT_REGISTERED
+        order.assignedBranch
+          ? pathaoErrorMessages.STORE_NOT_REGISTERED
+          : "Order has no assigned branch."
       );
     }
 
-    const pathaoStore = orderBranch.pathaoStore;
-    const branchId = orderBranch.id;
+    const pathaoStore = order.assignedBranch.pathaoStore;
+    const branchId = order.assignedBranch.id;
 
     // Calculate total weight
-    let totalWeight = 0;
+    let rawWeight = 0;
     order.items.forEach((item) => {
-      const weight = item.product?.weight || 0.5; // Default 0.5kg if not set
-      totalWeight += Number(weight) * item.quantity;
+      const weight = item.product?.weight || 0.5;
+      rawWeight += Number(weight) * item.quantity;
     });
+    // Clamp weight to Pathao's allowed range: min 0.5kg, max 10kg
+    const totalWeight = Math.min(Math.max(rawWeight, 0.5), 10);
 
     const baseUrl = await this.getBaseUrl(branchId);
     const headers = await this.getAuthHeaders(branchId);
@@ -600,13 +613,9 @@ ${storeData.name}`
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: {
-        store: {
+        assignedBranch: {
           include: {
-            branches: {
-              include: {
-                pathaoStore: true
-              }
-            }
+            pathaoStore: true
           }
         },
         items: {
@@ -645,27 +654,34 @@ ${storeData.name}`
       );
     }
 
-    // Get branch with Pathao store
-    const orderBranch = order.store.branches.find((b) => b.pathaoStore);
-    if (!orderBranch || !orderBranch.pathaoStore) {
+    // Use the order's assigned branch
+    if (!order.assignedBranch || !order.assignedBranch.pathaoStore) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        pathaoErrorMessages.STORE_NOT_REGISTERED
+        order.assignedBranch
+          ? pathaoErrorMessages.STORE_NOT_REGISTERED
+          : "Order has no assigned branch. Please assign a branch before booking Pathao delivery."
       );
     }
 
-    const pathaoStore = orderBranch.pathaoStore;
-    const branchId = orderBranch.id;
+    const pathaoStore = order.assignedBranch.pathaoStore;
+    const branchId = order.assignedBranch.id;
 
     // Calculate total weight
-    let totalWeight = 0;
+    let rawWeight = 0;
     let itemDescription = "";
     order.items.forEach((item, index) => {
       const weight = item.product?.weight || 0.5;
-      totalWeight += Number(weight) * item.quantity;
+      rawWeight += Number(weight) * item.quantity;
       if (index > 0) itemDescription += ", ";
       itemDescription += `${item.product?.name || "Product"} x${item.quantity}`;
     });
+    // Clamp weight to Pathao's allowed range: min 0.5kg, max 10kg
+    const totalWeight = Math.min(Math.max(rawWeight, 0.5), 10);
+
+    // Determine amount to collect: only for COD orders
+    const amountToCollect =
+      order.paymentMethod === "COD" ? Number(order.totalAmount) : 0;
 
     const baseUrl = await this.getBaseUrl(branchId);
     const headers = await this.getAuthHeaders(branchId);
@@ -700,7 +716,7 @@ ${storeData.name}`
         recipientAddress: order.deliveryAddress,
         itemWeight: totalWeight,
         itemQuantity: order.items.length,
-        amountToCollect: Number(order.totalAmount),
+        amountToCollect: amountToCollect,
         deliveryType: PathaoDeliveryType.NORMAL,
         itemType: PathaoItemType.PARCEL,
         itemDescription: itemDescription.substring(0, 255)
@@ -712,13 +728,19 @@ ${storeData.name}`
       merchant_order_id: order.orderNumber,
       recipient_name: order.customerName,
       recipient_phone: order.customerPhone,
+      ...(order.secondaryPhone && {
+        recipient_secondary_phone: order.secondaryPhone
+      }),
       recipient_address: order.deliveryAddress,
       delivery_type: PathaoDeliveryType.NORMAL,
       item_type: PathaoItemType.PARCEL,
       item_quantity: order.items.length,
       item_weight: totalWeight,
       item_description: itemDescription,
-      amount_to_collect: Number(order.totalAmount),
+      ...(order.specialInstructions && {
+        special_instruction: order.specialInstructions
+      }),
+      amount_to_collect: amountToCollect,
       recipient_city: recipientCityId,
       recipient_zone: recipientZoneId,
       recipient_area: recipientAreaId
@@ -823,13 +845,6 @@ ${storeData.name}`
       );
     }
 
-    if (delivery.retryCount >= 3) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        "Maximum retry attempts reached"
-      );
-    }
-
     // Delete existing failed delivery
     await prisma.pathaoDelivery.delete({
       where: { id: deliveryId }
@@ -881,27 +896,64 @@ ${storeData.name}`
         case "PENDING_PICKUP":
           newStatus = PathaoDeliveryStatus.PICKUP_REQUESTED;
           break;
+        case "ASSIGNED_FOR_PICKUP":
+        case "ASSIGNED FOR PICKUP":
+          newStatus = "ASSIGNED_FOR_PICKUP";
+          break;
         case "PICKED_UP":
         case "RECEIVED":
+        case "PICKUP":
           newStatus = PathaoDeliveryStatus.PICKED_UP;
+          break;
+        case "PICKUP_FAILED":
+        case "PICKUP FAILED":
+          newStatus = "PICKUP_FAILED";
+          break;
+        case "PICKUP_CANCELLED":
+        case "PICKUP CANCELLED":
+          newStatus = "PICKUP_CANCELLED";
+          break;
+        case "AT_SORTING_HUB":
+        case "AT THE SORTING HUB":
+          newStatus = "AT_SORTING_HUB";
           break;
         case "IN_TRANSIT":
         case "ON_THE_WAY":
           newStatus = PathaoDeliveryStatus.IN_TRANSIT;
           break;
+        case "RECEIVED_AT_LAST_MILE_HUB":
+        case "RECEIVED AT LAST MILE HUB":
+          newStatus = "RECEIVED_AT_LAST_MILE";
+          break;
+        case "ASSIGNED_FOR_DELIVERY":
+        case "ASSIGNED FOR DELIVERY":
+          newStatus = "ASSIGNED_FOR_DELIVERY";
+          break;
         case "DELIVERED":
           newStatus = PathaoDeliveryStatus.DELIVERED;
+          break;
+        case "PARTIAL_DELIVERY":
+        case "PARTIAL DELIVERY":
+          newStatus = "PARTIAL_DELIVERY";
           break;
         case "RETURNED":
         case "RETURN":
           newStatus = PathaoDeliveryStatus.RETURNED;
+          break;
+        case "DELIVERY_FAILED":
+        case "DELIVERY FAILED":
+          newStatus = "DELIVERY_FAILED";
+          break;
+        case "ON_HOLD":
+        case "ON HOLD":
+          newStatus = "ON_HOLD";
           break;
         case "CANCELLED":
         case "CANCEL":
           newStatus = PathaoDeliveryStatus.CANCELLED;
           break;
         default:
-          // Unknown status, just log it
+          // Unknown status — just log, don't update
           break;
       }
 
@@ -929,17 +981,26 @@ ${storeData.name}`
           where: { id: delivery.orderId },
           data: { status: "DELIVERED" }
         });
-      } else if (newStatus === PathaoDeliveryStatus.IN_TRANSIT) {
+      } else if (
+        newStatus === PathaoDeliveryStatus.IN_TRANSIT ||
+        newStatus === "ASSIGNED_FOR_DELIVERY"
+      ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
           data: { status: "OUT_FOR_DELIVERY" }
         });
-      } else if (newStatus === PathaoDeliveryStatus.RETURNED) {
+      } else if (
+        newStatus === PathaoDeliveryStatus.RETURNED ||
+        newStatus === "PARTIAL_DELIVERY"
+      ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
           data: { status: "RETURNED" }
         });
-      } else if (newStatus === PathaoDeliveryStatus.CANCELLED) {
+      } else if (
+        newStatus === PathaoDeliveryStatus.CANCELLED ||
+        newStatus === "PICKUP_CANCELLED"
+      ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
           data: { status: "CANCELLED" }
@@ -1015,8 +1076,7 @@ ${storeData.name}`
     }
 
     // Clear cached token for this branch
-    this.accessToken = null;
-    this.tokenExpiryTime = null;
+    this.tokenCache.delete(data.branchId);
 
     return credentials;
   }

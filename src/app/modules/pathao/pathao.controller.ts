@@ -45,6 +45,7 @@ const getCredentialsByBranch = catchAsync(
       select: {
         id: true,
         clientId: true,
+        branchId: true,
         clientSecret: true,
         username: true,
         environment: true,
