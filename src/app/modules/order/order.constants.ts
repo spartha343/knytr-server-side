@@ -87,7 +87,13 @@ export const orderRelations = {
         firebaseUid: true
       }
     },
-    pathaoDelivery: true
+    pathaoDelivery: {
+      include: {
+        statusHistory: {
+          orderBy: { createdAt: "asc" as const }
+        }
+      }
+    }
   }
 };
 
@@ -98,15 +104,14 @@ export const DELIVERY_CHARGES: Record<string, number> = {
 };
 
 // Valid status transitions
-// Valid status transitions
 export const STATUS_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["CONFIRMED", "CANCELLED"],
   CONFIRMED: ["PROCESSING", "CANCELLED"],
   PROCESSING: ["READY_FOR_PICKUP", "CANCELLED"],
   READY_FOR_PICKUP: ["SHIPPED", "CANCELLED"],
-  SHIPPED: ["OUT_FOR_DELIVERY", "DELIVERED", "RETURNED"], // NO CANCELLATION after shipped
-  OUT_FOR_DELIVERY: ["DELIVERED", "RETURNED"],
-  DELIVERED: ["RETURNED"],
+  SHIPPED: [], // Pathao manages from here — no manual transitions
+  OUT_FOR_DELIVERY: [], // Pathao managed
+  DELIVERED: [], // Terminal
   CANCELLED: [],
   RETURNED: []
 };

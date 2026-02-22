@@ -51,7 +51,8 @@ const registerStore = z.object({
     secondaryContact: z
       .string()
       .length(11, "Secondary contact must be exactly 11 digits")
-      .optional(),
+      .nullish()
+      .transform((val) => val ?? undefined),
     otpNumber: z
       .string()
       .length(11, "OTP number must be exactly 11 digits")

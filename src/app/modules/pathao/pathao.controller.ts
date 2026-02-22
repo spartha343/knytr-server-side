@@ -414,6 +414,30 @@ const retryDelivery = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Sync delivery status from Pathao API (manual trigger)
+const syncDeliveryStatus = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.dbUser?.id;
+
+  if (!userId) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated");
+  }
+
+  const { orderId } = req.params;
+
+  if (!orderId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Order ID is required");
+  }
+
+  const result = await PathaoService.syncDeliveryStatus(orderId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Delivery status synced successfully",
+    data: result
+  });
+});
+
 // Create delivery for a specific order (manual trigger)
 const createDeliveryForOrder = catchAsync(
   async (req: Request, res: Response) => {
@@ -446,6 +470,20 @@ const createDeliveryForOrder = catchAsync(
   }
 );
 
+const getStoreByBranch = catchAsync(async (req: Request, res: Response) => {
+  const { branchId } = req.params;
+  if (!branchId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Branch id is required");
+  }
+  const result = await PathaoService.getStoreByBranch(branchId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Pathao store fetched successfully",
+    data: result
+  });
+});
+
 export const PathaoController = {
   saveCredentials,
   getCredentialsByBranch,
@@ -460,7 +498,9 @@ export const PathaoController = {
   getAllDeliveries,
   getDeliveryById,
   fetchDeliveryStatus,
+  syncDeliveryStatus,
   getAllStores,
   retryDelivery,
-  createDeliveryForOrder
+  createDeliveryForOrder,
+  getStoreByBranch
 };

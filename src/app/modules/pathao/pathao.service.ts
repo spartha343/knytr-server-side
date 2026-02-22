@@ -12,6 +12,7 @@ import type {
   Branch,
   Prisma
 } from "../../../generated/prisma/client";
+import { OrderStatus } from "../../../generated/prisma/client";
 import {
   type IPathaoAuthRequest,
   type IPathaoAuthResponse,
@@ -375,10 +376,20 @@ class PathaoService {
     });
 
     if (existingStore) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        "Store already registered with Pathao"
-      );
+      // Update local record only — Pathao doesn't support store updates via API
+      const updatedStore = await prisma.pathaoStore.update({
+        where: { branchId },
+        data: {
+          name: String(storeData.name),
+          contactName: String(storeData.contactName),
+          contactNumber: String(storeData.contactNumber),
+          secondaryContact: storeData.secondaryContact ?? null,
+          cityId: storeData.cityId,
+          zoneId: storeData.zoneId,
+          areaId: storeData.areaId
+        }
+      });
+      return updatedStore;
     }
 
     if (!storeData.name || !storeData.contactName || !storeData.contactNumber) {
@@ -791,10 +802,27 @@ ${storeData.name}`
       });
 
       if (axios.isAxiosError(error)) {
+        // Extract validation errors from Pathao response
+        const pathaoError = error.response?.data;
+        let errorMessage = pathaoErrorMessages.ORDER_CREATION_FAILED;
+
+        if (pathaoError?.errors) {
+          const validationMessages = Object.entries(pathaoError.errors)
+            .map(
+              ([field, messages]) =>
+                `${field}: ${(messages as string[]).join(", ")}`
+            )
+            .join("; ");
+          errorMessage = `Pathao validation failed — ${validationMessages}`;
+        } else if (pathaoError?.message) {
+          errorMessage = pathaoError.message;
+        }
+
         throw new PathaoApiError(
-          pathaoErrorMessages.ORDER_CREATION_FAILED,
+          errorMessage,
           "ORDER_CREATION_FAILED",
-          { error: error.response?.data }
+          { error: pathaoError },
+          true
         );
       }
       throw error;
@@ -898,7 +926,7 @@ ${storeData.name}`
           break;
         case "ASSIGNED_FOR_PICKUP":
         case "ASSIGNED FOR PICKUP":
-          newStatus = "ASSIGNED_FOR_PICKUP";
+          newStatus = PathaoDeliveryStatus.ASSIGNED_FOR_PICKUP;
           break;
         case "PICKED_UP":
         case "RECEIVED":
@@ -907,15 +935,15 @@ ${storeData.name}`
           break;
         case "PICKUP_FAILED":
         case "PICKUP FAILED":
-          newStatus = "PICKUP_FAILED";
+          newStatus = PathaoDeliveryStatus.PICKUP_FAILED;
           break;
         case "PICKUP_CANCELLED":
         case "PICKUP CANCELLED":
-          newStatus = "PICKUP_CANCELLED";
+          newStatus = PathaoDeliveryStatus.PICKUP_CANCELLED;
           break;
         case "AT_SORTING_HUB":
         case "AT THE SORTING HUB":
-          newStatus = "AT_SORTING_HUB";
+          newStatus = PathaoDeliveryStatus.AT_SORTING_HUB;
           break;
         case "IN_TRANSIT":
         case "ON_THE_WAY":
@@ -923,18 +951,18 @@ ${storeData.name}`
           break;
         case "RECEIVED_AT_LAST_MILE_HUB":
         case "RECEIVED AT LAST MILE HUB":
-          newStatus = "RECEIVED_AT_LAST_MILE";
+          newStatus = PathaoDeliveryStatus.RECEIVED_AT_LAST_MILE;
           break;
         case "ASSIGNED_FOR_DELIVERY":
         case "ASSIGNED FOR DELIVERY":
-          newStatus = "ASSIGNED_FOR_DELIVERY";
+          newStatus = PathaoDeliveryStatus.ASSIGNED_FOR_DELIVERY;
           break;
         case "DELIVERED":
           newStatus = PathaoDeliveryStatus.DELIVERED;
           break;
         case "PARTIAL_DELIVERY":
         case "PARTIAL DELIVERY":
-          newStatus = "PARTIAL_DELIVERY";
+          newStatus = PathaoDeliveryStatus.PARTIAL_DELIVERY;
           break;
         case "RETURNED":
         case "RETURN":
@@ -942,11 +970,11 @@ ${storeData.name}`
           break;
         case "DELIVERY_FAILED":
         case "DELIVERY FAILED":
-          newStatus = "DELIVERY_FAILED";
+          newStatus = PathaoDeliveryStatus.DELIVERY_FAILED;
           break;
         case "ON_HOLD":
         case "ON HOLD":
-          newStatus = "ON_HOLD";
+          newStatus = PathaoDeliveryStatus.ON_HOLD;
           break;
         case "CANCELLED":
         case "CANCEL":
@@ -976,34 +1004,39 @@ ${storeData.name}`
       });
 
       // Update order status based on delivery status
-      if (newStatus === PathaoDeliveryStatus.DELIVERED) {
+      if (newStatus === PathaoDeliveryStatus.PICKED_UP) {
         await prisma.order.update({
           where: { id: delivery.orderId },
-          data: { status: "DELIVERED" }
+          data: { status: OrderStatus.SHIPPED }
         });
       } else if (
         newStatus === PathaoDeliveryStatus.IN_TRANSIT ||
-        newStatus === "ASSIGNED_FOR_DELIVERY"
+        newStatus === PathaoDeliveryStatus.ASSIGNED_FOR_DELIVERY
       ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
-          data: { status: "OUT_FOR_DELIVERY" }
+          data: { status: OrderStatus.OUT_FOR_DELIVERY }
+        });
+      } else if (newStatus === PathaoDeliveryStatus.DELIVERED) {
+        await prisma.order.update({
+          where: { id: delivery.orderId },
+          data: { status: OrderStatus.DELIVERED }
         });
       } else if (
         newStatus === PathaoDeliveryStatus.RETURNED ||
-        newStatus === "PARTIAL_DELIVERY"
+        newStatus === PathaoDeliveryStatus.PARTIAL_DELIVERY
       ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
-          data: { status: "RETURNED" }
+          data: { status: OrderStatus.RETURNED }
         });
       } else if (
         newStatus === PathaoDeliveryStatus.CANCELLED ||
-        newStatus === "PICKUP_CANCELLED"
+        newStatus === PathaoDeliveryStatus.PICKUP_CANCELLED
       ) {
         await prisma.order.update({
           where: { id: delivery.orderId },
-          data: { status: "CANCELLED" }
+          data: { status: OrderStatus.CANCELLED }
         });
       }
 
@@ -1196,6 +1229,105 @@ ${storeData.name}`
   }
 
   // ============================================
+  // SYNC DELIVERY STATUS FROM PATHAO API
+  // ============================================
+
+  async syncDeliveryStatus(orderId: string): Promise<PathaoDelivery> {
+    // 1. Find the delivery for this order
+    const delivery = await prisma.pathaoDelivery.findUnique({
+      where: { orderId },
+      include: { pathaoStore: { include: { branch: true } } }
+    });
+
+    if (!delivery) {
+      throw new Error("No Pathao delivery found for this order");
+    }
+
+    if (!delivery.consignmentId) {
+      throw new Error("Delivery has no consignment ID yet");
+    }
+
+    const branchId = delivery.pathaoStore.branchId;
+
+    // 2. Fetch latest status from Pathao API
+    const pathaoStatus = await this.fetchDeliveryStatus(
+      branchId,
+      delivery.consignmentId
+    );
+
+    const rawStatus = pathaoStatus.data.order_status?.toUpperCase() ?? "";
+
+    // 3. Map Pathao status to our PathaoDelivery status
+    const statusMap: Record<string, PathaoDeliveryStatus> = {
+      PENDING: PathaoDeliveryStatus.PENDING,
+      PICKUP_REQUESTED: PathaoDeliveryStatus.PICKUP_REQUESTED,
+      PENDING_PICKUP: PathaoDeliveryStatus.PICKUP_REQUESTED,
+      "ASSIGNED FOR PICKUP": PathaoDeliveryStatus.ASSIGNED_FOR_PICKUP,
+      PICKUP: PathaoDeliveryStatus.PICKED_UP,
+      PICKED_UP: PathaoDeliveryStatus.PICKED_UP,
+      RECEIVED: PathaoDeliveryStatus.PICKED_UP,
+      PICKUP_FAILED: PathaoDeliveryStatus.PICKUP_FAILED,
+      PICKUP_CANCELLED: PathaoDeliveryStatus.PICKUP_CANCELLED,
+      "AT THE SORTING HUB": PathaoDeliveryStatus.AT_SORTING_HUB,
+      IN_TRANSIT: PathaoDeliveryStatus.IN_TRANSIT,
+      ON_THE_WAY: PathaoDeliveryStatus.IN_TRANSIT,
+      "RECEIVED AT LAST MILE HUB": PathaoDeliveryStatus.RECEIVED_AT_LAST_MILE,
+      "ASSIGNED FOR DELIVERY": PathaoDeliveryStatus.ASSIGNED_FOR_DELIVERY,
+      DELIVERED: PathaoDeliveryStatus.DELIVERED,
+      "PARTIAL DELIVERY": PathaoDeliveryStatus.PARTIAL_DELIVERY,
+      RETURN: PathaoDeliveryStatus.RETURNED,
+      RETURNED: PathaoDeliveryStatus.RETURNED,
+      "DELIVERY FAILED": PathaoDeliveryStatus.DELIVERY_FAILED,
+      "ON HOLD": PathaoDeliveryStatus.ON_HOLD,
+      CANCELLED: PathaoDeliveryStatus.CANCELLED,
+      CANCEL: PathaoDeliveryStatus.CANCELLED
+    };
+
+    const newDeliveryStatus =
+      statusMap[rawStatus] ?? PathaoDeliveryStatus.PENDING;
+
+    // 4. Map to OrderStatus
+    const orderStatusMap: Partial<Record<PathaoDeliveryStatus, OrderStatus>> = {
+      [PathaoDeliveryStatus.PICKED_UP]: OrderStatus.SHIPPED,
+      [PathaoDeliveryStatus.IN_TRANSIT]: OrderStatus.OUT_FOR_DELIVERY,
+      [PathaoDeliveryStatus.ASSIGNED_FOR_DELIVERY]:
+        OrderStatus.OUT_FOR_DELIVERY,
+      [PathaoDeliveryStatus.DELIVERED]: OrderStatus.DELIVERED,
+      [PathaoDeliveryStatus.RETURNED]: OrderStatus.RETURNED,
+      [PathaoDeliveryStatus.PARTIAL_DELIVERY]: OrderStatus.RETURNED,
+      [PathaoDeliveryStatus.CANCELLED]: OrderStatus.CANCELLED,
+      [PathaoDeliveryStatus.PICKUP_CANCELLED]: OrderStatus.CANCELLED
+    };
+
+    const newOrderStatus = orderStatusMap[newDeliveryStatus] ?? null;
+
+    // 5. Update PathaoDelivery status + create history + update Order status
+    const updatedDelivery = await prisma.pathaoDelivery.update({
+      where: { id: delivery.id },
+      data: {
+        status: newDeliveryStatus,
+        statusHistory: {
+          create: {
+            status: newDeliveryStatus
+          }
+        }
+      },
+      include: {
+        statusHistory: { orderBy: { createdAt: "desc" } }
+      }
+    });
+
+    if (newOrderStatus) {
+      await prisma.order.update({
+        where: { id: orderId },
+        data: { status: newOrderStatus }
+      });
+    }
+
+    return updatedDelivery;
+  }
+
+  // ============================================
   // ADMIN: Get All Stores
   // ============================================
 
@@ -1263,10 +1395,17 @@ ${storeData.name}`
     });
 
     if (existingDelivery) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        "Pathao delivery already exists for this order"
-      );
+      if (existingDelivery.status === "FAILED") {
+        // Delete failed delivery record to allow fresh retry
+        await prisma.pathaoDelivery.delete({
+          where: { orderId }
+        });
+      } else {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Pathao delivery already exists for this order"
+        );
+      }
     }
 
     // Check if branch has Pathao store registered
@@ -1279,6 +1418,17 @@ ${storeData.name}`
 
     // Now call the existing createDelivery method with proper payload
     return await this.createDelivery({ orderId });
+  }
+
+  async getStoreByBranch(branchId: string): Promise<PathaoStore | null> {
+    return await prisma.pathaoStore.findUnique({
+      where: { branchId },
+      include: {
+        city: true,
+        zone: true,
+        area: true
+      }
+    });
   }
 }
 

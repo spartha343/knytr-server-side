@@ -118,6 +118,15 @@ router.get(
   PathaoController.fetchDeliveryStatus
 );
 
+// Get store by branch (Vendor only)
+router.get(
+  "/stores/branch/:branchId",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
+  PathaoController.getStoreByBranch
+);
+
 // Get all stores (Admin/Vendor)
 router.get(
   "/stores",
@@ -144,6 +153,15 @@ router.post(
   requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
   validateRequest(PathaoValidation.createDeliveryWithLocation),
   PathaoController.createDeliveryForOrder
+);
+
+// Sync delivery status from Pathao API (Vendor/Admin - manual trigger)
+router.post(
+  "/orders/:orderId/sync-status",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
+  PathaoController.syncDeliveryStatus
 );
 
 export const PathaoRoutes = router;

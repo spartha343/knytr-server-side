@@ -8,15 +8,18 @@ import {
 const createOrderZodSchema = z.object({
   body: z.object({
     customerPhone: z
-      .string({
-        error: "Customer phone is required"
-      })
-      .min(11, "Phone number must be at least 11 digits"),
+      .string({ error: "Customer phone is required" })
+      .length(11, "Phone number must be exactly 11 digits")
+      .regex(/^[0-9]+$/, "Phone number must contain only digits"),
     customerName: z.string().optional(),
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
     secondaryPhone: z.string().optional(),
     specialInstructions: z.string().optional(),
-    deliveryAddress: z.string().optional(),
+    deliveryAddress: z
+      .string()
+      .min(10, "Delivery address must be at least 10 characters")
+      .max(220, "Delivery address must be at most 220 characters")
+      .optional(),
     recipientCityId: z.number().int().positive().optional(),
     recipientZoneId: z.number().int().positive().optional(),
     recipientAreaId: z.number().int().positive().optional(),
@@ -51,7 +54,8 @@ const updateOrderZodSchema = z.object({
     // Customer Info
     customerPhone: z
       .string()
-      .min(11, "Phone number must be at least 11 digits")
+      .length(11, "Phone number must be exactly 11 digits")
+      .regex(/^[0-9]+$/, "Phone number must contain only digits")
       .optional(),
     customerName: z.string().optional(),
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
@@ -62,7 +66,11 @@ const updateOrderZodSchema = z.object({
     recipientCityId: z.number().int().positive().optional(),
     recipientZoneId: z.number().int().positive().optional(),
     recipientAreaId: z.number().int().positive().optional(),
-    deliveryAddress: z.string().optional(),
+    deliveryAddress: z
+      .string()
+      .min(10, "Delivery address must be at least 10 characters")
+      .max(220, "Delivery address must be at most 220 characters")
+      .optional(),
     deliveryLocation: z.enum(DeliveryLocation).optional(),
 
     // Items (optional - if provided, will replace all items)
@@ -119,17 +127,20 @@ const createManualOrderZodSchema = z.object({
       error: "Customer name is required"
     }),
     customerPhone: z
-      .string({
-        error: "Customer phone is required"
-      })
-      .min(11, "Phone number must be at least 11 digits"),
+      .string({ error: "Customer phone is required" })
+      .length(11, "Phone number must be exactly 11 digits")
+      .regex(/^[0-9]+$/, "Phone number must contain only digits"),
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
     secondaryPhone: z.string().optional(),
     specialInstructions: z.string().optional(),
     deliveryLocation: z.enum(DeliveryLocation, {
       error: "Delivery location is required"
     }),
-    deliveryAddress: z.string().optional(),
+    deliveryAddress: z
+      .string()
+      .min(10, "Delivery address must be at least 10 characters")
+      .max(220, "Delivery address must be at most 220 characters")
+      .optional(),
     recipientCityId: z.number().int().positive().optional(),
     recipientZoneId: z.number().int().positive().optional(),
     recipientAreaId: z.number().int().positive().optional(),

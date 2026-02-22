@@ -630,6 +630,7 @@ const updateOrder = async (
     const newOrderItemsData: {
       productId: string;
       variantId?: string;
+      branchId: string;
       quantity: number;
       price: number;
       discount: number;
@@ -702,6 +703,7 @@ const updateOrder = async (
 
       const orderItem: (typeof newOrderItemsData)[number] = {
         productId: item.productId,
+        branchId: existingOrder.assignedBranchId!,
         quantity: item.quantity,
         price,
         discount,
@@ -1434,7 +1436,13 @@ const cancelOrder = async (
       include: {
         store: true,
         items: true,
-        pathaoDelivery: true
+        pathaoDelivery: {
+          include: {
+            statusHistory: {
+              orderBy: { createdAt: "asc" }
+            }
+          }
+        }
       }
     });
 
