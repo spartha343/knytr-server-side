@@ -11,6 +11,7 @@ import type {
 import type { Prisma, Store } from "../../../generated/prisma/client";
 import type { IPaginationOptions } from "../../../interfaces/pagination";
 import type { IGenericResponse } from "../../../interfaces/common";
+import { imageHelper } from "../../../helpers/imageHelper";
 
 // Helper: Generate unique slug
 const generateSlug = async (name: string): Promise<string> => {
@@ -237,10 +238,36 @@ const updateStore = async (
   }
 
   if (payload.logo !== undefined) {
+    // Delete old logo from Cloudinary if it exists and is being replaced
+    if (existingStore.logo && payload.logo !== existingStore.logo) {
+      try {
+        const publicId = imageHelper.extractPublicId(existingStore.logo);
+        await imageHelper.deleteFromCloudinary(publicId);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          "Failed to delete old store logo from Cloudinary:",
+          error
+        );
+      }
+    }
     updateData.logo = payload.logo;
   }
 
   if (payload.banner !== undefined) {
+    // Delete old banner from Cloudinary if it exists and is being replaced
+    if (existingStore.banner && payload.banner !== existingStore.banner) {
+      try {
+        const publicId = imageHelper.extractPublicId(existingStore.banner);
+        await imageHelper.deleteFromCloudinary(publicId);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          "Failed to delete old store banner from Cloudinary:",
+          error
+        );
+      }
+    }
     updateData.banner = payload.banner;
   }
 

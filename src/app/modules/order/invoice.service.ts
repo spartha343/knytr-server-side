@@ -147,9 +147,10 @@ class InvoiceService {
   /**
    * Generate QR code for order tracking
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   private async generateQRCode(orderId: string): Promise<string> {
     try {
-      const trackingUrl = `${config.frontendUrl}/orders/${orderId}`;
+      const trackingUrl = `${config.frontendUrl}`;
       const qrCodeDataUrl = await QRCode.toDataURL(trackingUrl, {
         width: 60, // Reduced from 100 to 60
         margin: 1,
@@ -360,13 +361,11 @@ class InvoiceService {
       align: "right"
     }); // Added gap, shows kg
     doc.text("QTY", margin + 190, tableStartY, { width: 20 }); // Increased gap to 190 (double spacing)
-    doc.text("PRICE", margin + 215, tableStartY, {
-      // Adjusted to 215
+    doc.text("UNIT PRICE", margin + 215, tableStartY, {
       width: 60,
       align: "right"
     });
-    doc.text("DISC", margin + 345, tableStartY, {
-      // Adjusted to 280
+    doc.text("UNIT DISC", margin + 345, tableStartY, {
       width: 45,
       align: "right"
     });

@@ -7,6 +7,7 @@ import type {
   IBulkCreateVariantsRequest
 } from "./productVariant.interface";
 import type { ProductVariant } from "../../../generated/prisma/client";
+import { imageHelper } from "../../../helpers/imageHelper";
 
 const createProductVariant = async (
   userId: string,
@@ -378,6 +379,24 @@ const updateProductVariant = async (
 
     if (duplicateSKU) {
       throw new ApiError(httpStatus.BAD_REQUEST, "SKU already exists");
+    }
+  }
+
+  // Delete old variant image from Cloudinary if being replaced
+  if (
+    payload.imageUrl !== undefined &&
+    existingVariant.imageUrl &&
+    payload.imageUrl !== existingVariant.imageUrl
+  ) {
+    try {
+      const publicId = imageHelper.extractPublicId(existingVariant.imageUrl);
+      await imageHelper.deleteFromCloudinary(publicId);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "Failed to delete old variant image from Cloudinary:",
+        error
+      );
     }
   }
 

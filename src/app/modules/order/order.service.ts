@@ -827,6 +827,19 @@ const updateOrderStatus = async (
       );
     }
 
+    // Block manual transition to SHIPPED unless a Pathao delivery has been booked
+    if (payload.status === OrderStatus.SHIPPED) {
+      const pathaoDelivery = await tx.pathaoDelivery.findUnique({
+        where: { orderId: id }
+      });
+      if (!pathaoDelivery) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot mark order as Shipped without booking a Pathao delivery first. Please book a Pathao delivery for this order."
+        );
+      }
+    }
+
     // INVENTORY MANAGEMENT LOGIC
 
     // Prepare items for inventory operations

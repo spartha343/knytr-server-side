@@ -71,13 +71,15 @@ const createProduct = async (
     throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
   }
 
-  // Verify brand exists
-  const brand = await prisma.brand.findUnique({
-    where: { id: payload.brandId, isDeleted: false }
-  });
+  // Verify brand exists (only if brandId is provided)
+  if (payload.brandId) {
+    const brand = await prisma.brand.findUnique({
+      where: { id: payload.brandId, isDeleted: false }
+    });
 
-  if (!brand) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Brand not found");
+    if (!brand) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Brand not found");
+    }
   }
 
   // Generate slug
@@ -466,7 +468,6 @@ const updateProduct = async (
       throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
     }
   }
-
   // If brand is being updated, verify it exists
   if (payload.brandId) {
     const brand = await prisma.brand.findUnique({
@@ -478,9 +479,61 @@ const updateProduct = async (
     }
   }
 
+  // Handle attribute updates — block if variants exist
+  if (payload.attributeIds !== undefined) {
+    const variantCount = await prisma.productVariant.count({
+      where: { productId: id }
+    });
+
+    if (variantCount > 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Cannot change attributes on a product that already has variants. Please delete all variants first."
+      );
+    }
+
+    // Replace all existing attributes
+    await prisma.productAttribute.deleteMany({ where: { productId: id } });
+
+    if (payload.attributeIds.length > 0) {
+      await prisma.productAttribute.createMany({
+        data: payload.attributeIds.map((attributeId) => ({
+          productId: id,
+          attributeId
+        }))
+      });
+    }
+  }
+
+  // If trying to publish, validate product is ready
+  if (payload.isPublished === true) {
+    const activeVariants = await prisma.productVariant.findMany({
+      where: { productId: id, isActive: true },
+      include: {
+        inventories: true
+      }
+    });
+
+    if (activeVariants.length === 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Cannot publish a product with no active variants. Please add at least one active variant first."
+      );
+    }
+
+    const hasStock = activeVariants.some((v) => v.inventories.length > 0);
+    if (!hasStock) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Cannot publish a product with zero stock. Please add inventory to at least one variant first."
+      );
+    }
+  }
+
   // Update slug if name is being changed
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateData: any = { ...payload };
+  const updateData: Record<string, unknown> = { ...payload };
+
+  delete updateData.attributeIds; // handled separately above
 
   if (payload.name && payload.name !== existingProduct.name) {
     updateData.slug = await generateSlug(payload.name, existingProduct.storeId);

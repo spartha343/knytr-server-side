@@ -15,11 +15,7 @@ const createOrderZodSchema = z.object({
     customerEmail: z.email("Invalid email").optional().or(z.literal("")),
     secondaryPhone: z.string().optional(),
     specialInstructions: z.string().optional(),
-    deliveryAddress: z
-      .string()
-      .min(10, "Delivery address must be at least 10 characters")
-      .max(220, "Delivery address must be at most 220 characters")
-      .optional(),
+    deliveryAddress: z.string().optional(),
     recipientCityId: z.number().int().positive().optional(),
     recipientZoneId: z.number().int().positive().optional(),
     recipientAreaId: z.number().int().positive().optional(),
@@ -69,8 +65,7 @@ const updateOrderZodSchema = z.object({
     deliveryAddress: z
       .string()
       .min(10, "Delivery address must be at least 10 characters")
-      .max(220, "Delivery address must be at most 220 characters")
-      .optional(),
+      .max(220, "Delivery address must be at most 220 characters"),
     deliveryLocation: z.enum(DeliveryLocation).optional(),
 
     // Items (optional - if provided, will replace all items)
@@ -139,8 +134,7 @@ const createManualOrderZodSchema = z.object({
     deliveryAddress: z
       .string()
       .min(10, "Delivery address must be at least 10 characters")
-      .max(220, "Delivery address must be at most 220 characters")
-      .optional(),
+      .max(220, "Delivery address must be at most 220 characters"),
     recipientCityId: z.number().int().positive().optional(),
     recipientZoneId: z.number().int().positive().optional(),
     recipientAreaId: z.number().int().positive().optional(),

@@ -259,7 +259,7 @@ model Product {
   comparePrice Decimal? @db.Decimal(10, 2)
 
   categoryId String
-  brandId    String
+  brandId    String?
   storeId    String
 
   isActive    Boolean @default(true)
@@ -283,7 +283,7 @@ model Product {
   updatedAt DateTime @updatedAt
 
   category          Category           @relation(fields: [categoryId], references: [id])
-  brand             Brand              @relation(fields: [brandId], references: [id])
+  brand             Brand?             @relation(fields: [brandId], references: [id])
   store             Store              @relation(fields: [storeId], references: [id])
   media             ProductMedia[]
   variants          ProductVariant[]

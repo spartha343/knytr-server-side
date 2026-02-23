@@ -11,6 +11,7 @@ import type {
 import type { Prisma, Category } from "../../../generated/prisma/client";
 import type { IPaginationOptions } from "../../../interfaces/pagination";
 import type { IGenericResponse } from "../../../interfaces/common";
+import { imageHelper } from "../../../helpers/imageHelper";
 
 // Helper: Generate unique slug
 const generateSlug = async (name: string): Promise<string> => {
@@ -336,6 +337,22 @@ const updateCategory = async (
   }
 
   if (payload.imageUrl !== undefined) {
+    // Delete old image from Cloudinary if it exists and is being replaced
+    if (
+      existingCategory.imageUrl &&
+      payload.imageUrl !== existingCategory.imageUrl
+    ) {
+      try {
+        const publicId = imageHelper.extractPublicId(existingCategory.imageUrl);
+        await imageHelper.deleteFromCloudinary(publicId);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          "Failed to delete old category image from Cloudinary:",
+          error
+        );
+      }
+    }
     updateData.imageUrl = payload.imageUrl;
   }
 

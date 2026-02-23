@@ -11,6 +11,7 @@ import type {
 import type { Prisma, Brand } from "../../../generated/prisma/client";
 import type { IPaginationOptions } from "../../../interfaces/pagination";
 import type { IGenericResponse } from "../../../interfaces/common";
+import { imageHelper } from "../../../helpers/imageHelper";
 
 // Helper: Generate unique slug
 const generateSlug = async (name: string): Promise<string> => {
@@ -191,6 +192,19 @@ const updateBrand = async (
   }
 
   if (payload.logoUrl !== undefined) {
+    // Delete old logo from Cloudinary if it exists and is being replaced
+    if (existingBrand.logoUrl && payload.logoUrl !== existingBrand.logoUrl) {
+      try {
+        const publicId = imageHelper.extractPublicId(existingBrand.logoUrl);
+        await imageHelper.deleteFromCloudinary(publicId);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          "Failed to delete old brand logo from Cloudinary:",
+          error
+        );
+      }
+    }
     updateData.logoUrl = payload.logoUrl;
   }
 

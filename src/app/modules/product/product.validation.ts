@@ -15,16 +15,8 @@ const create = z.object({
       })
       .positive("Base price must be positive"),
     comparePrice: z.number().positive().optional(),
-    categoryId: z
-      .string({
-        message: "Category is required"
-      })
-      .uuid({ message: "Invalid category ID" }),
-    brandId: z
-      .string({
-        error: "Brand is required"
-      })
-      .uuid("Invalid brand ID"),
+    categoryId: z.uuid({ message: "Invalid category ID" }),
+    brandId: z.uuid("Invalid brand ID").optional(),
     storeId: z
       .string({
         error: "Store is required"
@@ -64,6 +56,7 @@ const update = z.object({
     length: z.number().positive().nullable().optional(),
     width: z.number().positive().nullable().optional(),
     height: z.number().positive().nullable().optional(),
+    attributeIds: z.array(z.uuid()).optional(),
     freeShipping: z.boolean().optional()
   })
 });

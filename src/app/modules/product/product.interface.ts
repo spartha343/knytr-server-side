@@ -47,4 +47,5 @@ export interface IUpdateProductRequest {
   width?: number;
   height?: number;
   freeShipping?: boolean;
+  attributeIds?: string[];
 }
