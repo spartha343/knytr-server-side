@@ -11,6 +11,15 @@ const router = express.Router();
 // Get all products (Public)
 router.get("/", ProductController.getAllProducts);
 
+// Get vendor's own products (Vendor only) - Must be before /:id route
+router.get(
+  "/vendor/my-products",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("VENDOR"),
+  ProductController.getVendorProducts
+);
+
 // Get product by store slug and product slug (Public) - Must be before /:id route
 router.get(
   "/store/:storeSlug/product/:productSlug",

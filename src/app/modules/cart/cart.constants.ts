@@ -34,6 +34,7 @@ export const cartRelations = {
             id: true,
             sku: true,
             price: true,
+            comparePrice: true,
             imageUrl: true,
             variantAttributes: {
               include: {

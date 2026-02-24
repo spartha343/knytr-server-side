@@ -579,6 +579,14 @@ const updateOrder = async (
 
   // Handle items update if provided
   if (payload.items && payload.items.length > 0) {
+    // Require a branch to be assigned before editing items
+    if (!existingOrder.assignedBranchId) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Please assign a branch to this order before editing items"
+      );
+    }
+
     // STEP 1: Fetch all products and variants
     const productIds = payload.items.map((item) => item.productId);
     const products = await prisma.product.findMany({
@@ -743,17 +751,83 @@ const updateOrder = async (
     // STEP 4: Calculate new total
     const newTotalAmount = newSubtotal + deliveryCharge;
 
-    // STEP 5: Update order with new items
-    updateData.subtotal = newSubtotal;
-    updateData.totalDiscount = newTotalDiscount;
-    updateData.deliveryCharge = deliveryCharge;
-    updateData.totalAmount = newTotalAmount;
+    // STEP 5: Inventory management + atomic update in a transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // 5a: Release reservedQty for all OLD items that have a variantId
+      for (const oldItem of existingOrder.items) {
+        if (oldItem.variantId) {
+          await tx.inventory.updateMany({
+            where: {
+              variantId: oldItem.variantId,
+              branchId: existingOrder.assignedBranchId!
+            },
+            data: {
+              reservedQty: { decrement: oldItem.quantity }
+            }
+          });
+        }
+      }
 
-    // Delete old items and create new ones
-    updateData.items = {
-      deleteMany: {}, // Delete all existing items
-      create: newOrderItemsData // Create new items
-    };
+      // 5b: Check & reserve inventory for all NEW items
+      for (const newItem of newOrderItemsData) {
+        if (newItem.variantId) {
+          const inventory = await tx.inventory.findUnique({
+            where: {
+              variantId_branchId: {
+                variantId: newItem.variantId,
+                branchId: existingOrder.assignedBranchId!
+              }
+            }
+          });
+
+          if (!inventory) {
+            throw new ApiError(
+              httpStatus.NOT_FOUND,
+              `Inventory not found for a selected variant in branch. Please check stock.`
+            );
+          }
+
+          const availableQty = inventory.quantity - inventory.reservedQty;
+          if (availableQty < newItem.quantity) {
+            throw new ApiError(
+              httpStatus.BAD_REQUEST,
+              `Insufficient stock for "${newItem.productName}${newItem.variantName ? ` (${newItem.variantName})` : ""}". Requested: ${newItem.quantity}, Available: ${availableQty}`
+            );
+          }
+
+          await tx.inventory.update({
+            where: {
+              variantId_branchId: {
+                variantId: newItem.variantId,
+                branchId: existingOrder.assignedBranchId!
+              }
+            },
+            data: {
+              reservedQty: { increment: newItem.quantity }
+            }
+          });
+        }
+      }
+
+      // 5c: Update the order atomically
+      return tx.order.update({
+        where: { id },
+        data: {
+          ...updateData,
+          subtotal: newSubtotal,
+          totalDiscount: newTotalDiscount,
+          deliveryCharge,
+          totalAmount: newTotalAmount,
+          items: {
+            deleteMany: {},
+            create: newOrderItemsData
+          }
+        },
+        include: orderRelations.include
+      });
+    });
+
+    return result;
   } else if (payload.deliveryChargeOverride !== undefined) {
     // If only delivery charge is being overridden (no item changes)
     const newDeliveryCharge = Number(payload.deliveryChargeOverride);
@@ -862,7 +936,49 @@ const updateOrderStatus = async (
       if (!existingOrder.assignedBranchId) {
         throw new ApiError(
           httpStatus.BAD_REQUEST,
-          "Cannot confirm order without assigned branch. Order must have an assigned branch."
+          "Cannot confirm order: Please assign a branch first."
+        );
+      }
+
+      // Validate all required fields before confirming
+      if (!existingOrder.customerPhone) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot confirm order: Customer phone number is required."
+        );
+      }
+
+      if (
+        !existingOrder.customerName ||
+        existingOrder.customerName.trim().length < 3
+      ) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot confirm order: Customer name is required (minimum 3 characters)."
+        );
+      }
+
+      if (
+        !existingOrder.deliveryAddress ||
+        existingOrder.deliveryAddress.trim().length < 10
+      ) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot confirm order: Delivery address is required (minimum 10 characters)."
+        );
+      }
+
+      if (!existingOrder.deliveryLocation) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot confirm order: Delivery location (Inside/Outside Dhaka) is required."
+        );
+      }
+
+      if (existingOrder.items.length === 0) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Cannot confirm order: Order must have at least one item."
         );
       }
 
@@ -1015,60 +1131,125 @@ const assignBranchToItem = async (
   vendorId: string,
   payload: IAssignBranchToItemRequest
 ): Promise<Order> => {
-  const existingOrder = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { store: true, items: true }
+  const result = await prisma.$transaction(async (tx) => {
+    const existingOrder = await tx.order.findUnique({
+      where: { id: orderId },
+      include: { store: true, items: true }
+    });
+
+    if (!existingOrder) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
+    }
+
+    // Check if vendor owns this order's store
+    if (existingOrder.store.vendorId !== vendorId) {
+      throw new ApiError(
+        httpStatus.FORBIDDEN,
+        "You are not authorized to update this order"
+      );
+    }
+
+    // Can only reassign branch on PENDING orders
+    if (existingOrder.status !== OrderStatus.PENDING) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Cannot reassign branch after order has been confirmed"
+      );
+    }
+
+    // Validate item belongs to order
+    const item = existingOrder.items.find((i) => i.id === itemId);
+    if (!item) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Order item not found");
+    }
+
+    // Validate branch belongs to store
+    const branch = await tx.branch.findUnique({
+      where: { id: payload.branchId, isDeleted: false }
+    });
+
+    if (!branch || branch.storeId !== existingOrder.storeId) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Branch does not belong to this store"
+      );
+    }
+
+    // If reassigning to a different branch, manage inventory
+    if (item.variantId && item.branchId !== payload.branchId) {
+      // Release reservation from old branch (if it had one)
+      if (item.branchId) {
+        await tx.inventory.updateMany({
+          where: {
+            variantId: item.variantId,
+            branchId: item.branchId
+          },
+          data: {
+            reservedQty: { decrement: item.quantity }
+          }
+        });
+      }
+
+      // Check & reserve inventory in new branch
+      const newInventory = await tx.inventory.findUnique({
+        where: {
+          variantId_branchId: {
+            variantId: item.variantId,
+            branchId: payload.branchId
+          }
+        }
+      });
+
+      if (!newInventory) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          `No inventory record found for this product in the selected branch. Please set up inventory first.`
+        );
+      }
+
+      const availableQty = newInventory.quantity - newInventory.reservedQty;
+      if (availableQty < item.quantity) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          `Insufficient stock in the selected branch. Requested: ${item.quantity}, Available: ${availableQty}`
+        );
+      }
+
+      await tx.inventory.update({
+        where: {
+          variantId_branchId: {
+            variantId: item.variantId,
+            branchId: payload.branchId
+          }
+        },
+        data: {
+          reservedQty: { increment: item.quantity }
+        }
+      });
+    }
+
+    // Update order item with new branch
+    await tx.orderItem.update({
+      where: { id: itemId },
+      data: { branchId: payload.branchId }
+    });
+
+    // Update order's assignedBranchId (needed for Pathao delivery pickup location)
+    await tx.order.update({
+      where: { id: orderId },
+      data: { assignedBranchId: payload.branchId }
+    });
+
+    // Return updated order
+    const updatedOrder = await tx.order.findUnique({
+      where: { id: orderId },
+      include: orderRelations.include
+    });
+
+    return updatedOrder!;
   });
 
-  if (!existingOrder) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
-  }
-
-  // Check if vendor owns this order's store
-  if (existingOrder.store.vendorId !== vendorId) {
-    throw new ApiError(
-      httpStatus.FORBIDDEN,
-      "You are not authorized to update this order"
-    );
-  }
-
-  // Validate item belongs to order
-  const item = existingOrder.items.find((i) => i.id === itemId);
-  if (!item) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Order item not found");
-  }
-
-  // Validate branch belongs to store
-  const branch = await prisma.branch.findUnique({
-    where: { id: payload.branchId, isDeleted: false }
-  });
-
-  if (!branch || branch.storeId !== existingOrder.storeId) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Branch does not belong to this store"
-    );
-  }
-
-  // Update order item with branch assignment
-  await prisma.orderItem.update({
-    where: { id: itemId },
-    data: { branchId: payload.branchId }
-  });
-
-  // Also update the order's assignedBranchId
-  // This is needed for Pathao delivery (pickup location)
-  await prisma.order.update({
-    where: { id: orderId },
-    data: { assignedBranchId: payload.branchId }
-  });
-  // Return updated order
-  const result = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: orderRelations.include
-  });
-
-  return result!;
+  return result;
 };
 
 // GET ORDER FOR INVOICE (with all required data)

@@ -8,6 +8,7 @@ export interface IProductFilterRequest {
   isFeatured?: boolean;
   minPrice?: number;
   maxPrice?: number;
+  includeVariants?: boolean;
 }
 
 export interface ICreateProductRequest {
@@ -16,7 +17,7 @@ export interface ICreateProductRequest {
   basePrice: number;
   comparePrice?: number;
   categoryId: string;
-  brandId: string;
+  brandId?: string;
   storeId: string;
   seoTitle?: string;
   seoDescription?: string;

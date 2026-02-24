@@ -130,12 +130,16 @@ const getAllProducts = async (
 ): Promise<IGenericResponse<Product[]>> => {
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(options);
-  const { searchTerm, minPrice, maxPrice, ...filterData } = filters;
+  const { searchTerm, minPrice, maxPrice, includeVariants, ...filterData } =
+    filters;
 
   const andConditions = [];
 
   // Always exclude soft-deleted products
   andConditions.push({ isDeleted: false });
+
+  // Only show products that have at least one variant
+  andConditions.push({ variants: { some: {} } });
 
   // Search functionality
   if (searchTerm) {
@@ -222,10 +226,41 @@ const getAllProducts = async (
         where: { isPrimary: true },
         take: 1
       },
-      variants: {
-        take: 1,
-        orderBy: { price: "asc" }
-      }
+      variants: includeVariants
+        ? {
+            where: { isActive: true },
+            orderBy: { createdAt: "asc" as const },
+            select: {
+              id: true,
+              sku: true,
+              price: true,
+              comparePrice: true,
+              imageUrl: true,
+              isActive: true,
+              variantAttributes: {
+                select: {
+                  attributeValue: {
+                    select: {
+                      value: true,
+                      attribute: {
+                        select: { name: true }
+                      }
+                    }
+                  }
+                }
+              },
+              inventories: {
+                select: {
+                  quantity: true,
+                  reservedQty: true
+                }
+              }
+            }
+          }
+        : {
+            take: 1,
+            orderBy: { createdAt: "asc" as const }
+          }
     },
     skip,
     take: limit,
@@ -242,6 +277,90 @@ const getAllProducts = async (
     },
     data: result
   };
+};
+
+const getVendorProducts = async (
+  userId: string,
+  filters: IProductFilterRequest,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Product[]>> => {
+  const { limit, page, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(options);
+  const { searchTerm, minPrice, maxPrice, ...filterData } = filters;
+
+  // Get all store IDs owned by this vendor
+  const vendorStores = await prisma.store.findMany({
+    where: { vendorId: userId, isDeleted: false },
+    select: { id: true }
+  });
+
+  const storeIds = vendorStores.map((s) => s.id);
+
+  if (storeIds.length === 0) {
+    return { meta: { total: 0, page, limit }, data: [] };
+  }
+
+  const andConditions: Prisma.ProductWhereInput[] = [];
+
+  // Always scope to vendor's stores
+  andConditions.push({ storeId: { in: storeIds } });
+
+  // Always exclude soft-deleted products
+  andConditions.push({ isDeleted: false });
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: productSearchableFields.map((field) => ({
+        [field]: {
+          contains: searchTerm,
+          mode: "insensitive" as Prisma.QueryMode
+        }
+      }))
+    });
+  }
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    const priceFilter: { gte?: number; lte?: number } = {};
+    if (minPrice !== undefined) priceFilter.gte = minPrice;
+    if (maxPrice !== undefined) priceFilter.lte = maxPrice;
+    andConditions.push({ basePrice: priceFilter });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => {
+        const mappedKey = productRelationalFields.includes(key)
+          ? productRelationalFieldsMapper[key]
+          : key;
+        let value = (filterData as Record<string, unknown>)[key];
+        if (value === "true") value = true;
+        if (value === "false") value = false;
+        return {
+          [mappedKey as string]: { equals: value }
+        } as Prisma.ProductWhereInput;
+      })
+    });
+  }
+
+  const whereConditions: Prisma.ProductWhereInput = { AND: andConditions };
+
+  const result = await prisma.product.findMany({
+    where: whereConditions,
+    include: {
+      category: { select: { id: true, name: true, slug: true } },
+      brand: { select: { id: true, name: true, slug: true, logoUrl: true } },
+      store: { select: { id: true, name: true, slug: true } },
+      media: { where: { isPrimary: true }, take: 1 },
+      variants: { take: 1, orderBy: { price: "asc" } }
+    },
+    skip,
+    take: limit,
+    orderBy: { [sortBy]: sortOrder }
+  });
+
+  const total = await prisma.product.count({ where: whereConditions });
+
+  return { meta: { total, page, limit }, data: result };
 };
 
 const getProductById = async (id: string): Promise<Product | null> => {
@@ -746,6 +865,7 @@ const getSimilarProducts = async (
 export const ProductService = {
   createProduct,
   getAllProducts,
+  getVendorProducts,
   getProductById,
   getProductByStoreAndSlug,
   updateProduct,

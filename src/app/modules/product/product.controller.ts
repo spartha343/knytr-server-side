@@ -38,6 +38,30 @@ const getAllProducts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getVendorProducts = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.dbUser?.id;
+
+  if (!userId) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated");
+  }
+
+  const filters = pick(req.query, productFilterableFields);
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+  const result = await ProductService.getVendorProducts(
+    userId,
+    filters,
+    options
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Vendor products retrieved successfully",
+    meta: result.meta,
+    data: result.data
+  });
+});
+
 const getProductById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -145,6 +169,7 @@ const getSimilarProducts = catchAsync(async (req: Request, res: Response) => {
 export const ProductController = {
   createProduct,
   getAllProducts,
+  getVendorProducts,
   getProductById,
   getProductByStoreAndSlug,
   updateProduct,

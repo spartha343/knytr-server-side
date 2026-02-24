@@ -13,7 +13,8 @@ export const productFilterableFields: string[] = [
   "isPublished",
   "isFeatured",
   "minPrice",
-  "maxPrice"
+  "maxPrice",
+  "includeVariants"
 ];
 
 export const productRelationalFields: string[] = ["category", "brand", "store"];
