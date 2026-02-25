@@ -42,62 +42,57 @@ const createProductVariant = async (
     throw new ApiError(httpStatus.BAD_REQUEST, "SKU already exists");
   }
 
-  // Verify all attribute values exist and belong to product's attributes
-  const productAttributeIds = product.productAttributes.map(
-    (pa) => pa.attributeId
-  );
+  // If attributeValueIds provided, validate them
+  if (payload.attributeValueIds && payload.attributeValueIds.length > 0) {
+    const productAttributeIds = product.productAttributes.map(
+      (pa) => pa.attributeId
+    );
 
-  const attributeValues = await prisma.attributeValue.findMany({
-    where: {
-      id: { in: payload.attributeValueIds }
-    },
-    include: {
-      attribute: true
+    const attributeValues = await prisma.attributeValue.findMany({
+      where: { id: { in: payload.attributeValueIds } },
+      include: { attribute: true }
+    });
+
+    if (attributeValues.length !== payload.attributeValueIds.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "One or more attribute values not found"
+      );
     }
-  });
 
-  if (attributeValues.length !== payload.attributeValueIds.length) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "One or more attribute values not found"
+    const usedAttributeIds = attributeValues.map((av) => av.attributeId);
+    const invalidAttributes = usedAttributeIds.filter(
+      (id) => !productAttributeIds.includes(id)
     );
-  }
 
-  // Verify all attribute values belong to product's attributes
-  const usedAttributeIds = attributeValues.map((av) => av.attributeId);
-  const invalidAttributes = usedAttributeIds.filter(
-    (id) => !productAttributeIds.includes(id)
-  );
-
-  if (invalidAttributes.length > 0) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Attribute values must belong to product's attributes"
-    );
+    if (invalidAttributes.length > 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Attribute values must belong to product's attributes"
+      );
+    }
   }
 
   // Check for duplicate variant (same attribute value combination)
   const existingVariants = await prisma.productVariant.findMany({
-    where: {
-      productId: payload.productId
-    },
-    include: {
-      variantAttributes: true
-    }
+    where: { productId: payload.productId },
+    include: { variantAttributes: true }
   });
 
   for (const existingVariant of existingVariants) {
     const existingAttrValueIds = existingVariant.variantAttributes
       .map((va) => va.attributeValueId)
       .sort();
-    const newAttrValueIds = payload.attributeValueIds.sort();
+    const newAttrValueIds = [...payload.attributeValueIds].sort();
 
     if (
       JSON.stringify(existingAttrValueIds) === JSON.stringify(newAttrValueIds)
     ) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        "A variant with this attribute combination already exists"
+        payload.attributeValueIds.length === 0
+          ? "A default variant already exists for this product"
+          : "A variant with this attribute combination already exists"
       );
     }
   }
@@ -109,7 +104,7 @@ const createProductVariant = async (
     data: {
       ...variantData,
       variantAttributes: {
-        create: attributeValueIds.map((attributeValueId) => ({
+        create: (attributeValueIds ?? []).map((attributeValueId) => ({
           attributeValueId
         }))
       }
@@ -196,33 +191,30 @@ const bulkCreateProductVariants = async (
     new Set(payload.variants.flatMap((v) => v.attributeValueIds))
   );
 
-  // Verify all attribute values exist
-  const attributeValues = await prisma.attributeValue.findMany({
-    where: {
-      id: { in: allAttributeValueIds }
-    },
-    include: {
-      attribute: true
+  // Only validate attribute values if any are provided
+  if (allAttributeValueIds.length > 0) {
+    const attributeValues = await prisma.attributeValue.findMany({
+      where: { id: { in: allAttributeValueIds } },
+      include: { attribute: true }
+    });
+
+    if (attributeValues.length !== allAttributeValueIds.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "One or more attribute values not found"
+      );
     }
-  });
 
-  if (attributeValues.length !== allAttributeValueIds.length) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "One or more attribute values not found"
+    const invalidAttributes = attributeValues.filter(
+      (av) => !productAttributeIds.includes(av.attributeId)
     );
-  }
 
-  // Verify all attribute values belong to product's attributes
-  const invalidAttributes = attributeValues.filter(
-    (av) => !productAttributeIds.includes(av.attributeId)
-  );
-
-  if (invalidAttributes.length > 0) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "All attribute values must belong to product's attributes"
-    );
+    if (invalidAttributes.length > 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "All attribute values must belong to product's attributes"
+      );
+    }
   }
 
   // Create all variants in a transaction
