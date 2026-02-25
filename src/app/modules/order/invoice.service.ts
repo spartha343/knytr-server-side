@@ -574,7 +574,7 @@ class InvoiceService {
       .fontSize(9)
       .fillColor(this.colors.black)
       .font("Helvetica")
-      .text("Subtotal:", summaryX, currentSummaryY);
+      .text("Items Subtotal:", summaryX, currentSummaryY);
 
     doc
       .font("Helvetica-Bold")
@@ -593,7 +593,7 @@ class InvoiceService {
         .fontSize(9)
         .fillColor(this.colors.black)
         .font("Helvetica")
-        .text("Discount:", summaryX, currentSummaryY);
+        .text("Total Discount:", summaryX, currentSummaryY);
 
       doc
         .font("Helvetica-Bold")
@@ -612,7 +612,7 @@ class InvoiceService {
       .fontSize(9)
       .fillColor(this.colors.black)
       .font("Helvetica")
-      .text("Delivery:", summaryX, currentSummaryY);
+      .text("Delivery Charge:", summaryX, currentSummaryY);
 
     doc
       .font("Helvetica-Bold")
@@ -639,7 +639,7 @@ class InvoiceService {
       .fontSize(11)
       .fillColor(this.colors.black)
       .font("Helvetica-Bold")
-      .text("TOTAL:", summaryX, currentSummaryY);
+      .text("Total Amount:", summaryX, currentSummaryY);
 
     doc.text(
       `Tk ${Number(data.totalAmount || 0).toFixed(2)}`,

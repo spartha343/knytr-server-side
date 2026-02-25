@@ -286,7 +286,8 @@ const getVendorProducts = async (
 ): Promise<IGenericResponse<Product[]>> => {
   const { limit, page, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(options);
-  const { searchTerm, minPrice, maxPrice, ...filterData } = filters;
+  const { searchTerm, minPrice, maxPrice, includeVariants, ...filterData } =
+    filters;
 
   // Get all store IDs owned by this vendor
   const vendorStores = await prisma.store.findMany({
@@ -351,7 +352,38 @@ const getVendorProducts = async (
       brand: { select: { id: true, name: true, slug: true, logoUrl: true } },
       store: { select: { id: true, name: true, slug: true } },
       media: { where: { isPrimary: true }, take: 1 },
-      variants: { take: 1, orderBy: { price: "asc" } }
+      variants: includeVariants
+        ? {
+            where: { isActive: true },
+            orderBy: { createdAt: "asc" as const },
+            select: {
+              id: true,
+              sku: true,
+              price: true,
+              comparePrice: true,
+              imageUrl: true,
+              isActive: true,
+              variantAttributes: {
+                select: {
+                  attributeValue: {
+                    select: {
+                      value: true,
+                      attribute: {
+                        select: { name: true }
+                      }
+                    }
+                  }
+                }
+              },
+              inventories: {
+                select: {
+                  quantity: true,
+                  reservedQty: true
+                }
+              }
+            }
+          }
+        : { take: 1, orderBy: { price: "asc" } }
     },
     skip,
     take: limit,
