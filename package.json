@@ -44,7 +44,8 @@
     "pg": "^8.16.3",
     "qrcode": "^1.5.4",
     "zod": "^4.3.6",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "prisma": "^7.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -62,7 +63,6 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "3.7.4",
-    "prisma": "^7.2.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0"
   }
