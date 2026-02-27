@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "seed": "tsx prisma/seed.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
+   "build": "npx prisma generate",
+    "start": "tsx src/server.ts",
     "eslint": "eslint .",
     "prettier": "prettier --write src/**",
     "eslintPrettier": "npm run eslint && npm run prettier",
