@@ -6,6 +6,7 @@ import PathaoService from "./pathao.service";
 import PathaoLocationService from "./pathao-location.service";
 import ApiError from "../../../errors/ApiError";
 import { prisma } from "../../../shared/prisma";
+import crypto from "crypto";
 
 // Save Pathao API credentials
 const saveCredentials = catchAsync(async (req: Request, res: Response) => {
@@ -239,20 +240,20 @@ const handleWebhook = catchAsync(async (req: Request, res: Response) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Invalid webhook payload");
   }
 
-  // Get webhook secret from credentials
-  const credentials = await prisma.pathaoCredential.findFirst({
-    where: { isActive: true },
-    orderBy: { createdAt: "desc" }
-  });
-
-  const webhookSecret = credentials?.webhookSecret;
-
-  // Handle webhook integration test
+  // Handle webhook integration test — no signature check needed here
+  // Pathao just wants 202 + the integration secret header back
   if (webhookData.event === "webhook_integration") {
-    // Return required headers and status for Pathao verification
+    // For integration test, use any active credential's webhookSecret
+    // (Pathao only sends integration test once during setup)
+    const credentials = await prisma.pathaoCredential.findFirst({
+      where: { isActive: true, webhookSecret: { not: null } },
+      orderBy: { createdAt: "desc" },
+      select: { webhookSecret: true }
+    });
+
     res.setHeader(
       "X-Pathao-Merchant-Webhook-Integration-Secret",
-      webhookSecret || ""
+      credentials?.webhookSecret || ""
     );
     return sendResponse(res, {
       statusCode: httpStatus.ACCEPTED,
@@ -262,12 +263,52 @@ const handleWebhook = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  // Validate webhook signature for actual events
-  if (webhookSecret) {
-    const receivedSignature = req.headers["x-pathao-signature"] as string;
+  // For real events — look up the correct branch's webhookSecret
+  // via: consignment_id → PathaoDelivery → PathaoStore → Branch → PathaoCredential
+  const consignmentId = webhookData.consignment_id as string | undefined;
 
-    if (!receivedSignature || receivedSignature !== webhookSecret) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid webhook signature");
+  if (consignmentId) {
+    const delivery = await prisma.pathaoDelivery.findUnique({
+      where: { consignmentId },
+      select: {
+        pathaoStore: {
+          select: {
+            branch: {
+              select: {
+                pathaoCredentials: {
+                  select: { webhookSecret: true }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const webhookSecret =
+      delivery?.pathaoStore?.branch?.pathaoCredentials?.webhookSecret;
+
+    if (webhookSecret) {
+      const receivedSignature = req.headers["x-pathao-signature"] as string;
+
+      if (!receivedSignature) {
+        throw new ApiError(
+          httpStatus.UNAUTHORIZED,
+          "Missing webhook signature"
+        );
+      }
+
+      const expectedSignature = crypto
+        .createHmac("sha256", webhookSecret)
+        .update(JSON.stringify(req.body))
+        .digest("hex");
+
+      if (receivedSignature !== expectedSignature) {
+        throw new ApiError(
+          httpStatus.UNAUTHORIZED,
+          "Invalid webhook signature"
+        );
+      }
     }
   }
 

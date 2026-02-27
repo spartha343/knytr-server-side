@@ -411,16 +411,27 @@ class PathaoService {
       );
     }
 
+    // Build a full address from available fields (min 15, max 120 chars)
+    const addressParts = [
+      branch.address.addressLine1,
+      branch.address.addressLine2,
+      branch.address.city,
+      branch.address.state
+    ].filter(Boolean);
+    const fullAddress = addressParts.join(", ").substring(0, 120);
+
     const payload: IPathaoStoreCreateRequest = {
       name: String(storeData.name),
       contact_name: String(storeData.contactName),
       contact_number: String(storeData.contactNumber),
-      secondary_contact: storeData.secondaryContact,
-      otp_number: storeData.otpNumber,
-      address: branch.address.addressLine1,
+      address: fullAddress,
       city_id: storeData.cityId,
       zone_id: storeData.zoneId,
-      area_id: storeData.areaId
+      area_id: storeData.areaId,
+      ...(storeData.secondaryContact && {
+        secondary_contact: storeData.secondaryContact
+      }),
+      ...(storeData.otpNumber && { otp_number: storeData.otpNumber })
     };
 
     try {
@@ -1077,24 +1088,30 @@ ${storeData.name}`
     let credentials: PathaoCredential;
 
     if (existing) {
-      // Update existing credentials
+      // Update existing credentials — only update password if provided
       credentials = await prisma.pathaoCredential.update({
         where: { branchId: data.branchId },
         data: {
           clientId: data.clientId,
           clientSecret: data.clientSecret,
           username: data.username,
-          password: data.password,
+          ...(data.password && { password: data.password }),
           environment: data.environment,
           webhookSecret: data.webhookSecret ?? null,
-          // Clear tokens on update
+          // Clear tokens on update so they re-authenticate fresh
           accessToken: null,
           refreshToken: null,
           tokenExpiry: null
         }
       });
     } else {
-      // Create new credentials
+      // Create new credentials — password is required for first-time setup
+      if (!data.password) {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "Password is required when setting up Pathao credentials for the first time"
+        );
+      }
       credentials = await prisma.pathaoCredential.create({
         data: {
           branchId: data.branchId,

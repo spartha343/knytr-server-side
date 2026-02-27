@@ -9,13 +9,13 @@ import cookieParser from "cookie-parser";
 import httpStatus from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler.ts";
 import routes from "./app/routes/index.ts";
+import config from "./config/index.ts";
 
 const app: Application = express();
 
 // middlewares
 app.use(cookieParser());
-// TODO: check the origin while deploying the app
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: config.frontendUrl, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

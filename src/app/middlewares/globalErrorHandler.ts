@@ -10,12 +10,10 @@ import handleZodError from "../../errors/handleZodError.js";
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
-  config.env === "development"
-    ? // eslint-disable-next-line no-console
-      console.log("GlobalErrorHandler", { error })
-    : // eslint-disable-next-line no-console
-      console.log("GlobalErrorHandler", { error });
+  if (config.env === "development") {
+    // eslint-disable-next-line no-console
+    console.log("GlobalErrorHandler", { error });
+  }
 
   let statusCode = 500;
   let message = "Something went wrong !";

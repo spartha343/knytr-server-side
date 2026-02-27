@@ -58,7 +58,8 @@ export interface IPathaoStoreCreateRequest {
   city_id: number;
   zone_id: number;
   area_id: number;
-  [key: string]: string | number | boolean | undefined;
+  secondary_contact?: string;
+  otp_number?: string;
 }
 
 export interface IPathaoStoreResponse {
@@ -217,7 +218,7 @@ export interface IPathaoCredentialsInput {
   clientId: string;
   clientSecret: string;
   username: string;
-  password: string;
+  password?: string;
   environment: "sandbox" | "production";
   webhookSecret?: string;
 }

@@ -352,6 +352,9 @@ const getVendorProducts = async (
       brand: { select: { id: true, name: true, slug: true, logoUrl: true } },
       store: { select: { id: true, name: true, slug: true } },
       media: { where: { isPrimary: true }, take: 1 },
+      _count: {
+        select: { variants: true }
+      },
       variants: includeVariants
         ? {
             where: { isActive: true },
@@ -392,7 +395,12 @@ const getVendorProducts = async (
 
   const total = await prisma.product.count({ where: whereConditions });
 
-  return { meta: { total, page, limit }, data: result };
+  const dataWithCount = result.map((product) => ({
+    ...product,
+    variantCount: product._count?.variants || 0
+  }));
+
+  return { meta: { total, page, limit }, data: dataWithCount };
 };
 
 const getProductById = async (id: string): Promise<Product | null> => {

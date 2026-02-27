@@ -11,14 +11,8 @@ const saveCredentials = z.object({
     clientSecret: z.string({
       error: "Client Secret is required"
     }),
-    username: z
-      .string({
-        error: "Username is required"
-      })
-      .email("Username must be a valid email"),
-    password: z.string({
-      error: "Password is required"
-    }),
+    username: z.email("Username must be a valid email"),
+    password: z.string().optional(),
     environment: z.enum(["sandbox", "production"], {
       message: "Environment must be either 'sandbox' or 'production'"
     }),
