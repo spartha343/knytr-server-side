@@ -499,6 +499,28 @@ const createDeliveryForOrder = catchAsync(
   }
 );
 
+const linkExistingStore = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.dbUser?.id;
+  if (!userId) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated");
+  }
+
+  const { branchId, ...storeData } = req.body;
+
+  if (!branchId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Branch ID is required");
+  }
+
+  const result = await PathaoService.linkExistingStore(branchId, storeData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "Existing Pathao store linked successfully",
+    data: result
+  });
+});
+
 const getStoreByBranch = catchAsync(async (req: Request, res: Response) => {
   const { branchId } = req.params;
   if (!branchId) {
@@ -517,6 +539,7 @@ export const PathaoController = {
   saveCredentials,
   getCredentialsByBranch,
   registerStore,
+  linkExistingStore,
   syncLocations,
   syncAreasBatch,
   getSyncProgress,

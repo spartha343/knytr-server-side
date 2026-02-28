@@ -58,6 +58,16 @@ router.post(
   PathaoController.registerStore
 );
 
+// Link existing Pathao store (Vendor/Admin only)
+router.post(
+  "/stores/link",
+  verifyFirebaseAuth,
+  checkDBUser,
+  requireRole("VENDOR", "ADMIN", "SUPER_ADMIN"),
+  validateRequest(PathaoValidation.linkExistingStore),
+  PathaoController.linkExistingStore
+);
+
 // Sync locations from Pathao API (Admin only - this is a heavy operation)
 // Query params: fullSync=true, maxZones=10, delayBetweenCities=3000, delayBetweenZones=3000
 router.post(

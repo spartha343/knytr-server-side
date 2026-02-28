@@ -86,8 +86,31 @@ const createDeliveryWithLocation = z.object({
   })
 });
 
+const linkExistingStore = z.object({
+  body: z.object({
+    branchId: z.string({ error: "Branch ID is required" }),
+    pathaoStoreId: z
+      .number({ error: "Pathao Store ID is required" })
+      .int()
+      .positive(),
+    name: z.string({ error: "Store name is required" }).min(3).max(50),
+    contactName: z.string({ error: "Contact name is required" }).min(3).max(50),
+    contactNumber: z.string({ error: "Contact number is required" }).length(11),
+    secondaryContact: z
+      .string()
+      .length(11)
+      .nullish()
+      .transform((val) => val ?? undefined),
+    address: z.string({ error: "Address is required" }).min(15).max(120),
+    cityId: z.number({ error: "City ID is required" }),
+    zoneId: z.number({ error: "Zone ID is required" }),
+    areaId: z.number({ error: "Area ID is required" })
+  })
+});
+
 export const PathaoValidation = {
   saveCredentials,
   registerStore,
-  createDeliveryWithLocation
+  createDeliveryWithLocation,
+  linkExistingStore
 };

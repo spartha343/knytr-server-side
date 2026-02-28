@@ -506,6 +506,59 @@ ${storeData.name}`
     }
   }
 
+  async linkExistingStore(
+    branchId: string,
+    data: {
+      pathaoStoreId: number;
+      name: string;
+      contactName: string;
+      contactNumber: string;
+      secondaryContact?: string;
+      address: string;
+      cityId: number;
+      zoneId: number;
+      areaId: number;
+    }
+  ): Promise<PathaoStore> {
+    const existing = await prisma.pathaoStore.findUnique({
+      where: { branchId }
+    });
+
+    if (existing) {
+      return await prisma.pathaoStore.update({
+        where: { branchId },
+        data: {
+          pathaoStoreId: data.pathaoStoreId,
+          name: data.name,
+          contactName: data.contactName,
+          contactNumber: data.contactNumber,
+          secondaryContact: data.secondaryContact ?? null,
+          address: data.address,
+          cityId: data.cityId,
+          zoneId: data.zoneId,
+          areaId: data.areaId,
+          isActive: true
+        }
+      });
+    }
+
+    return await prisma.pathaoStore.create({
+      data: {
+        branchId,
+        pathaoStoreId: data.pathaoStoreId,
+        name: data.name,
+        contactName: data.contactName,
+        contactNumber: data.contactNumber,
+        secondaryContact: data.secondaryContact ?? null,
+        address: data.address,
+        cityId: data.cityId,
+        zoneId: data.zoneId,
+        areaId: data.areaId,
+        isActive: true
+      }
+    });
+  }
+
   // Helper: Fetch stores from Pathao to get the store_id
   private async fetchPathaoStores(
     branchId: string
