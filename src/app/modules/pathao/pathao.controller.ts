@@ -104,16 +104,10 @@ const syncLocations = catchAsync(async (req: Request, res: Response) => {
   }
 
   // Extract options from query parameters
-  const fullSync = req.query.fullSync === "true";
-  const maxZones = req.query.maxZones
-    ? parseInt(req.query.maxZones as string)
-    : 3;
-  const delayBetweenCities = req.query.delayBetweenCities
-    ? parseInt(req.query.delayBetweenCities as string)
-    : 3000;
-  const delayBetweenZones = req.query.delayBetweenZones
-    ? parseInt(req.query.delayBetweenZones as string)
-    : 3000;
+  const fullSync = req.body.fullSync === true;
+  const maxZones = req.body.maxZones ?? 3;
+  const delayBetweenCities = req.body.delayBetweenCities ?? 3000;
+  const delayBetweenZones = req.body.delayBetweenZones ?? 3000;
 
   const result = await PathaoLocationService.syncAllLocations({
     fullSync,
@@ -138,15 +132,9 @@ const syncAreasBatch = catchAsync(async (req: Request, res: Response) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, "User not authenticated");
   }
 
-  const batchSize = req.query.batchSize
-    ? parseInt(req.query.batchSize as string)
-    : 50;
-  const startFromZoneId = req.query.startFromZoneId
-    ? parseInt(req.query.startFromZoneId as string)
-    : 0;
-  const delayBetweenZones = req.query.delayBetweenZones
-    ? parseInt(req.query.delayBetweenZones as string)
-    : 3000;
+  const batchSize = req.body.batchSize ?? 50;
+  const startFromZoneId = req.body.startFromZoneId ?? 0;
+  const delayBetweenZones = req.body.delayBetweenZones ?? 500;
 
   const result = await PathaoLocationService.syncAreasBatch({
     batchSize,

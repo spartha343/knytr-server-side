@@ -41,7 +41,7 @@ async function main() {
   // Add ADMIN role to user ID: 38f2dca8-168f-49ca-93d3-2c4f67b21a54
   console.log("\n👤 Assigning ADMIN role to spartha343@gmail.com...");
 
-  const userId = "38f2dca8-168f-49ca-93d3-2c4f67b21a54";
+  const userId = "90855091-a14a-488d-9a08-6a5445d9f626";
 
   const user = await prisma.user.findUnique({
     where: { id: userId }
